@@ -6,4 +6,7 @@ gplscor <- function(ZX,ZY,WX=rep(1,ncol(ZX)),WY=rep(1,ncol(ZY)),comps=2, tol=.Ma
   
   return(gsvd.res)
   
+  
+  
+  
 }
