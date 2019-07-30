@@ -74,6 +74,13 @@ gplssvd_cca2 <- GSVD:::gplssvd(
   YRW=crossprod(Y)
 )
 
+gplssvd_cca3 <- GSVD:::gplssvd(
+  X = X,
+  Y = Y,
+  XRW=crossprod(X %^% (-1)),
+  YRW=crossprod(Y %^% (-1)) 
+)
+
   ## all equal; shows that this is a relatively easier way to compute CCA.
 mapply(function(x,y){x/y}, gplssvd_cca, gplssvd_cca2)
   ### which turns into...
@@ -94,7 +101,7 @@ svd((crossprod(X) %^% (1/2)) %*%  t(X %^% (-1)) %*% (Y %^% (-1)) %*% (crossprod(
 
 
 #### RRR / MLR / RDA
-### a good reference see rrr.nonmiss: http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s
+### a good reference 
 Sxy<-t(X)%*%Y
 Sxmin12<-(crossprod(X) %^% (-1/2))
 D<-Sxmin12%*%Sxy
@@ -139,6 +146,20 @@ gplssvd_rrr2 <- GSVD:::gplssvd(
   Y = Y,
   XRW=crossprod(X)
 )
+## these are "Beta" from above
+(gplssvd_rrr2$p %*% diag(gplssvd_rrr2$d)) / Beta
+  ## Alpha:
+gplssvd_rrr2$v / Alpha
+
+gplssvd_rrr3 <- GSVD:::gplssvd(
+  X = X,
+  Y = Y,
+  XRW=crossprod(X %^% (-1))
+)
+
+
+
+
 
 
 ## all equal; shows that this is a relatively easier way to compute CCA.
@@ -173,7 +194,7 @@ diag(t(LX) %*% LY)[1:3]
 ### from here is where all the magic needs to happen.
 
 ## ok that worked well.
-gplssvd_res <- GPLS::gplssvd(DATA1_preproc$Zx, DATA2_preproc$Zx, 
+gplssvd_plscares <- gplssvd(DATA1_preproc$Zx, DATA2_preproc$Zx, 
                        1/DATA1_preproc$m, 1/DATA2_preproc$m,
                        1/DATA1_preproc$w, 1/DATA2_preproc$w)
 
