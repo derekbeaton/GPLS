@@ -50,12 +50,18 @@ Y.hats <- Y.recs <- Y.resids <- array(0,dim=c(nrow(Y),ncol(Y),comps))
 ZX.in <- X_preproc$Zx
 ZY.in <- Y_preproc$Zx
 
+XLW <- diag(1/X_preproc$m)
+YLW <- diag(1/Y_preproc$m)
+XRW <- diag(1/X_preproc$w)
+YRW <- diag(1/Y_preproc$w)
+
 
 ## the loop
 for(i in 1:comps){
   
-  gplssvd_results <- gplssvd(X = ZX.in, XLW = 1/X_preproc$m, XRW = 1/X_preproc$w,
-                             Y = ZY.in, YLW = 1/Y_preproc$m, YRW = 1/Y_preproc$w, k = 1)
+  gplssvd_results <- gplssvd(X = ZX.in, XLW = XLW, XRW = XRW,
+                             Y = ZY.in, YLW = YLW, YRW = YRW, 
+                             k = 1)
   
   U[,i] <- gplssvd_results$u
   P[,i] <- gplssvd_results$p
@@ -83,8 +89,9 @@ for(i in 1:comps){
     X.recs[abs(X.recs) < tol] <- 0
   # X.hats[,,i] <- X.recs[,,i] * matrix(X.scale,nrow(X),ncol(X),byrow=T) + matrix(X.center,nrow(X),ncol(X),byrow=T)  
   # Y.recs[,,i] <- (Tmat[,i] * Betas[i]) %o% V[,i]#Q[,i]#(FJ[,i]/Deltas[i])
-  Y.recs[,,i] <- sweep(sweep(((Tmat[,i] * Betas[i]) %o% V[,i]),1,sqrt(Y_preproc$m),"*"),2,sqrt(Y_preproc$w),"*")
-    Y.recs[abs(Y.recs) < tol] <- 0
+  # Y.recs[,,i] <- sweep(sweep(((Tmat[,i] * Betas[i]) %o% V[,i]),1,sqrt(Y_preproc$m),"*"),2,sqrt(Y_preproc$w),"*")
+    Y.recs[,,i] <- (YLW %^% (-1/2)) %*% ((Tmat[,i] * Betas[i]) %o% V[,i]) %*% (YRW %^% (-1/2))
+      Y.recs[abs(Y.recs) < tol] <- 0
   # Y.hats[,,i] <- Y.recs[,,i] * matrix(Y.scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y.center,nrow(Y),ncol(Y),byrow=T)
   
   
@@ -108,7 +115,8 @@ for(i in 1:comps){
 # r2.x <- diff(c(0,r2.x.cumulative))
 # r2.y <- diff(c(0,r2.y.cumulative))
 
-Y.rec <- sweep(sweep( Tmat %*% diag(Betas) %*% t(V),1,sqrt(Y_preproc$m),"*"),2,sqrt(Y_preproc$w),"*")
+# Y.rec <- sweep(sweep( Tmat %*% diag(Betas) %*% t(V),1,sqrt(Y_preproc$m),"*"),2,sqrt(Y_preproc$w),"*")
+Y.rec <-  (YLW %^% (-1/2)) %*% (Tmat %*% diag(Betas) %*% t(V)) %*% (YRW %^% (-1/2))
 Y.hat <- (Y.rec + Y_preproc$Ex) * sum(Y)
 Y.resid <- ((Y_preproc$Zx - Y.rec) + Y_preproc$Ex) * sum(Y)
 
