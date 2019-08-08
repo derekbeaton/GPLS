@@ -34,5 +34,8 @@ pls2_env$Y.hat / pls1_env$Y.hat
 pls2_env$Y.resid / pls1_env$Y.resid
 
 
+pls2_env$r2.x.cumulative / pls1_env$r2.x.cumulative
+pls2_env$r2.y.cumulative / pls1_env$r2.y.cumulative
+
 
 ### time to level up to the next test.
