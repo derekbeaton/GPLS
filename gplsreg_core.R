@@ -63,6 +63,7 @@ gpls_reg <- function(X, Y,
     
     Tmat[,i] <- LX[,i] / sqrt(sum(LX[,i]^2))
     Betas[i] <- t(LY[,i]) %*% Tmat[,i]
+      ## this needs 
     pred_U[,i] <- t(Tmat[,i]) %*% ((XLW %^% (1/2)) %*% X_deflate %*% (XRW %^% (1/2)))
     
     ### I think maybe this also deserves the weights...
@@ -72,8 +73,6 @@ gpls_reg <- function(X, Y,
     Y_reconstructed[,,i] <- (YLW %^% (-1/2)) %*% ((Tmat[,i] * Betas[i]) %o% V[,i]) %*% (YRW %^% (-1/2))
       Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
     
-    # if the residuals are wrong, so is everything else...
-    # X_residuals[,,i] <- (XLW %^% (-1/2)) %*% (X_deflate - X_reconstructed[,,i]) %*% (XRW %^% (-1/2))
     X_residuals[,,i] <- (X_deflate - X_reconstructed[,,i])
       X_residuals[abs(X_residuals) < tol] <- 0
     Y_residuals[,,i] <- (Y_deflate - Y_reconstructed[,,i])
