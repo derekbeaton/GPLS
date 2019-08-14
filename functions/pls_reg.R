@@ -32,6 +32,10 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
       Y_scale <- rep(1, ncol(Y))
     }
   
+  ##############################
+  ##### BETWEEN HERE AND FAR BELOW CAN BE THROWN TO GPLS_REG
+  ##############################
+  
   ## preliminaries
   X_gsvd <- gsvd(X)
     X_rank <- length(X_gsvd$d)
@@ -87,6 +91,7 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
     Y_reconstructeds[,,i] <- (t_mat[,i] * betas[i]) %o% v[,i]
       Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
     
+      ## will need to be done here.
     X_hats[,,i] <- X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
     Y_hats[,,i] <- Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
 
@@ -116,6 +121,7 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
   Y_reconstructed <- t_mat %*% diag(betas) %*% t(v)
     Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
   Y_residual <- Y - Y_reconstructed
+    ## will need to be done here.
   Y_hat <- Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
   
   
@@ -129,5 +135,9 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
     r2_x = diff(c(0,r2_x_cumulative)), r2_y = diff(c(0,r2_y_cumulative)),
     Y_reconstructed = Y_reconstructed, Y_residual = Y_residual, Y_hat = Y_hat
   ) ) 
+  
+  ##############################
+  ##### BETWEEN HERE AND FAR ABOVE CAN BE THROWN TO GPLS_REG
+  ##############################
   
 }

@@ -36,7 +36,11 @@ gpls_reg <- function(X, Y,
   for(i in 1:components){
     
     # technically, we could (should) ship this call off to gpls_cor
-    gplssvd_results <- gplssvd(X_deflate, Y_deflate, k = 1)
+    # gplssvd_results <- gplssvd(X_deflate, Y_deflate, k = 1)
+    gplssvd_results <- gpls_cor(X_delfate, Y_deflate, 
+                                XRW = XRW, YRW = YRW,
+                                XLW = XLW, YLW = YLW,
+                                components = 1, tol = tol)
     
     u[,i] <- gplssvd_results$u
     p[,i] <- gplssvd_results$p
@@ -48,17 +52,12 @@ gpls_reg <- function(X, Y,
     lx[,i] <- gplssvd_results$lx
     ly[,i] <- gplssvd_results$ly
     
-    
     t_mat[,i] <- LX[,i] / sqrt(sum(LX[,i]^2))
     betas[i] <- t(LY[,i]) %*% t_mat[,i]
-    # predicted_u[,i] <- t(t_mat[,i]) %*% X_deflate
     predicted_u[,i] <- t(t_mat[,i]) %*% ((XLW %^% (1/2)) %*% X_deflate %*% (XRW %^% (1/2)))
     
-    
-    # X_reconstructeds[,,i] <- t_mat[,i] %o% predicted_U[,i]
     X_reconstructeds[,,i] <- (XLW %^% (-1/2)) %*% (t_mat[,i] %o% predicted_u[,i]) %*% (XRW %^% (-1/2))
       X_reconstructed[abs(X_reconstructeds) < tol] <- 0
-    # Y_reconstructeds[,,i] <- (t_mat[,i] * betas[i]) %o% v[,i]
     Y_reconstructeds[,,i] <- (YLW %^% (-1/2)) %*% ((t_mat[,i] * betas[i]) %o% v[,i]) %*% (YRW %^% (-1/2))
       Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
     
@@ -75,18 +74,17 @@ gpls_reg <- function(X, Y,
       r2_x_cumulative[i] <- 1
       break 
     }else{
-      # r2_x_cumulative[i] <- (X_trace - sum(X_delfate^2)) / X_trace
+      r2_x_cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
     }
     if(sum(Y_deflate^2)){
       r2_y_cumulative[i] <- 1
       break
     }else{
-      # r2_y_cumulative[i] <- (Y_trace - sum(Y_deflate^2)) / Y_trace
+      r2_y_cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
     }
     
   }
   
-  # Y_reconstructed <- t_mat %*% diag(betas) %*% t(v)
   Y_reconstructed <- (YLW %^% (-1/2)) %*% (t_mat %*% diag(betas) %*% t(v)) %*% (YRW %^% (-1/2))
     Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
   Y_residual <- Y - Y_reconstructed
