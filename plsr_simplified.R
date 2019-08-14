@@ -119,7 +119,7 @@ plsr_res$scores / LX
 ## not quite...; but at least it is constants though I don't really know why.
 plsr_res$Yscores / LY
 
-
+pause()
 
 ## key relationships:
 crossprod(LX)

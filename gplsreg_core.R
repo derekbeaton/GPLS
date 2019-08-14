@@ -35,7 +35,7 @@ gpls_reg <- function(X, Y,
   FI <- P <- U <- pred_U <- matrix(0,ncol(X),components_to_keep)  
   FJ <- Q <- V <- matrix(0, ncol(Y), components_to_keep)
   
-  r2.x.cumulative <- r2.y.cumulative <- Deltas <- Betas <- vector("numeric",components_to_keep)
+  r2xalt <- r2yalt <- r2.x.cumulative <- r2.y.cumulative <- Deltas <- Betas <- vector("numeric",components_to_keep)
   
   X_reconstructed <- X_residuals <- array(0,dim=c(nrow(X),ncol(X),components_to_keep))
   Y_reconstructed <- Y_residuals <- array(0,dim=c(nrow(Y),ncol(Y),components_to_keep))
@@ -84,6 +84,10 @@ gpls_reg <- function(X, Y,
     
     r2.x.cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
     r2.y.cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
+
+      ## no.    
+    # r2xalt[i] <- sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2) / X_trace
+    # r2yalt[i] <- sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2) / Y_trace
     
   }
   
