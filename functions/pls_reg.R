@@ -1,9 +1,4 @@
-### actually this whole goddamn thing should be replaced with the gpls_reg as its core
-  ## and then I have the bits and pieces around it
-  ## so now go do the gpls_reg as the core... and then also gpls_cor as a core, too...
 
-  ## the major drawback there is that I have to fiddle with those weights so things could slow down...
-  
 
 pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scale_y = TRUE, components = 0, tol = .Machine$double.eps){
   
@@ -32,112 +27,24 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
       Y_scale <- rep(1, ncol(Y))
     }
   
-  ##############################
-  ##### BETWEEN HERE AND FAR BELOW CAN BE THROWN TO GPLS_REG
-  ##############################
+
   
-  ## preliminaries
-  X_gsvd <- gsvd(X)
-    X_rank <- length(X_gsvd$d)
-    X_trace <- sum(X_gsvd$d^2)
-  rm(X_gsvd)
-  
-  Y_gsvd <- gsvd(Y)
-    Y_rank <- length(Y_gsvd$d)
-    Y_trace <- sum(Y_gsvd$d^2)
-  rm(Y_gsvd)
+  gpls_reg_results <- gpls_reg(X = X, Y = Y, components = components, tol = tol)
   
   
-  if(components > X_rank){
-    components <- X_rank
+  gpls_reg_results$Y_reconstructed <- gpls_reg_results$t_mat %*% diag(gpls_reg_results$betas) %*% t(gpls_reg_results$v)
+    gpls_reg_results$Y_reconstructed[abs(gpls_reg_results$Y_reconstructed) < tol] <- 0
+  gpls_reg_results$Y_residual <- Y - gpls_reg_results$Y_reconstructed
+  gpls_reg_results$Y_hat <- gpls_reg_results$Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
+  
+  
+  gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
+  gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
+  for(i in 1:length(gpls_reg_results$d)){
+    gpls_reg_results$X_hats[,,i] <- gpls_reg_results$X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
+    gpls_reg_results$Y_hats[,,i] <- gpls_reg_results$Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
   }
   
-  lx <- t_mat <- matrix(NA,nrow(X),components)
-  ly <- matrix(NA,nrow(Y),components)
-  
-  predicted_u <- fi <- p <- u <- matrix(NA,ncol(X),components)  
-  fj <- q <- v <- matrix(NA,ncol(Y),components)
-  
-  r2_x_cumulative <- r2_y_cumulative <- d <- betas <- rep(NA, components)
-  
-  X_hats <- X_reconstructeds <- X_residuals <- array(NA,dim=c(nrow(X),ncol(X),components_to_keep))
-  Y_hats <- Y_reconstructeds <- Y_residuals <- array(NA,dim=c(nrow(Y),ncol(Y),components_to_keep))
-  
-  X_delfate <- X
-  Y_deflate <- Y
-  
-  for(i in 1:components){
-    
-    gplssvd_results <- gplssvd(X_deflate, Y_deflate, k = 1)
-    
-    u[,i] <- gplssvd_results$u
-    p[,i] <- gplssvd_results$p
-    fi[,i] <- gplssvd_results$fi
-    v[,i] <- gplssvd_results$v
-    q[,i] <- gplssvd_results$q
-    fj[,i] <- gplssvd_results$fj
-    d[i] <- gplssvd_results$d
-    lx[,i] <- gplssvd_results$lx
-    ly[,i] <- gplssvd_results$ly
-    
-    
-    t_mat[,i] <- LX[,i] / sqrt(sum(LX[,i]^2))
-    betas[i] <- t(LY[,i]) %*% t_mat[,i]
-    predicted_u[,i] <- t(t_mat[,i]) %*% X_deflate
-    
-    
-    X_reconstructeds[,,i] <- t_mat[,i] %o% predicted_U[,i]
-      X_reconstructed[abs(X_reconstructeds) < tol] <- 0
-    Y_reconstructeds[,,i] <- (t_mat[,i] * betas[i]) %o% v[,i]
-      Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
-    
-      ## will need to be done here.
-    X_hats[,,i] <- X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
-    Y_hats[,,i] <- Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
-
-    X_residuals[,,i] <- (X_deflate - X_reconstructeds[,,i])
-      X_residuals[abs(X_residuals) < tol] <- 0
-    Y_residuals[,,i] <- (Y_deflate - Y_reconstructeds[,,i])
-      Y_residuals[abs(Y_residuals) < tol] <- 0
-    
-    X_deflate <- X_residuals[,,i]
-    Y_deflate <- Y_residuals[,,i]
-    
-    if(sum(X_delfate^2) < tol){
-      r2_x_cumulative[i] <- 1
-      break 
-    }else{
-      r2_x_cumulative[i] <- (X_trace - sum(X_delfate^2)) / X_trace
-    }
-    if(sum(Y_deflate^2)){
-      r2_y_cumulative[i] <- 1
-      break
-    }else{
-      r2_y_cumulative[i] <- (Y_trace - sum(Y_deflate^2)) / Y_trace
-    }
-
-  }
-  
-  Y_reconstructed <- t_mat %*% diag(betas) %*% t(v)
-    Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
-  Y_residual <- Y - Y_reconstructed
-    ## will need to be done here.
-  Y_hat <- Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
-  
-  
-  return( list(
-    d = d, u = u, v = v, lx = lx, ly = ly,
-    p = p, q = q, fi = fi, fj = fj,
-    t_mat = t_mat, predicted_u = predicted_u, betas = betas,
-    X_reconstructeds = X_reconstructeds, X_residuals = X_residuals,
-    Y_reconstructeds = Y_reconstructeds, Y_residuals = Y_residuals,
-    X_hats = X_hats, Y_hats = Y_hats,
-    r2_x = diff(c(0,r2_x_cumulative)), r2_y = diff(c(0,r2_y_cumulative)),
-    Y_reconstructed = Y_reconstructed, Y_residual = Y_residual, Y_hat = Y_hat
-  ) ) 
-  
-  ##############################
-  ##### BETWEEN HERE AND FAR ABOVE CAN BE THROWN TO GPLS_REG
-  ##############################
+  return(gpls_reg_results)
   
 }

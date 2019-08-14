@@ -101,7 +101,7 @@ svd((crossprod(X) %^% (1/2)) %*%  t(X %^% (-1)) %*% (Y %^% (-1)) %*% (crossprod(
 
 
 #### RRR / MLR / RDA
-### a good reference 
+### a good reference see rrr.nonmiss: http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s 
 Sxy<-t(X)%*%Y
 Sxmin12<-(crossprod(X) %^% (-1/2))
 D<-Sxmin12%*%Sxy

@@ -199,6 +199,7 @@ Y <- genetic.nom_drop
   gplsreg_results_V1$r2.y / gplsreg_results_V2$r2.y
   
   
+  
   ### so what holds and what doesn't under various conditions?
     ## minimal guaranteed LX, LX %*% LY, Tmat, U, Deltas, w/ all comps = to OLS eq, (plus a few more?)
   

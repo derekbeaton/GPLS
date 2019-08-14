@@ -14,8 +14,9 @@ gpls_reg <- function(X, Y,
     Y_trace <- sum(Y_gsvd$d^2)
   rm(Y_gsvd)
   
+  stopped_early <- F
   
-  if(components > X_rank){
+  if((components > X_rank) | (components < 1)){
     components <- X_rank
   }
   
@@ -27,17 +28,15 @@ gpls_reg <- function(X, Y,
   
   r2_x_cumulative <- r2_y_cumulative <- d <- betas <- rep(NA, components)
   
-  X_hats <- X_reconstructeds <- X_residuals <- array(NA,dim=c(nrow(X),ncol(X),components_to_keep))
-  Y_hats <- Y_reconstructeds <- Y_residuals <- array(NA,dim=c(nrow(Y),ncol(Y),components_to_keep))
+  X_reconstructeds <- X_residuals <- array(NA,dim=c(nrow(X),ncol(X),components))
+  Y_reconstructeds <- Y_residuals <- array(NA,dim=c(nrow(Y),ncol(Y),components))
   
-  X_delfate <- X
+  X_deflate <- X
   Y_deflate <- Y
   
   for(i in 1:components){
     
-    # technically, we could (should) ship this call off to gpls_cor
-    # gplssvd_results <- gplssvd(X_deflate, Y_deflate, k = 1)
-    gplssvd_results <- gpls_cor(X_delfate, Y_deflate, 
+    gplssvd_results <- gpls_cor(X_deflate, Y_deflate, 
                                 XRW = XRW, YRW = YRW,
                                 XLW = XLW, YLW = YLW,
                                 components = 1, tol = tol)
@@ -52,12 +51,13 @@ gpls_reg <- function(X, Y,
     lx[,i] <- gplssvd_results$lx
     ly[,i] <- gplssvd_results$ly
     
-    t_mat[,i] <- LX[,i] / sqrt(sum(LX[,i]^2))
-    betas[i] <- t(LY[,i]) %*% t_mat[,i]
+    t_mat[,i] <- lx[,i] / sqrt(sum(lx[,i]^2))
+    betas[i] <- t(ly[,i]) %*% t_mat[,i]
     predicted_u[,i] <- t(t_mat[,i]) %*% ((XLW %^% (1/2)) %*% X_deflate %*% (XRW %^% (1/2)))
     
+    
     X_reconstructeds[,,i] <- (XLW %^% (-1/2)) %*% (t_mat[,i] %o% predicted_u[,i]) %*% (XRW %^% (-1/2))
-      X_reconstructed[abs(X_reconstructeds) < tol] <- 0
+      X_reconstructeds[abs(X_reconstructeds) < tol] <- 0
     Y_reconstructeds[,,i] <- (YLW %^% (-1/2)) %*% ((t_mat[,i] * betas[i]) %o% v[,i]) %*% (YRW %^% (-1/2))
       Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
     
@@ -70,20 +70,54 @@ gpls_reg <- function(X, Y,
     X_deflate <- X_residuals[,,i]
     Y_deflate <- Y_residuals[,,i]
     
-    if(sum(X_delfate^2) < tol){
-      r2_x_cumulative[i] <- 1
-      break 
-    }else{
-      r2_x_cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
+    
+    r2_x_cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
+    r2_y_cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
+    
+    
+    if( (sum(Y_deflate^2) < tol) & (i < components) ){
+     
+      stopped_early <- T
+      warning("gpls_reg: Y is fully deflated. Stopping early.")
+      
     }
-    if(sum(Y_deflate^2)){
-      r2_y_cumulative[i] <- 1
+    if( (sum(X_deflate^2) < tol) & (i < components) ){
+      
+      stopped_early <- T
+      warning("gpls_reg: X is fully deflated. Stopping early.")
+    
+    }
+    
+    if(stopped_early){
       break
-    }else{
-      r2_y_cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
     }
     
   }
+  
+  if(stopped_early){
+    u <- u[,1:i]
+    p <- p[,1:i]
+    fi <- fi[,1:i]
+    v <- v[,1:i]
+    q <- q[,1:i]
+    fj <- fj[,1:i]
+    d <- d[1:i]
+    lx <- lx[,1:i]
+    ly <- ly[,1:i]
+    
+    t_mat <- t_mat[,1:i]
+    betas <- betas[1:i]
+    predicted_u <- predicted_u[,1:i]
+    
+    X_reconstructeds <- X_reconstructeds[,,1:i]
+    Y_reconstructeds <- Y_reconstructeds[,,1:i]
+    X_residuals <- X_residuals[,,1:i]
+    Y_residuals <- Y_residuals[,,1:i]
+    
+    r2_x_cumulative <- r2_x_cumulative[1:i]
+    r2_y_cumulative <- r2_y_cumulative[1:i]
+  }
+  
   
   Y_reconstructed <- (YLW %^% (-1/2)) %*% (t_mat %*% diag(betas) %*% t(v)) %*% (YRW %^% (-1/2))
     Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
