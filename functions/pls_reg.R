@@ -34,7 +34,7 @@ pls_reg <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scal
   
   gpls_reg_results$Y_reconstructed <- gpls_reg_results$t_mat %*% diag(gpls_reg_results$betas) %*% t(gpls_reg_results$v)
     gpls_reg_results$Y_reconstructed[abs(gpls_reg_results$Y_reconstructed) < tol] <- 0
-  gpls_reg_results$Y_residual <- Y - gpls_reg_results$Y_reconstructed
+  gpls_reg_results$Y_residual <- (Y - gpls_reg_results$Y_reconstructed) * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T)
   gpls_reg_results$Y_hat <- gpls_reg_results$Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
   
   

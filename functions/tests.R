@@ -75,7 +75,7 @@ rrr_res$d / diag(t(rrr_res$lx) %*% rrr_res$ly)
 ### plsr
 
 source('./functions/pls_reg.R')
-pls_reg_res <- pls_reg(wine$subjective, wine$objective, scale_x = F, scale_y = F)
+pls_reg_res <- pls_reg(wine$subjective, wine$objective, scale_x = T, scale_y = F)
 gpls_reg_res <- gpls_reg(scale(wine$subjective, scale = F), scale(wine$objective, scale = F))
 
 
@@ -94,21 +94,18 @@ crossprod(pls_reg_res$lx)
 lm_res <- lm(as.matrix(wine$objective) ~ as.matrix(wine$subjective))
 
 lm_res$fitted.values / pls_reg_res$Y_hat
-  ### why are the residuals off?
-  ### same when not using scale...
 lm_res$residuals / pls_reg_res$Y_residual
 
 ### now compare against pls::plsr
-plsrplsr_res <- pls::plsr(as.matrix(wine$objective) ~ as.matrix(wine$subjective), ncomp = length(pls_reg_res$d))
+plsrplsr_res <- pls::plsr(as.matrix(wine$objective) ~ as.matrix(wine$subjective), ncomp = length(pls_reg_res$d), scale = T)
 
 plsrplsr_res$fitted.values[,,length(pls_reg_res$d)] / pls_reg_res$Y_hat
-  ### why are the residuals off?
-  ### same when not using scale...
 plsrplsr_res$residuals[,,length(pls_reg_res$d)] / pls_reg_res$Y_residual
 
   ## what is wrong with these?
     #### nothing, it all depends on scale...
 plsrplsr_res$scores / pls_reg_res$lx
+  ## why are the LYs re-scaled by the d in pls::plsr? it sort of ruins the nice property of LX'LY
 plsrplsr_res$Yscores / pls_reg_res$ly
 
 colSums(pls_reg_res$predicted_u * pls_reg_res$predicted_u) / plsrplsr_res$Xvar
@@ -116,3 +113,22 @@ colSums(pls_reg_res$predicted_u * pls_reg_res$predicted_u) / plsrplsr_res$Xvar
 ### now compare some of this against PLSC
 
 
+## plscar
+  ### also needs an example like the final one in the preprint.
+  ## needs some additional tests against lm()
+source('./functions/plsca_reg.R')
+plsca_reg_res <- plsca_reg(make_data_disjunctive(snps.druguse$DATA1), make_data_disjunctive(snps.druguse$DATA2))
+## beginning of some tests:
+# cor(tolerance.svd(ca.preproc(plsca_reg_res$Y_hat)$weightedZx)$u,tolerance.svd(ca.preproc(plsca_reg_res$Y_residual)$weightedZx)$u)
+
+plsca_reg_res$d / diag(t(plsca_reg_res$lx) %*% plsca_reg_res$ly)
+crossprod(plsca_reg_res$u)
+crossprod(plsca_reg_res$t_mat)
+crossprod(plsca_reg_res$lx)
+
+
+colSums(plsca_reg_res$predicted_u * plsca_reg_res$predicted_u)
+
+
+#### against PLSCA
+texpo_plsca <- tepPLSCA(snps.druguse$DATA1, snps.druguse$DATA2, make_data1_nominal = T, make_data2_nominal = T, graphs = F)
