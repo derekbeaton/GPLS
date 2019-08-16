@@ -1,5 +1,7 @@
 ## some tests to match against core/base techniques
 
+rm(list=ls())
+
 library(GSVD)
 data("wine")
 data("snps.druguse", package = "GSVD")
@@ -8,6 +10,7 @@ library(TExPosition)
 source('./functions/utils.R')
 source('./functions/gpls_cor.R')
 source('./functions/gpls_reg.R')
+source('./functions/gpls_can.R')
 
 ### plsc
 source('./functions/pls_cor.R')
@@ -132,3 +135,44 @@ colSums(plsca_reg_res$predicted_u * plsca_reg_res$predicted_u)
 
 #### against PLSCA
 texpo_plsca <- tepPLSCA(snps.druguse$DATA1, snps.druguse$DATA2, make_data1_nominal = T, make_data2_nominal = T, graphs = F)
+
+
+
+
+
+
+
+### canonical PLS
+  ### test against plsdepot
+    ### which requires scale = T
+gpls_can_res <- gpls_can(scale(wine$subjective, scale = T), scale(wine$objective, scale = T))
+
+
+t(gpls_can_res$lx) %*% gpls_can_res$ly
+diag(t(gpls_can_res$lx) %*% gpls_can_res$ly) / gpls_can_res$d
+crossprod(gpls_can_res$lx)
+crossprod(gpls_can_res$ly)
+
+  ## not quite? chekc the reg version, too
+    ## this part is actually quite important
+cor(gpls_can_res$Y_reconstructeds[,,1], gpls_can_res$Y_reconstructeds[,,2])
+cor(gpls_can_res$Y_reconstructeds[,,1], gpls_can_res$Y_residuals[,,1])
+
+cor(gpls_can_res$X_reconstructeds[,,1], gpls_can_res$X_reconstructeds[,,2])
+cor(gpls_can_res$X_reconstructeds[,,1], gpls_can_res$X_residuals[,,1])
+
+cor(tolerance.svd(gpls_can_res$Y_reconstructeds[,,1])$u, tolerance.svd(gpls_can_res$Y_reconstructeds[,,2])$u)
+
+
+source('./original/gplscan.R')
+
+init_gplscan_res <- gplscan(scale(wine$subjective, scale = T), scale(wine$objective, scale = T), comps = 4)
+
+
+
+library(plsdepot)
+plsd_sca_res <- simplsca(scale(wine$subjective, scale = F), scale(wine$objective, scale = F), comps = length(gpls_can_res$d))
+
+# library(pls)
+# plsrcppls_res <- pls::cppls(as.matrix(wine$objective) ~ as.matrix(wine$subjective), ncomp = length(gpls_can_res$d), scale = F)
+

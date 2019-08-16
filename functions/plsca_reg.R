@@ -14,12 +14,12 @@ plsca_reg <- function(X, Y, components = 0, tol = .Machine$double.eps){
   gpls_reg_results$Y_residual <- ((Y_ca_preproc$Z - gpls_reg_results$Y_reconstructed) + Y_ca_preproc$E) * sum(Y)
   gpls_reg_results$Y_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
   
-  # gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
-  # gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
-  # for(i in 1:length(gpls_reg_results$d)){
-  #   gpls_reg_results$X_hats[,,i] <- gpls_reg_results$X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
-  #   gpls_reg_results$Y_hats[,,i] <- gpls_reg_results$Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
-  # }
+  gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
+  gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
+  for(i in 1:length(gpls_reg_results$d)){
+     gpls_reg_results$X_hats[,,i] <- (gpls_reg_results$X_reconstructed[,,i] + X_ca_preproc$E) * sum(X)
+     gpls_reg_results$Y_hats[,,i] <- (gpls_reg_results$Y_reconstructed[,,i] + Y_ca_preproc$E) * sum(Y)
+  }
   
   return(gpls_reg_results)
   
