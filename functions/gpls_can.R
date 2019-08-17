@@ -20,11 +20,11 @@ gpls_can <- function(X, Y,
     components <- min(X_rank, Y_rank)
   }
   
-  lx <- matrix(NA,nrow(X),components)
-  ly <- matrix(NA,nrow(Y),components)
+  tx <- lx <- matrix(NA,nrow(X),components)
+  ty <- ly <- matrix(NA,nrow(Y),components)
   
-  cx <- fi <- p <- u <- matrix(NA,ncol(X),components)  
-  cy <- fj <- q <- v <- matrix(NA,ncol(Y),components)
+  u_hat <- fi <- p <- u <- matrix(NA,ncol(X),components)  
+  v_hat <- fj <- q <- v <- matrix(NA,ncol(Y),components)
   
   r2_x_cumulative <- r2_y_cumulative <- d <- rep(NA, components)
   
@@ -51,19 +51,15 @@ gpls_can <- function(X, Y,
     lx[,i] <- gplssvd_results$lx
     ly[,i] <- gplssvd_results$ly
    
-      ## and come back to this...
-    cx[,i] <- t(X_deflate) %*% lx[,i]
-    cy[,i] <- t(Y_deflate) %*% ly[,i]
+    tx[,i] <- lx[,i] / sqrt(sum(lx[,i]^2))
+    u_hat[,i] <- t(tx[,i]) %*% ((XLW %^% (1/2)) %*% X_deflate %*% (XRW %^% (1/2)))
     
+    ty[,i] <- ly[,i] / sqrt(sum(ly[,i]^2))
+    v_hat[,i] <- t(ty[,i]) %*% ((YLW %^% (1/2)) %*% Y_deflate %*% (YRW %^% (1/2)))
     
-    
-      ## come back to this...
-    # PX <- cx %*% solve(t(cx) %*% cx) %*% t(cx)
-    # PY <- cy %*% solve(t(cy) %*% cy) %*% t(cy)
-      ## and come back to this...
-    X_reconstructeds[,,i] <- X_deflate %*% (cx[,i] %*% solve(t(cx[,i]) %*% cx[,i]) %*% t(cx[,i]))
+    X_reconstructeds[,,i] <- (XLW %^% (-1/2)) %*% (tx[,i] %o% u_hat[,i]) %*% (XRW %^% (-1/2))
       X_reconstructeds[abs(X_reconstructeds) < tol] <- 0
-    Y_reconstructeds[,,i] <- Y_deflate %*% (cy[,i] %*% solve(t(cy[,i]) %*% cy[,i]) %*% t(cy[,i]))
+    Y_reconstructeds[,,i] <- (YLW %^% (-1/2)) %*% (ty[,i] %o% v_hat[,i]) %*% (YRW %^% (-1/2))
       Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
   
     X_residuals[,,i] <- (X_deflate - X_reconstructeds[,,i])
@@ -74,6 +70,7 @@ gpls_can <- function(X, Y,
     X_deflate <- X_residuals[,,i]
     Y_deflate <- Y_residuals[,,i]
     
+    
     r2_x_cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
     r2_y_cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
     
@@ -81,21 +78,19 @@ gpls_can <- function(X, Y,
     if( (sum(Y_deflate^2) < tol) & (i < components) ){
       
       stopped_early <- T
-      warning("gpls_reg: Y is fully deflated. Stopping early.")
+      warning("gpls_can: Y is fully deflated. Stopping early.")
       
     }
     if( (sum(X_deflate^2) < tol) & (i < components) ){
       
       stopped_early <- T
-      warning("gpls_reg: X is fully deflated. Stopping early.")
+      warning("gpls_can: X is fully deflated. Stopping early.")
       
     }
     
     if(stopped_early){
       break
     }
-    
-    
   }
   
   if(stopped_early){
@@ -109,8 +104,11 @@ gpls_can <- function(X, Y,
     lx <- lx[,1:i]
     ly <- ly[,1:i]
     
-    cx <- cx[,1:i]
-    cy <- cy[,1:i]
+    u_hat <- u_hat[,1:i]
+    v_hat <- v_hat[,1:i]
+    
+    tx = tx[,1:i]
+    ty = ty[,1:i]
     
     X_reconstructeds <- X_reconstructeds[,,1:i]
     Y_reconstructeds <- Y_reconstructeds[,,1:i]
@@ -122,13 +120,25 @@ gpls_can <- function(X, Y,
   }
   
   
+  X_reconstructed <- (XLW %^% (-1/2)) %*% (tx %*% t(u_hat)) %*% (XRW %^% (-1/2))
+    X_reconstructed[abs(X_reconstructed) < tol] <- 0
+  X_residual <- X - X_reconstructed
+  
+  Y_reconstructed <- (YLW %^% (-1/2)) %*% (ty %*% t(v_hat)) %*% (YRW %^% (-1/2))
+    Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
+  Y_residual <- Y - Y_reconstructed
+  
+  
   return( list(
     d = d, u = u, v = v, lx = lx, ly = ly,
     p = p, q = q, fi = fi, fj = fj,
+    tx = tx, ty = ty,
+    u_hat = u_hat, v_hat = v_hat,
     X_reconstructeds = X_reconstructeds, X_residuals = X_residuals,
     Y_reconstructeds = Y_reconstructeds, Y_residuals = Y_residuals,
     r2_x = diff(c(0,r2_x_cumulative)), r2_y = diff(c(0,r2_y_cumulative)),
-    cx= cx, cy = cy
+    X_reconstructed = X_reconstructed, X_residual = X_residual,
+    Y_reconstructed = Y_reconstructed, Y_residual = Y_residual
   ) ) 
   
   
