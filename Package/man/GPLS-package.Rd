@@ -7,12 +7,7 @@
 \title{GPLS}
 \description{
 A small package dedicated to multiple generalizations of partial least squares.
-The first set of generalizations are optimizations such as canonical correlation (correlation) reduced rank regression a.k.a. redundancy analysis (regression), and partial least squares (covariance).
-The second set of generalizations are that these optimizations can be performed through multiple PLS-based algorithms such as "PLSSVD" which is a single pass of the generalized singular value decomposition (GSVD), or "canonical partial least squares" which uses a symmetric deflation---of both X and Y---with an iterative use of the GSVD, and "partial least squares regression" which uses an asymmetric deflation---of only X with a prediction of Y from X---with an iterative use of the GSVD.
-The third set of generalizations are that optimizations and algorithms can be used under assumptions of Correspondence Analysis (CA) which allows us to use PLS algorithms for continuous, categorical, ordinal, or mixed data types, all generally under the assumptions of normal (PCA) or Chi-squared (CA).
-Effectively, GPLS allows for virtually any data type, any optmization (weights), and various algorithms all unified under the partial least squares and correspondence analysis nomenclatures and approaches.
 }
 \seealso{
 \code{\link[GSVD]{gplssvd}}, \code{\link[GSVD]{gsvd}}, \code{\link{cca}}, \code{\link{rrr}}, \code{\link{pls_cor}}, \code{\link{pls_can}}, \code{\link{pls_reg}}, \code{\link{plsca_cor}}, \code{\link{plsca_can}}, \code{\link{plsca_reg}}
 }
-\keyword{}
