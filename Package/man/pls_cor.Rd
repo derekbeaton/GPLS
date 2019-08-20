@@ -2,24 +2,73 @@
 % Please edit documentation in R/pls_cor.R
 \name{pls_cor}
 \alias{pls_cor}
-\title{Partial least squares correlation}
+\title{Partial least squares correlation (PLSCOR)}
 \usage{
 pls_cor(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE,
   scale_y = TRUE, components = 0, tol = .Machine$double.eps)
 }
 \arguments{
-\item{tol}{}
+\item{X}{Data matrix with \emph{I} rows}
+
+\item{Y}{Data matrix with \emph{I} rows}
+
+\item{components}{The number of components to return. If < 1 then the maximum components will be returned. Default = 0.}
+
+\item{tol}{default is .Machine$double.eps. A parameter to pass through to \code{\link[GSVD]{gplssvd}}; eliminates effectively zero, negative, or imaginary singular values (thus components).}
+
+\item{center_X}{For the \code{X} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.}
+
+\item{center_Y}{For the \code{Y} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{Y}.}
+
+\item{scale_X}{For the \code{X} matrix: A parameter to pass through to \code{scale} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.}
+
+\item{scale_Y}{For the \code{Y} matrix: A parameter to pass through to \code{scale} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{Y}.}
 }
 \value{
 a list directly from \code{link{gpls_cor}}, which comes from \code{\link[GSVD]{gplssvd}}
-\item{}{}
+\item{d.orig}{A vector containing the singular values of DAT above the tolerance threshold (based on eigenvalues).}
+\item{l.orig}{A vector containing the eigen values of DAT above the tolerance threshold (\code{tol}).}
+\item{tau}{A vector that contains the (original) explained variance per component (via eigenvalues: \code{$l.orig}.}
+\item{d}{A vector of length \code{min(length(d.orig), k)} containing the retained singular values}
+\item{l}{A vector of length \code{min(length(l.orig), k)} containing the retained eigen values}
+\item{u}{Left (rows) singular vectors. Dimensions are \code{nrow(DAT)} by k.}
+\item{p}{Left (rows) generalized singular vectors.}
+\item{fi}{Left (rows) component scores.}
+\item{lx}{Latent variable scores for rows of \code{X}}
+\item{v}{Right (columns) singular vectors.}
+\item{q}{Right (columns) generalized singular vectors.}
+\item{fj}{Right (columns) component scores.}
+\item{lx}{Latent variable scores for rows of \code{Y}}
 }
 \description{
-
+Computes partial least squares "correlation" between two data matrices by way of generalized PLS correlation
 }
 \examples{
 
-}
-\seealso{
+ data("wine", package = "GSVD")
+ plscor_results <- pls_cor(wine$objective, wine$subjective)
+
+ \dontrun{
+     ## like in RRR/RDA and CCA, PLSCOR maximizes the latent variables:
+     t(plscor_results$lx) \%*\% plscor_results$ly ## a diagonal matrix
+     diag( t(plscor_results$lx) \%*\% plscor_results$ly ) ## same as plscor_results$d
+     plscor_results$d
+ }
 
 }
+\references{
+Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
+Bookstein, F.L., 1994. Partial least squares: a dose–response model for measurement inthe behavioral and brain sciences. \emph{Psycoloquy} 5
+Krishnan, A., Williams, L.J., McIntosh, A.R., & Abdi, H. (2011). Partial Least Squares (PLS) methods for neuroimaging: A tutorial and review. \emph{NeuroImage}, \bold{56}, 455-475.
+McIntosh, A.R., Lobaugh, N.J., 2004. Partial least squares analysis of neuroimaging data: applications and advances. \emph{Neuroimage}, \bold{23}, S250–S263.
+McIntosh, A.R., Bookstein, F., Haxby, J., Grady, C., 1996. Spatial pattern analysis offunctional brain images using partial least squares. \emph{Neuroimage}, \bold{3}, 143–157
+Tucker, L., 1958. An inter-battery method of factor analysis. \emph{Psychometrika}, \bold{23}, 111–136
+}
+\seealso{
+\code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
+}
+\keyword{diagonalization,}
+\keyword{least}
+\keyword{multivariate,}
+\keyword{partial}
+\keyword{squares}

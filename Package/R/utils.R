@@ -7,6 +7,9 @@
 #' Effectively, GPLS allows for virtually any data type, any optmization (weights), and various algorithms all unified under the partial least squares and correspondence analysis nomenclatures and approaches.
 #' @seealso \code{\link[GSVD]{gplssvd}}, \code{\link[GSVD]{gsvd}}, \code{\link{cca}}, \code{\link{rrr}}, \code{\link{pls_cor}}, \code{\link{pls_can}}, \code{\link{pls_reg}}, \code{\link{plsca_cor}}, \code{\link{plsca_can}}, \code{\link{plsca_reg}}
 #'
+#' @docType package
+#' @name GPLS
+#'
 "_PACKAGE"
 
 
@@ -20,11 +23,11 @@
 #' @param DATA a matrix for preprocessing
 #'
 #' @return A list with five elements:
-#' \item{O}{Matrix: the "observed" matrix of probabilities: \code{O / sum(O)}}
-#' \item{m}{Vector: the row marginal probabilities of the "observed" matrix: \code{rowSums(O)}}
-#' \item{w}{Vector: the column marginal probabilities of the "observed" matrix: \code{colSums(O)}}
-#' \item{E}{Matrix: the "expected" probabilities matrix: \code{m %o% w}}
-#' \item{Z}{Matirx: the "deviations" matrix: \code{O - E}}
+#' \item{O}{Matrix: the "observed" matrix of probabilities}
+#' \item{m}{Vector: the row marginal probabilities of the "observed" matrix}
+#' \item{w}{Vector: the column marginal probabilities of the "observed" matrix}
+#' \item{E}{Matrix: the "expected" probabilities matrix}
+#' \item{Z}{Matirx: the "deviations" matrix}
 
 ca_preproc <- function(DATA){
 

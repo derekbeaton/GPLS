@@ -9,6 +9,14 @@ ca_preproc(DATA)
 \arguments{
 \item{DATA}{a matrix for preprocessing}
 }
+\value{
+A list with five elements:
+\item{O}{Matrix: the "observed" matrix of probabilities}
+\item{m}{Vector: the row marginal probabilities of the "observed" matrix}
+\item{w}{Vector: the column marginal probabilities of the "observed" matrix}
+\item{E}{Matrix: the "expected" probabilities matrix}
+\item{Z}{Matirx: the "deviations" matrix}
+}
 \description{
 Standard approach to data preprocessing in correspondence analysis, i.e., deviations from independence just as in Chi-squared.
     Returns multiple matrices and vectors required by correspondence analysis

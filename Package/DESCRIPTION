@@ -2,14 +2,19 @@ Package: GPLS
 Type: Package
 Title: Generalized partial least squares: generalized for data types and generalization of algorithms plus optimizations
 Version: 0.1.0.9000
-Author: Derek Beaton
-Maintainer: person("Derek","Beaton",email="exposition.software@gmail.com")
+Authors@R: person("Derek","Beaton",role=c("aut","cre"),email="exposition.software@gmail.com")
+Maintainer: Derek Beaton <exposition.software@gmail.com>
 Description: A small package dedicated to multiple generalizations of partial least squares. 
     The first set of generalizations are optimizations such as canonical correlation (correlation) reduced rank regression a.k.a. redundancy analysis (regression), and partial least squares (covariance). 
     The second set of generalizations are that these optimizations can be performed through multiple PLS-based algorithms such as "PLSSVD" which is a single pass of the generalized singular value decomposition (GSVD), "canonical partial least squares" which uses a symmetric deflation of both X and Y with an iterative use of the GSVD, and "partial least squares regression" which uses an asymmetric deflation of only X with a prediction of Y from X with an iterative use of the GSVD.
     The third set of generalizations are that optimizations and algorithms can be used under assumptions of Correspondence Analysis (CA) which allows us to use PLS algorithms for continuous, categorical, ordinal, or mixed data types, all generally under the assumptions of normal (PCA) or Chi-squared (CA).
     Effectively, GPLS allows for virtually any data type, any optmization (weights), and various algorithms all unified under the partial least squares and correspondence analysis nomenclatures and approaches.
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: GSVD,
+  base,
+  stats,
+  graphics
 RoxygenNote: 6.1.0
+
