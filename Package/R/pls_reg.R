@@ -17,33 +17,37 @@
 #' @return A list of outputs based on \code{\link{gpls_reg}}
 #' \item{d}{A vector containing the singular values from each iteration.}
 #' \item{u}{Left (rows) singular vectors.}
-#' \item{v}{Right (columns) singular vectors.}
+#' \item{v}{Right (columns) singular vectors. In PLSREG sometimes called "weight matrix".}
 #' \item{lx}{Latent variable scores for rows of \code{X}}
 #' \item{ly}{Latent variable scores for rows of \code{Y}}
 #' \item{p}{Left (rows) generalized singular vectors.}
 #' \item{q}{Right (columns) generalized singular vectors.}
 #' \item{fi}{Left (rows) component scores.}
 #' \item{fj}{Right (columns) component scores.}
-#' \item{tx}{}
-#' \item{u_hat}{}
-#' \item{betas}{}
-#' \item{X_reconstructeds}{}
-#' \item{Y_reconstructeds}{}
-#' \item{X_residuals}{}
-#' \item{Y_residuals}{}
-#' \item{r2_x}{}
-#' \item{r2_y}{}
-#' \item{Y_reconstructed}{}
-#' \item{Y_residual}{}
-#' \item{Y_hat}{}
-#' \item{X_hats}{}
-#' \item{Y_hats}{}
+#' \item{tx}{"Latent vectors": A normed version of \code{lx} for use in rebuilding \code{X} data}
+#' \item{u_hat}{"Loading matrix": A "predicted" version of \code{u} for use in rebuilding \code{X} data}
+#' \item{betas}{"Regression weights": Akin to betas for use in rebuilding \code{Y}}
+#' \item{X_reconstructeds}{A version of \code{X} reconstructed for each iteration (i.e., latent variable/component)}
+#' \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
+#' \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
+#' \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
+#' \item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
+#' \item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+#' \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
+#' \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
+#' \item{Y_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
+#' \item{X_hats}{The re-centered and re-scaled versions of \code{X_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{X}.}
+#' \item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
 #'
 #' @seealso \code{\link{gpls_reg}} \code{\link{pls_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
 #'
 #' @references
 #' Abdi, H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 #' Abdi, H. (2010). Partial least square regression, projection on latent structure regression, PLS-Regression. \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, \bold{2}, 97-106.
+#' Geladi, P., & Kowalski, B. R. (1986). Partial least-squares regression: a tutorial. \emph{Analytica chimica acta}, 185, 1-17.
+#' Tenenhaus, M. (1998). La Regression PLS. Theorie et Pratique. \emph{Editions TECHNIP}, Paris.
+#' Wold, S., Ruhe, A., Wold, H., & Dunn, III, W. J. (1984). The collinearity problem in linear regression. The partial least squares (PLS) approach to generalized inverses. \emph{SIAM Journal on Scientific and Statistical Computing}, 5(3), 735-743.
+#'
 #'
 #' @examples
 #'  data("wine", package = "GSVD")

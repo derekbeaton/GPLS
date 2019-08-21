@@ -34,7 +34,6 @@
 #' @references
 #' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 #'
-#' @note
 #'
 #' @examples
 #'

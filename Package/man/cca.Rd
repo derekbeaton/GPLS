@@ -43,9 +43,6 @@ a list directly from \code{link{gpls_cor}}, which comes from \code{\link[GSVD]{g
 \description{
 Computes canonical correlation analysis between two data matrices by way of generalized PLS correlation
 }
-\note{
-
-}
 \examples{
 
  data("wine", package = "GSVD")

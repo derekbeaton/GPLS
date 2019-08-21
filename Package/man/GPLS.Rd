@@ -3,6 +3,9 @@
 \docType{package}
 \name{GPLS}
 \alias{GPLS}
+\alias{_PACKAGE}
+\alias{gpls}
+\alias{gpls-package}
 \alias{GPLS-package}
 \title{GPLS}
 \description{

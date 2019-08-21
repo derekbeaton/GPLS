@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Generalized partial least squares regression (GPLSREG)
+#' @title Generalized partial least squares regression decomposition (GPLSREG)
 #'
 #' @description Computes generalized partial least squares "regression" between two data matrices by way of generalized PLS correlation.
 #' GPLSREG allows for the use of left (row) and right (column) weights for each data matrix.
@@ -18,45 +18,67 @@
 #' @return A list of outputs
 #' \item{d}{A vector containing the singular values from each iteration.}
 #' \item{u}{Left (rows) singular vectors.}
-#' \item{v}{Right (columns) singular vectors.}
+#' \item{v}{Right (columns) singular vectors. In PLSREG sometimes called "weight matrix".}
 #' \item{lx}{Latent variable scores for rows of \code{X}}
 #' \item{ly}{Latent variable scores for rows of \code{Y}}
 #' \item{p}{Left (rows) generalized singular vectors.}
 #' \item{q}{Right (columns) generalized singular vectors.}
 #' \item{fi}{Left (rows) component scores.}
 #' \item{fj}{Right (columns) component scores.}
-#' \item{tx}{}
-#' \item{u_hat}{}
-#' \item{betas}{}
-#' \item{X_reconstructeds}{}
-#' \item{Y_reconstructeds}{}
-#' \item{X_residuals}{}
-#' \item{Y_residuals}{}
-#' \item{r2_x}{}
-#' \item{r2_y}{}
-#' \item{Y_reconstructed}{}
-#' \item{Y_residual}{}
+#' \item{tx}{X "Latent vectors": A normed version of \code{lx} for use in rebuilding \code{X} data}
+#' \item{u_hat}{X "Loading matrix": A "predicted" version of \code{u} for use in rebuilding \code{X} data}
+#' \item{betas}{"Regression weights": Akin to betas for use in rebuilding \code{Y}}
+#' \item{X_reconstructeds}{A version of \code{X} reconstructed for each iteration (i.e., latent variable/component)}
+#' \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
+#' \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
+#' \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
+#' \item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
+#' \item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+#' \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
+#' \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 #'
-#' @seealso \code{\link{gpls_reg}} \code{\link{pls_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
+#' @seealso \code{\link{pls_reg}} \code{\link{plsca_reg}} \code{\link{gpls_can}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
 #'
 #' @references
-#' Beaton, D., Saporta, G., Abdi, H., & Alzheimer's Disease Neuroimaging Initiative. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
+#' Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
 #'
 #' @examples
 #'
+#'  \dontrun{
+#'  library(GSVD)
 #'  data("wine", package = "GSVD")
 #'  X <- scale(wine$objective)
 #'  Y <- scale(wine$subjective)
+#'
 #'
 #'  ## standard partial least squares regression
 #'  gplsreg_pls_optimization <- gpls_reg( X, Y)
 #'
 #'  ## "partial least squares regression" but with the optimization per latent variable of CCA
-#'  gplsreg_cca_optimization <- gpls_reg( X %^% (-1), Y %^% (-1), XRW = crossprod(X), YRW = crossprod(Y))
+#'  #### is identical to cca(X, Y)
+#'  gplsreg_cca_optimization <- gpls_reg( X %^% (-1), Y %^% (-1),
+#'       XRW = crossprod(X), YRW = crossprod(Y))
 #'
 #'  ## "partial least squares regression" but with the optimization per latent variable of RRR/RDA
+#'  #### is identical to rrr(X, Y)
 #'  gplsreg_rrr_optimization <- gpls_reg( X %^% (-1), Y, XRW = crossprod(X))
 #'
+#'  rm(X)
+#'  rm(Y)
+#'
+#'  ## standard "partial least squares-correspondence analysis" regression
+#'  data("snps.druguse", package = "GSVD")
+#'  X <- make_data_disjunctive(snps.druguse$DATA1)
+#'  Y <- make_data_disjunctive(snps.druguse$DATA2)
+#'
+#'  X_ca_preproc <- ca_preproc(X)
+#'  Y_ca_preproc <- ca_preproc(Y)
+#'
+#'  gplsreg_plsca <- gpls_reg( X = X_ca_preproc$Z, Y = Y_ca_preproc$Z,
+#'      XLW = diag(1/X_ca_preproc$m), YLW = diag(1/Y_ca_preproc$m),
+#'      XRW = diag(1/X_ca_preproc$w), YRW = diag(1/Y_ca_preproc$w)
+#'  )
+#'  }
 #'
 #' @keywords multivariate, diagonalization, partial least squares
 

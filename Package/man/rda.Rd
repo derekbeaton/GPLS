@@ -46,7 +46,7 @@ Computes redundancy analysis between two data matrices by way of generalized PLS
 }
 \note{
 "Redundancy analysis", also known as "reduced rank regression" (amongst other names) optimizes for latent variables in a way somewhere between PLS correlation and CCA.
-See the references for further discussions. See also an older implementation in S: \link{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
+See the references for further discussions. See also an older implementation in S: \url{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
 }
 \examples{
 

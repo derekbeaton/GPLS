@@ -9,6 +9,7 @@
 #'
 #' @docType package
 #' @name GPLS
+#' @aliases gpls gpls-package GPLS-package
 #'
 #' @import GSVD
 #'

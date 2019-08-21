@@ -37,7 +37,7 @@
 #'
 #' @note
 #' "Reduced rank regression", also known as "redundancy analysis" (amongst other names) optimizes for latent variables in a way somewhere between PLS correlation and CCA.
-#' See the references for further discussions. See also an older implementation in S: \link{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
+#' See the references for further discussions. See also an older implementation in S: \url{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
 #'
 #' @examples
 #'
@@ -114,7 +114,7 @@ rrr <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 #'
 #' @note
 #' "Redundancy analysis", also known as "reduced rank regression" (amongst other names) optimizes for latent variables in a way somewhere between PLS correlation and CCA.
-#' See the references for further discussions. See also an older implementation in S: \link{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
+#' See the references for further discussions. See also an older implementation in S: \url{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
 #'
 #' @examples
 #'
