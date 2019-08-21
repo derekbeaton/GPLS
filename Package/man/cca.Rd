@@ -8,9 +8,9 @@ cca(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
   scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
 }
 \arguments{
-\item{X}{Data matrix with \emph{I} rows}
+\item{X}{Data matrix with \emph{I} rows and \emph{J} columns}
 
-\item{Y}{Data matrix with \emph{I} rows}
+\item{Y}{Data matrix with \emph{I} rows and \emph{K} columns}
 
 \item{center_X}{For the \code{X} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.}
 
@@ -31,14 +31,14 @@ a list directly from \code{link{gpls_cor}}, which comes from \code{\link[GSVD]{g
 \item{tau}{A vector that contains the (original) explained variance per component (via eigenvalues: \code{$l.orig}.}
 \item{d}{A vector of length \code{min(length(d.orig), k)} containing the retained singular values}
 \item{l}{A vector of length \code{min(length(l.orig), k)} containing the retained eigen values}
-\item{u}{Left (rows) singular vectors. Dimensions are \code{nrow(DAT)} by k.}
+\item{u}{Left (rows) singular vectors.}
 \item{p}{Left (rows) generalized singular vectors.}
 \item{fi}{Left (rows) component scores.}
 \item{lx}{Latent variable scores for rows of \code{X}}
 \item{v}{Right (columns) singular vectors.}
 \item{q}{Right (columns) generalized singular vectors.}
 \item{fj}{Right (columns) component scores.}
-\item{lx}{Latent variable scores for rows of \code{Y}}
+\item{ly}{Latent variable scores for rows of \code{Y}}
 }
 \description{
 Computes canonical correlation analysis between two data matrices by way of generalized PLS correlation

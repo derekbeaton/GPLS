@@ -10,6 +10,8 @@
 #' @docType package
 #' @name GPLS
 #'
+#' @import GSVD
+#'
 "_PACKAGE"
 
 
@@ -140,10 +142,10 @@ escofier_coding <- function (DATA, center = T, scale = T)
 #'
 #' @description DESCRIBE HERE THAT FOR NOW IT ASSUMES THE ACTUAL MIN AND MAX ARE AVAILABLE IN THE COLUMNS.
 #'
-#' @param DATA
+#' @param DATA A matrix of data with assumed ordinal data for all columns
 #'
 #' @return
-#' \item{d.orig}{A vector containing the singular values of DAT above the tolerance threshold (based on eigenvalues).}
+#' \item{DATAOUT}{Matrix: of size \code{nrow(DATA)} rows and \code{ncol(DATA)*2} columns.}
 #'
 
 thermometer_coding <- function (DATA)
@@ -153,20 +155,24 @@ thermometer_coding <- function (DATA)
     colnames(DATA) <- as.character(1:ncol(DATA))
   }
 
-  DATA <- apply(DATA, 2, function(x) {
+  DATAOUT <- apply(DATA, 2, function(x) {
     max(x, na.rm = T) - x
   })
 
-  mins <- apply(DATA, 2, min, na.rm = T)
-  maxs <- apply(DATA, 2, max, na.rm = T)
+  mins <- apply(DATAOUT, 2, min, na.rm = T)
+  maxs <- apply(DATAOUT, 2, max, na.rm = T)
 
-  dat.col.names <- c(paste0(colnames(DATA), "+"), paste0(colnames(DATA), "-"))
+  dat.col.names <- c(paste0(colnames(DATAOUT), "+"), paste0(colnames(DATAOUT), "-"))
 
-  DATA <- as.matrix(cbind(sweep(sweep(DATA, 2, maxs, "-") * -1, 2, maxs, "/"), sweep(sweep(DATA, 2, mins, "-"), 2, maxs, "/")))
+  DATAOUT <- as.matrix(cbind(sweep(sweep(DATAOUT, 2, maxs, "-") * -1, 2, maxs, "/"), sweep(sweep(DATAOUT, 2, mins, "-"), 2, maxs, "/")))
 
-  colnames(DATA) <- dat.col.names
-  attributes(DATA)$variable.map <- gsub("\\-", "", gsub("\\+", "", dat.col.names))
+  colnames(DATAOUT) <- dat.col.names
+  attributes(DATAOUT)$variable.map <- gsub("\\-", "", gsub("\\+", "", dat.col.names))
   return(DATAOUT)
 }
 
 
+# this will take in the results of any of the methods and rebuild the X & Y (when possible) for a given rank
+# rebuild_something <- function(){
+#
+# }

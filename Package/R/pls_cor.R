@@ -4,8 +4,8 @@
 #'
 #' @description Computes partial least squares "correlation" between two data matrices by way of generalized PLS correlation
 #'
-#' @param X Data matrix with \emph{I} rows
-#' @param Y Data matrix with \emph{I} rows
+#' @param X Data matrix with \emph{I} rows and \emph{J} columns
+#' @param Y Data matrix with \emph{I} rows and \emph{K} columns
 #' @param center_X For the \code{X} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.
 #' @param center_Y For the \code{Y} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{Y}.
 #' @param scale_X For the \code{X} matrix: A parameter to pass through to \code{scale} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.
@@ -20,14 +20,14 @@
 #' \item{tau}{A vector that contains the (original) explained variance per component (via eigenvalues: \code{$l.orig}.}
 #' \item{d}{A vector of length \code{min(length(d.orig), k)} containing the retained singular values}
 #' \item{l}{A vector of length \code{min(length(l.orig), k)} containing the retained eigen values}
-#' \item{u}{Left (rows) singular vectors. Dimensions are \code{nrow(DAT)} by k.}
+#' \item{u}{Left (rows) singular vectors.}
 #' \item{p}{Left (rows) generalized singular vectors.}
 #' \item{fi}{Left (rows) component scores.}
 #' \item{lx}{Latent variable scores for rows of \code{X}}
 #' \item{v}{Right (columns) singular vectors.}
 #' \item{q}{Right (columns) generalized singular vectors.}
 #' \item{fj}{Right (columns) component scores.}
-#' \item{lx}{Latent variable scores for rows of \code{Y}}
+#' \item{ly}{Latent variable scores for rows of \code{Y}}
 #'
 #' @seealso \code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
 #'
@@ -53,11 +53,11 @@
 #'
 #' @keywords multivariate, diagonalization, partial least squares
 
-pls_cor <- function(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE, scale_y = TRUE, components = 0, tol = .Machine$double.eps){
+pls_cor <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y = TRUE, components = 0, tol = .Machine$double.eps){
 
 
-  X <- scale(X, center = center_x, scale = scale_x)
-  Y <- scale(Y, center = center_y, scale = scale_y)
+  X <- scale(X, center = center_X, scale = scale_X)
+  Y <- scale(Y, center = center_Y, scale = scale_Y)
 
   gpls_cor(X, Y,  components = components, tol = tol)
 

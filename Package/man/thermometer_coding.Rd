@@ -7,10 +7,10 @@
 thermometer_coding(DATA)
 }
 \arguments{
-\item{DATA}{}
+\item{DATA}{A matrix of data with assumed ordinal data for all columns}
 }
 \value{
-\item{d.orig}{A vector containing the singular values of DAT above the tolerance threshold (based on eigenvalues).}
+\item{DATAOUT}{Matrix: of size \code{nrow(DATA)} rows and \code{ncol(DATA)*2} columns.}
 }
 \description{
 DESCRIBE HERE THAT FOR NOW IT ASSUMES THE ACTUAL MIN AND MAX ARE AVAILABLE IN THE COLUMNS.

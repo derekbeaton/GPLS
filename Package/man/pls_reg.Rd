@@ -4,17 +4,13 @@
 \alias{pls_reg}
 \title{Partial least squares regression (PLSREG)}
 \usage{
-pls_reg(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE,
-  scale_y = TRUE, components = 0, tol = .Machine$double.eps)
+pls_reg(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
+  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
 }
 \arguments{
-\item{X}{Data matrix with \emph{I} rows}
+\item{X}{Data matrix with \emph{I} rows and \emph{J} columns}
 
-\item{Y}{Data matrix with \emph{I} rows}
-
-\item{components}{The number of components to return. If < 1 then the maximum components will be returned. Default = 0.}
-
-\item{tol}{default is .Machine$double.eps. A parameter to pass through to \code{\link[GSVD]{gplssvd}}; eliminates effectively zero, negative, or imaginary singular values (thus components).}
+\item{Y}{Data matrix with \emph{I} rows and \emph{K} columns}
 
 \item{center_X}{For the \code{X} matrix: A parameter to pass through to \code{center} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.}
 
@@ -23,28 +19,41 @@ pls_reg(X, Y, center_x = TRUE, center_y = TRUE, scale_x = TRUE,
 \item{scale_X}{For the \code{X} matrix: A parameter to pass through to \code{scale} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{X}.}
 
 \item{scale_Y}{For the \code{Y} matrix: A parameter to pass through to \code{scale} in \code{\link{scale}} function; either a logical value or numeric-alike vector of length equal to the number of columns of \code{Y}.}
+
+\item{components}{The number of components to return. If < 1 then the maximum components will be returned. Default = 0.}
+
+\item{tol}{default is .Machine$double.eps. A parameter to pass through to \code{\link[GSVD]{gplssvd}}; eliminates effectively zero, negative, or imaginary singular values (thus components).}
 }
 \value{
-a list of outputs based on iterative use of \code{link{gpls_cor}} (which comes from \code{\link[GSVD]{gplssvd}})
-\item{d.orig}{A vector containing the singular values of DAT above the tolerance threshold (based on eigenvalues).}
-\item{l.orig}{A vector containing the eigen values of DAT above the tolerance threshold (\code{tol}).}
-\item{tau}{A vector that contains the (original) explained variance per component (via eigenvalues: \code{$l.orig}.}
-\item{d}{A vector of length \code{min(length(d.orig), k)} containing the retained singular values}
-\item{l}{A vector of length \code{min(length(l.orig), k)} containing the retained eigen values}
-\item{u}{Left (rows) singular vectors. Dimensions are \code{nrow(DAT)} by k.}
-\item{p}{Left (rows) generalized singular vectors.}
-\item{fi}{Left (rows) component scores.}
-\item{lx}{Latent variable scores for rows of \code{X}}
+A list of outputs based on \code{\link{gpls_reg}}
+\item{d}{A vector containing the singular values from each iteration.}
+\item{u}{Left (rows) singular vectors.}
 \item{v}{Right (columns) singular vectors.}
+\item{lx}{Latent variable scores for rows of \code{X}}
+\item{ly}{Latent variable scores for rows of \code{Y}}
+\item{p}{Left (rows) generalized singular vectors.}
 \item{q}{Right (columns) generalized singular vectors.}
+\item{fi}{Left (rows) component scores.}
 \item{fj}{Right (columns) component scores.}
-\item{lx}{Latent variable scores for rows of \code{Y}}
+\item{tx}{}
+\item{u_hat}{}
+\item{betas}{}
+\item{X_reconstructeds}{}
+\item{Y_reconstructeds}{}
+\item{X_residuals}{}
+\item{Y_residuals}{}
+\item{r2_x}{}
+\item{r2_y}{}
+\item{Y_reconstructed}{}
+\item{Y_residual}{}
+\item{Y_hat}{}
+\item{X_hats}{}
+\item{Y_hats}{}
 }
 \description{
 Computes partial least squares "regression" between two data matrices by way of generalized PLS correlation
 }
 \examples{
-
  data("wine", package = "GSVD")
  plsreg_results <- pls_reg(wine$objective, wine$subjective)
 
@@ -60,11 +69,11 @@ Computes partial least squares "regression" between two data matrices by way of 
 
 }
 \references{
-Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
-Krishnan, A., Williams, L.J., McIntosh, A.R., & Abdi, H. (2011). Partial Least Squares (PLS) methods for neuroimaging: A tutorial and review. \emph{NeuroImage}, \bold{56}, 455-475.
+Abdi, H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
+Abdi, H. (2010). Partial least square regression, projection on latent structure regression, PLS-Regression. \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, \bold{2}, 97-106.
 }
 \seealso{
-\code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
+\code{\link{gpls_reg}} \code{\link{pls_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
 }
 \keyword{diagonalization,}
 \keyword{least}
