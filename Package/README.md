@@ -1,0 +1,14 @@
+Generalized partial least squares R package
+================
+
+# Introduction.
+
+Hi. THis README hasn’t been made yet. I promise it will be full of
+awesome things about an awesome development in the realm of partial
+least squares/canonical correlation/reduced rank regression.
+
+See [Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of
+partial least squares regression and correspondence analysis for
+categorical and mixed data: An application with the ADNI data.
+bioRxiv, 598888.](https://www.biorxiv.org/content/10.1101/598888v1.abstract)
+for now.
