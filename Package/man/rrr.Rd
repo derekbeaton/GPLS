@@ -47,6 +47,9 @@ Computes reduced rank regression between two data matrices by way of generalized
 \note{
 "Reduced rank regression", also known as "redundancy analysis" (amongst other names) optimizes for latent variables in a way somewhere between PLS correlation and CCA.
 See the references for further discussions. See also an older implementation in S: \url{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
+
+Additionally, this implementation makes use of generalized/psuedo inverse for computations, which allows RRR/RDA to run even when data
+do not meet assumptions typically expected for standard RRR/RDA, e.g., collinear, rank deficient.
 }
 \examples{
 

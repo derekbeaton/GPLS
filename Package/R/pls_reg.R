@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Partial least squares regression (PLSREG)
+#' @title Partial least squares "regression decomposition" (PLSREG)
 #'
-#' @description Computes partial least squares "regression" between two data matrices by way of generalized PLS correlation
+#' @description Computes partial least squares "regression decomposition" between two data matrices by way of generalized PLS regression decomposition
 #'
 #' @param X Data matrix with \emph{I} rows and \emph{J} columns
 #' @param Y Data matrix with \emph{I} rows and \emph{K} columns
@@ -39,10 +39,9 @@
 #' \item{X_hats}{The re-centered and re-scaled versions of \code{X_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{X}.}
 #' \item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
 #'
-#' @seealso \code{\link{gpls_reg}} \code{\link{pls_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
+#' @seealso \code{\link{plsca_reg}} \code{\link{pls_cor}} \code{\link{gpls_reg}} \code{\link[GSVD]{gplssvd}},
 #'
 #' @references
-#' Abdi, H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 #' Abdi, H. (2010). Partial least square regression, projection on latent structure regression, PLS-Regression. \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, \bold{2}, 97-106.
 #' Geladi, P., & Kowalski, B. R. (1986). Partial least-squares regression: a tutorial. \emph{Analytica chimica acta}, 185, 1-17.
 #' Tenenhaus, M. (1998). La Regression PLS. Theorie et Pratique. \emph{Editions TECHNIP}, Paris.
@@ -54,7 +53,7 @@
 #'  plsreg_results <- pls_reg(wine$objective, wine$subjective)
 #'
 #'  \dontrun{
-#'      ## like in RRR/RDA and CCA, PLSC maximizes the latent variables:
+#'      ## Like PLSCOR, PLSREG maximizes the latent variables:
 #'      diag( t(plsreg_results$lx) %*% plsreg_results$ly ) ## same as plsreg_results$d
 #'      plsreg_results$d
 #'

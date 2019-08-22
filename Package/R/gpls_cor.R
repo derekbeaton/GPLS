@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Generalized partial least squares correlation decomposition (GPLSCOR)
+#' @title Generalized partial least squares "correlation decomposition" (GPLSCOR)
 #'
-#' @description Computes generalized partial least squares "correlation" between two data matrices.
+#' @description Computes generalized partial least squares "correlation decomposition" between two data matrices.
 #' GPLSCOR allows for the use of left (row) and right (column) weights for each data matrix.
 #'
 #' @param X Data matrix with \emph{I} rows and \emph{J} columns
@@ -30,17 +30,11 @@
 #' \item{fj}{Right (columns) component scores.}
 #' \item{ly}{Latent variable scores for rows of \code{Y}}
 #'
-#' @seealso \code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link{pls_cor}} \code{\link{plsca_cor}} \code{\link{gpls_reg}} \code{\link{gpls_can}} \code{\link[GSVD]{gplssvd}}
+#' @seealso \code{\link{gpls_reg}} \code{\link{gpls_can}} \code{\link{pls_cor}} \code{\link{plsca_cor}} \code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
 #'
 #' @references
-#' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 #' Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
 #' Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence analysis: A framework to simultaneously analyze behavioral and genetic data. \emph{Psychological methods}, \bold{21} (4), 621.
-#' Bookstein, F.L., 1994. Partial least squares: a dose–response model for measurement inthe behavioral and brain sciences. \emph{Psycoloquy} 5
-#' Krishnan, A., Williams, L.J., McIntosh, A.R., & Abdi, H. (2011). Partial Least Squares (PLS) methods for neuroimaging: A tutorial and review. \emph{NeuroImage}, \bold{56}, 455-475.
-#' McIntosh, A.R., Lobaugh, N.J., 2004. Partial least squares analysis of neuroimaging data: applications and advances. \emph{Neuroimage}, \bold{23}, S250–S263.
-#' McIntosh, A.R., Bookstein, F., Haxby, J., Grady, C., 1996. Spatial pattern analysis offunctional brain images using partial least squares. \emph{Neuroimage}, \bold{3}, 143–157
-#' Tucker, L., 1958. An inter-battery method of factor analysis. \emph{Psychometrika}, \bold{23}, 111–136
 #'
 #' @examples
 #'
@@ -50,23 +44,29 @@
 #'  X <- scale(wine$objective)
 #'  Y <- scale(wine$subjective)
 #'
-#'  ## standard partial least squares correlation
-#'  gplscor_pls_optimization <- gpls_reg(X, Y)
+#'  ## partial least squares "correlation decomposition"
+#'  #### the first latent variable from reg & cor & can are identical in all PLSs.
+#'  #### this is pls_cor(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
+#'  gplscor_pls_optimization <- gpls_cor(X, Y)
 #'
-#'  ## "partial least squares correlation" but with the optimization per latent variable of CCA
-#'  #### this is cca(X, Y)
+#'  ## partial least squares "correlation decomposition"
+#'  ### but with the optimization per latent variable of CCA
+#'  #### this is cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
 #'  gplscor_cca_optimization <- gpls_cor( X %^% (-1), Y %^% (-1),
 #'       XRW = crossprod(X), YRW = crossprod(Y))
 #'
-#'  ## "partial least squares correlation" but with the optimization per latent variable of RRR/RDA
-#'  #### this is rra(X, Y) or rda(X, Y)
+#'  ## partial least squares "correlation decomposition"
+#'  ### but with the optimization per latent variable of RRR/RDA
+#'  #### this is rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F) or
+#'  #### rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
 #'  gplscor_rrr_optimization <- gpls_cor( X %^% (-1), Y, XRW = crossprod(X))
 #'
 #'
 #'  rm(X)
 #'  rm(Y)
 #'
-#'  ## standard "partial least squares-correspondence analysis" correlation
+#'  ## partial least squares-correspondence analysis "correlation decomposition"
+#'  #### the first latent variable from reg & cor & can are identical in all PLSs.
 #'  data("snps.druguse", package = "GSVD")
 #'  X <- make_data_disjunctive(snps.druguse$DATA1)
 #'  Y <- make_data_disjunctive(snps.druguse$DATA2)
@@ -74,6 +74,7 @@
 #'  X_ca_preproc <- ca_preproc(X)
 #'  Y_ca_preproc <- ca_preproc(Y)
 #'
+#'  #### this is plsca_cor(X, Y)
 #'  gplscor_plsca <- gpls_cor( X = X_ca_preproc$Z, Y = Y_ca_preproc$Z,
 #'      XLW = diag(1/X_ca_preproc$m), YLW = diag(1/Y_ca_preproc$m),
 #'      XRW = diag(1/X_ca_preproc$w), YRW = diag(1/Y_ca_preproc$w)

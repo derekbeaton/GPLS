@@ -20,6 +20,14 @@ The detailed explanation of the generalizations can be found in:
 #' Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
 
 Please also see the long history of partial least squares:
+Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
+Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence analysis: A framework to simultaneously analyze behavioral and genetic data. \emph{Psychological methods}, \bold{21} (4), 621.
+Bookstein, F.L., 1994. Partial least squares: a dose–response model for measurement inthe behavioral and brain sciences. \emph{Psycoloquy} 5
+Krishnan, A., Williams, L.J., McIntosh, A.R., & Abdi, H. (2011). Partial Least Squares (PLS) methods for neuroimaging: A tutorial and review. \emph{NeuroImage}, \bold{56}, 455-475.
+McIntosh, A.R., Lobaugh, N.J., 2004. Partial least squares analysis of neuroimaging data: applications and advances. \emph{Neuroimage}, \bold{23}, S250–S263.
+McIntosh, A.R., Bookstein, F., Haxby, J., Grady, C., 1996. Spatial pattern analysis offunctional brain images using partial least squares. \emph{Neuroimage}, \bold{3}, 143–157
+Tenenhaus, M. (1998). La Regression PLS. Theorie et Pratique. \emph{Editions TECHNIP}, Paris.
+Tucker, L., 1958. An inter-battery method of factor analysis. \emph{Psychometrika}, \bold{23}, 111–136
 }
 \seealso{
 \code{\link[GSVD]{gplssvd}}, \code{\link[GSVD]{gsvd}}, \code{\link{cca}}, \code{\link{rrr}}, \code{\link{pls_cor}}, \code{\link{pls_can}}, \code{\link{pls_reg}}, \code{\link{plsca_cor}}, \code{\link{plsca_can}}, \code{\link{plsca_reg}}

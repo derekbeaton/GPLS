@@ -2,7 +2,7 @@
 % Please edit documentation in R/pls_can.R
 \name{pls_can}
 \alias{pls_can}
-\title{Partial least squares canonical (PLSCAN) decomposition}
+\title{Partial least squares "canonical decomposition" (PLSCAN)}
 \usage{
 pls_can(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
   scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
@@ -55,20 +55,21 @@ A list of outputs based on \code{\link{gpls_can}}
 \item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
 }
 \description{
-Computes partial least squares "canonical" decomposition between two data matrices
+Computes partial least squares "canonicaldecomposition " between two data matrices by way of generalized PLS canonical decomposition
 }
 \examples{
  data("wine", package = "GSVD")
  plscan_results <- pls_can(wine$objective, wine$subjective)
 
  \dontrun{
-     ## like in RRR/RDA and CCA, PLSC maximizes the latent variables:
+     ## PLSCOR, PLSCAN maximizes the latent variables:
      diag( t(plscan_results$lx) \%*\% plscan_results$ly ) ## same as plsreg_results$d
      plscan_results$d
 
-     ## but this is an asymmetric relationship:
+     ## but this is an symmetric relationship:
      crossprod(plscan_results$lx) #orthogonal
      crossprod(plscan_results$ly) #orthogonal
+     ## where the difference is in the maximization
      t(plscan_results$lx) \%*\% plscan_results$ly ## not orthogonal
  }
 
@@ -77,7 +78,7 @@ Computes partial least squares "canonical" decomposition between two data matric
 Tenenhaus, M. (1998). La Regression PLS. Theorie et Pratique. \emph{Editions TECHNIP}, Paris.
 }
 \seealso{
-\code{\link{gpls_can}} \code{\link{pls_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
+\code{\link{plsca_can}} \code{\link{gpls_can}} \code{\link[GSVD]{gplssvd}}
 }
 \keyword{diagonalization,}
 \keyword{least}

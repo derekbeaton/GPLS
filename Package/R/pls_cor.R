@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Partial least squares correlation (PLSCOR)
+#' @title Partial least squares "correlation decomposition" (PLSCOR)
 #'
-#' @description Computes partial least squares "correlation" between two data matrices by way of generalized PLS correlation
+#' @description Computes partial least squares "correlation decomposition" between two data matrices by way of generalized PLS correlation decomposition
 #'
 #' @param X Data matrix with \emph{I} rows and \emph{J} columns
 #' @param Y Data matrix with \emph{I} rows and \emph{K} columns
@@ -29,10 +29,9 @@
 #' \item{fj}{Right (columns) component scores.}
 #' \item{ly}{Latent variable scores for rows of \code{Y}}
 #'
-#' @seealso \code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
+#' @seealso \code{\link{cca}} \code{\link{rrr}} \code{\link{rda}} \code{\link{plsca_cor}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}}
 #'
 #' @references
-#' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 #' Bookstein, F.L., 1994. Partial least squares: a dose–response model for measurement inthe behavioral and brain sciences. \emph{Psycoloquy} 5
 #' Krishnan, A., Williams, L.J., McIntosh, A.R., & Abdi, H. (2011). Partial Least Squares (PLS) methods for neuroimaging: A tutorial and review. \emph{NeuroImage}, \bold{56}, 455-475.
 #' McIntosh, A.R., Lobaugh, N.J., 2004. Partial least squares analysis of neuroimaging data: applications and advances. \emph{Neuroimage}, \bold{23}, S250–S263.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gpls_can.R
 \name{gpls_can}
 \alias{gpls_can}
-\title{Generalized partial least squares canonical decomposition (GPLSCAN)}
+\title{Generalized partial least squares "canonical decomposition" (GPLSCAN)}
 \usage{
 gpls_can(X, Y, XLW = diag(nrow(X)), YLW = diag(nrow(Y)),
   XRW = diag(ncol(X)), YRW = diag(ncol(Y)), components = 0,
@@ -29,7 +29,7 @@ gpls_can(X, Y, XLW = diag(nrow(X)), YLW = diag(nrow(Y)),
 A list of outputs
 \item{d}{A vector containing the singular values from each iteration.}
 \item{u}{Left (rows) singular vectors.}
-\item{v}{Right (columns) singular vectors. In PLSREG sometimes called "weight matrix".}
+\item{v}{Right (columns) singular vectors.}
 \item{lx}{Latent variable scores for rows of \code{X}}
 \item{ly}{Latent variable scores for rows of \code{Y}}
 \item{p}{Left (rows) generalized singular vectors.}
@@ -52,7 +52,7 @@ A list of outputs
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 }
 \description{
-Computes generalized partial least squares "canonical" between two data matrices.
+Computes generalized partial least squares "canonical decomposition" between two data matrices.
 GPLSCAN allows for the use of left (row) and right (column) weights for each data matrix.
 }
 \examples{
@@ -64,20 +64,30 @@ GPLSCAN allows for the use of left (row) and right (column) weights for each dat
  Y <- scale(wine$subjective)
 
 
- ## standard partial least squares regression
+ ##partial least squares "regression decomposition"
+ #### the first latent variable from reg & cor & can are identical in all PLSs.
  gplscan_pls_optimization <- gpls_can( X, Y)
 
- ## "partial least squares regression" but with the optimization per latent variable of CCA
+ ## "partial least squares regression"
+ ### but with the optimization per latent variable of CCA
+ #### because of optimization, this ends up identical to
+ #### cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
  gplscan_cca_optimization <- gpls_can( X \%^\% (-1), Y \%^\% (-1),
       XRW = crossprod(X), YRW = crossprod(Y))
 
- ## "partial least squares regression" but with the optimization per latent variable of RRR/RDA
+ ## "partial least squares regression"
+ ### but with the optimization per latent variable of RRR/RDA
+ #### because of optimization, this ends up NEARLY identical to
+ #### rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
+ #### or rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
+ ##### the only difference between common items is $ly
  gplscan_rrr_optimization <- gpls_can( X \%^\% (-1), Y, XRW = crossprod(X))
 
  rm(X)
  rm(Y)
 
- ## standard "partial least squares-correspondence analysis" regression
+ ## standard partial least squares-correspondence analysis "canonical decomposition"
+ #### the first latent variable from reg & cor & can are identical in all PLSs.
  data("snps.druguse", package = "GSVD")
  X <- make_data_disjunctive(snps.druguse$DATA1)
  Y <- make_data_disjunctive(snps.druguse$DATA2)
@@ -94,10 +104,9 @@ GPLSCAN allows for the use of left (row) and right (column) weights for each dat
 }
 \references{
 Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
-Tenenhaus, M. (1998). La Regression PLS. Theorie et Pratique. \emph{Editions TECHNIP}, Paris.
 }
 \seealso{
-\code{\link{pls_can}} \code{\link{plsca_can}} \code{\link{gpls_reg}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}},
+\code{\link{gpls_reg}} \code{\link{gpls_cor}} \code{\link{pls_can}} \code{\link{plsca_can}} \code{\link[GSVD]{gplssvd}}
 }
 \keyword{diagonalization,}
 \keyword{least}

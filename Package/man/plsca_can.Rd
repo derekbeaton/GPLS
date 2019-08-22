@@ -60,9 +60,10 @@ Computes partial least squares-correspondence analysis "canonical decomposition"
      diag( t(plscacan_results$lx) \%*\% plscacan_results$ly ) ## same as plscacan_results$d
      plscacan_results$d
 
-     ## but this is an asymmetric relationship:
+     ## but this is an symmetric relationship:
      crossprod(plscacan_results$lx) #orthogonal
      crossprod(plscacan_results$ly) #orthogonal
+     ## where the difference is in the maximization
      t(plscacan_results$lx) \%*\% plscacan_results$ly ## not orthogonal
  }
 
@@ -72,7 +73,7 @@ Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence 
 Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
 }
 \seealso{
-\code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{gpls_reg}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link[GSVD]{gplssvd}}
+\code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link{gpls_can}} \code{\link[GSVD]{gplssvd}}
 }
 \keyword{diagonalization,}
 \keyword{least}

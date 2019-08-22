@@ -37,7 +37,7 @@
 #' \item{X_hats}{The versions of \code{X_reconstructeds} in the original coordinates (expected & marginal values) as \code{X} per iteration (i.e., latent variable/component).}
 #' \item{Y_hats}{The versions of \code{Y_reconstructeds} in the original coordinates (expected & marginal values) as \code{Y} per iteration (i.e., latent variable/component).}
 #'
-#' @seealso \code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{gpls_reg}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link[GSVD]{gplssvd}}
+#' @seealso \code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link{gpls_can}} \code{\link[GSVD]{gplssvd}}
 #'
 #' @references
 #' Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence analysis: A framework to simultaneously analyze behavioral and genetic data. \emph{Psychological methods}, \bold{21} (4), 621.
@@ -56,9 +56,10 @@
 #'      diag( t(plscacan_results$lx) %*% plscacan_results$ly ) ## same as plscacan_results$d
 #'      plscacan_results$d
 #'
-#'      ## but this is an asymmetric relationship:
+#'      ## but this is an symmetric relationship:
 #'      crossprod(plscacan_results$lx) #orthogonal
 #'      crossprod(plscacan_results$ly) #orthogonal
+#'      ## where the difference is in the maximization
 #'      t(plscacan_results$lx) %*% plscacan_results$ly ## not orthogonal
 #'  }
 #'

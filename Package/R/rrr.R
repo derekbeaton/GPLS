@@ -32,12 +32,16 @@
 #'
 #' @seealso \code{\link{pls_cor}} \code{\link{rda}} \code{\link{cca}} \code{\link[GSVD]{gplssvd}}
 #'
-#' @references
-#' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
-#'
 #' @note
 #' "Reduced rank regression", also known as "redundancy analysis" (amongst other names) optimizes for latent variables in a way somewhere between PLS correlation and CCA.
 #' See the references for further discussions. See also an older implementation in S: \url{http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s}
+#'
+#' Additionally, this implementation makes use of generalized/psuedo inverse for computations, which allows RRR/RDA to run even when data
+#' do not meet assumptions typically expected for standard RRR/RDA, e.g., collinear, rank deficient.
+#'
+#' @references
+#' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
+#'
 #'
 #' @examples
 #'

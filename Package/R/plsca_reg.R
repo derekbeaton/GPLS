@@ -2,7 +2,7 @@
 #'
 #' @title Partial least squares-correspondence analysis "regression decomposition" (PLSCAREG)
 #'
-#' @description Computes partial least squares-correspondence analysis "regression decomposition" between two data matrices by way of generalized PLS regression
+#' @description Computes partial least squares-correspondence analysis "regression decomposition" between two data matrices by way of generalized PLS regression decomposition
 #'  Each data matrix is assumed to be suitable for correspondence analysis and preprocessed (e.g., categorical through disjunctive coding; ordinal through thermometer coding; continuous through Escofier coding)
 #'
 #' @param X Data matrix with \emph{I} rows and \emph{J} columns
@@ -35,7 +35,7 @@
 #' \item{X_hats}{The versions of \code{X_reconstructeds} in the original coordinates (expected & marginal values) as \code{X} per iteration (i.e., latent variable/component).}
 #' \item{Y_hats}{The versions of \code{Y_reconstructeds} in the original coordinates (expected & marginal values) as \code{Y} per iteration (i.e., latent variable/component).}
 #'
-#' @seealso \code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{gpls_reg}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link[GSVD]{gplssvd}}
+#' @seealso \code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{pls_reg}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link{gpls_reg}} \code{\link[GSVD]{gplssvd}}
 #'
 #' @references
 #' Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence analysis: A framework to simultaneously analyze behavioral and genetic data. \emph{Psychological methods}, \bold{21} (4), 621.

@@ -43,6 +43,10 @@ a list directly from \code{link{gpls_cor}}, which comes from \code{\link[GSVD]{g
 \description{
 Computes canonical correlation analysis between two data matrices by way of generalized PLS correlation
 }
+\note{
+Additionally, this implementation makes use of generalized/psuedo inverse for computations, which allows CCA to run even when data
+do not meet assumptions typically expected for standard CCA, e.g., collinear, rank deficient.
+}
 \examples{
 
  data("wine", package = "GSVD")
@@ -71,7 +75,7 @@ Computes canonical correlation analysis between two data matrices by way of gene
 Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.
 }
 \seealso{
-\code{\link{pls_cor}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
+\code{\link{pls_cor}} \code{\link{rrr}} \code{\link{rda}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}}
 }
 \keyword{canonical}
 \keyword{correlation}

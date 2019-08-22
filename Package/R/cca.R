@@ -29,7 +29,11 @@
 #' \item{fj}{Right (columns) component scores.}
 #' \item{ly}{Latent variable scores for rows of \code{Y}}
 #'
-#' @seealso \code{\link{pls_cor}} \code{\link{rrr}} \code{\link{rda}} \code{\link[GSVD]{gplssvd}}
+#' @seealso \code{\link{pls_cor}} \code{\link{rrr}} \code{\link{rda}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}}
+#'
+#' @note
+#' Additionally, this implementation makes use of generalized/psuedo inverse for computations, which allows CCA to run even when data
+#' do not meet assumptions typically expected for standard CCA, e.g., collinear, rank deficient.
 #'
 #' @references
 #' Abdi H., Eslami, A., Guillemot, V., & Beaton., D. (2018). Canonical correlation analysis (CCA). In R. Alhajj and J. Rokne (Eds.), \emph{Encyclopedia of Social Networks and Mining (2nd Edition).} New York: Springer Verlag.

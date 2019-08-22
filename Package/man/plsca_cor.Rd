@@ -2,7 +2,7 @@
 % Please edit documentation in R/plsca_cor.R
 \name{plsca_cor}
 \alias{plsca_cor}
-\title{Partial least squares-correspondence analysis correlation (PLSCACOR)}
+\title{Partial least squares-correspondence analysis "correlation decomposition" (PLSCACOR)}
 \usage{
 plsca_cor(X, Y, components = 0, tol = .Machine$double.eps)
 }
@@ -32,7 +32,7 @@ a list directly from \code{link{gpls_cor}}, which comes from \code{\link[GSVD]{g
 \item{ly}{Latent variable scores for rows of \code{Y}}
 }
 \description{
-Computes partial least squares-correspondence analysis "correlation" between two data matrices by way of generalized PLS correlation
+Computes partial least squares-correspondence analysis "correlation decomposition" between two data matrices by way of generalized PLS correlation decomposition
  Each data matrix is assumed to be suitable for correspondence analysis and preprocessed (e.g., categorical through disjunctive coding; ordinal through thermometer coding; continuous through Escofier coding)
 }
 \examples{
@@ -53,9 +53,10 @@ Computes partial least squares-correspondence analysis "correlation" between two
 }
 \references{
 Beaton, D., Dunlop, J., & Abdi, H. (2016). Partial least squares correspondence analysis: A framework to simultaneously analyze behavioral and genetic data. \emph{Psychological methods}, \bold{21} (4), 621.
+Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
 }
 \seealso{
-\code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{pls_cor}} \code{\link{plsca_reg}} \code{\link{plsca_can}} \code{\link[GSVD]{gplssvd}}
+\code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{pls_cor}} \code{\link{plsca_reg}} \code{\link{plsca_can}} \code{\link{gpls_cor}} \code{\link[GSVD]{gplssvd}}
 }
 \keyword{diagonalization,}
 \keyword{least}
