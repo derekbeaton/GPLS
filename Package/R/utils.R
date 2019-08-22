@@ -7,6 +7,13 @@
 #' Effectively, GPLS allows for virtually any data type, any optmization (weights), and various algorithms all unified under the partial least squares and correspondence analysis nomenclatures and approaches.
 #' @seealso \code{\link[GSVD]{gplssvd}}, \code{\link[GSVD]{gsvd}}, \code{\link{cca}}, \code{\link{rrr}}, \code{\link{pls_cor}}, \code{\link{pls_can}}, \code{\link{pls_reg}}, \code{\link{plsca_cor}}, \code{\link{plsca_can}}, \code{\link{plsca_reg}}
 #'
+#' @references
+#' The detailed explanation of the generalizations can be found in:
+#' #' Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
+#'
+#' Please also see the long history of partial least squares:
+#'
+#'
 #' @docType package
 #' @name GPLS
 #' @aliases gpls gpls-package GPLS-package

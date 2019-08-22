@@ -15,6 +15,12 @@ The second set of generalizations are that these optimizations can be performed 
 The third set of generalizations are that optimizations and algorithms can be used under assumptions of Correspondence Analysis (CA) which allows us to use PLS algorithms for continuous, categorical, ordinal, or mixed data types, all generally under the assumptions of normal (PCA) or Chi-squared (CA).
 Effectively, GPLS allows for virtually any data type, any optmization (weights), and various algorithms all unified under the partial least squares and correspondence analysis nomenclatures and approaches.
 }
+\references{
+The detailed explanation of the generalizations can be found in:
+#' Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. \emph{bioRxiv}, 598888.
+
+Please also see the long history of partial least squares:
+}
 \seealso{
 \code{\link[GSVD]{gplssvd}}, \code{\link[GSVD]{gsvd}}, \code{\link{cca}}, \code{\link{rrr}}, \code{\link{pls_cor}}, \code{\link{pls_can}}, \code{\link{pls_reg}}, \code{\link{plsca_cor}}, \code{\link{plsca_can}}, \code{\link{plsca_reg}}
 }

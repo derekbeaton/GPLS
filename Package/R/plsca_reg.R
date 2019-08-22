@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Partial least squares-correspondence analysis regression (PLSCACOR)
+#' @title Partial least squares-correspondence analysis "regression decomposition" (PLSCAREG)
 #'
-#' @description Computes partial least squares-correspondence analysis "regression" between two data matrices by way of generalized PLS regression
+#' @description Computes partial least squares-correspondence analysis "regression decomposition" between two data matrices by way of generalized PLS regression
 #'  Each data matrix is assumed to be suitable for correspondence analysis and preprocessed (e.g., categorical through disjunctive coding; ordinal through thermometer coding; continuous through Escofier coding)
 #'
 #' @param X Data matrix with \emph{I} rows and \emph{J} columns
@@ -51,12 +51,12 @@
 #'
 #'  \dontrun{
 #'      ## like in PLSREG, PLSCAREG maximizes the latent variables:
-#'      diag( t(plsca_reg$lx) %*% plsca_reg$ly ) ## same as plsca_reg$d
-#'      plsca_reg$d
+#'      diag( t(plscareg_results$lx) %*% plscareg_results$ly ) ## same as plscareg_results$d
+#'      plscareg_results$d
 #'
 #'      ## but this is an asymmetric relationship:
-#'      crossprod(plsca_reg$lx) #orthogonal
-#'      t(plsca_reg$lx) %*% plsca_reg$ly ## a triangular matrix
+#'      crossprod(plscareg_results$lx) #orthogonal
+#'      t(plscareg_results$lx) %*% plscareg_results$ly ## a triangular matrix
 #'  }
 #'
 #' @keywords multivariate, diagonalization, partial least squares
