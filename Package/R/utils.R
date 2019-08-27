@@ -158,7 +158,9 @@ escofier_coding <- function (DATA, center = T, scale = T)
 #'
 #' @description DESCRIBE HERE THAT FOR NOW IT ASSUMES THE ACTUAL MIN AND MAX ARE AVAILABLE IN THE COLUMNS.
 #'
-#' @param DATA A matrix of data with assumed ordinal data for all columns
+#' @param DATA A matrix of data with assumed ordinal data for all columns.
+#' @param mins a vector of minimum values to use as the "lower pole". Typically used when a known minimum exists.
+#' @param maxs a vector of maximum values to use as the "lower pole". Typically used when a known maximum exists.
 #'
 #' @return
 #' \item{DATAOUT}{Matrix: of size \code{nrow(DATA)} rows and \code{ncol(DATA)*2} columns.}
@@ -194,9 +196,13 @@ thermometer_coding <- function (DATA, mins, maxs)
   }
   ## clean the above.
 
-  DATAOUT <- apply(DATA, 2, function(x) {
-    max(x, na.rm = T) - x
-  })
+    ## actually now that I have maxs I need to use that.
+  # DATAOUT <- apply(DATA, 2, function(x) {
+  #   max(x, na.rm = T) - x
+  # })
+  DATAOUT <- mapply("-", maxs, as.data.frame(DATA), SIMPLIFY = T)
+    rownames(DATAOUT) <- rownames(DATA)
+    colnames(DATAOUT) <- colnames(DATA)
   dat.col.names <- c(paste0(colnames(DATAOUT), "+"), paste0(colnames(DATAOUT), "-"))
 
   ## the core of it all.

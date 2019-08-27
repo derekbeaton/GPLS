@@ -4,7 +4,7 @@
 \alias{thermometer_coding}
 \title{"Thermometer coding": a data doubling approach for ordinal data}
 \usage{
-thermometer_coding(DATA)
+thermometer_coding(DATA, mins, maxs)
 }
 \arguments{
 \item{DATA}{A matrix of data with assumed ordinal data for all columns}
