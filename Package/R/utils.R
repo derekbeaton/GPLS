@@ -144,7 +144,7 @@ escofier_coding <- function (DATA, center = T, scale = T)
   }
   DATAOUT <- scale(DATA, center = center, scale = scale)
   dat.col.names <- c(paste0(colnames(DATAOUT), "-"), paste0(colnames(DATAOUT), "+"))
-  DATA <- cbind((1 - DATAOUT)/2, (1 + DATAOUT)/2)
+  DATAOUT <- cbind((1 - DATAOUT)/2, (1 + DATAOUT)/2)
   colnames(DATAOUT) <- dat.col.names
   DATAOUT <- as.matrix(DATAOUT)
   attributes(DATAOUT)$variable.map <- gsub("\\-", "", gsub("\\+", "", dat.col.names))

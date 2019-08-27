@@ -31,8 +31,8 @@ for(i in 1:length(low.geno.locs)){
 }
 
 #genetic.nom <- makeNominalData(genetic.data)
-genetic.nom <- make.data.nominal(genetic.data)
-genetic.nom.design <- make.data.nominal(as.matrix(attributes(genetic.nom)$variable.map))
+genetic.nom <- make_data_disjunctive(genetic.data)
+genetic.nom.design <- make_data_disjunctive(as.matrix(attributes(genetic.nom)$variable.map))
 rownames(genetic.nom.design) <- colnames(genetic.nom)
 
 VENT.FRAME <- data.frame(VENT=TADPOLE.fin[,101],ICV=TADPOLE.fin[,104])
@@ -55,7 +55,7 @@ names(grp.cols) <- unique(TADPOLE.fin$DX_bl)
 ind.cols <- plyr::mapvalues(TADPOLE.fin$DX_bl,from=names(grp.cols),to=grp.cols)
 names(ind.cols) <- rownames(TADPOLE.fin)
 
-DESIGN <- make.data.nominal(as.matrix(TADPOLE.fin$DX_bl))
+DESIGN <- make_data_disjunctive(as.matrix(TADPOLE.fin$DX_bl))
   colnames(DESIGN) <- gsub("1\\.","",colnames(DESIGN))
 W.DESIGN <- apply(DESIGN,2,function(x){x/sum(x)})
   rownames(W.DESIGN) <- rownames(DESIGN) <- rownames(TADPOLE.fin)

@@ -52,10 +52,9 @@ library(kableExtra)
 ```{r example_setup, echo=F, include=F}
 library(GSVD)
 library(GPLS)
-# library(TInPosition)
 library(corrplot)
 library(plotrix)
-library(ours)
+# library(ours)
 library(dplyr)
 library(here)
 
@@ -105,10 +104,13 @@ CA is a technique akin to PCA but initially designed for contingency and nominal
 
 
 ```{r echo=F, results="asis", include=T, message=FALSE, warning=FALSE}
-  age.doubled <- escofier.coding(as.matrix(TADPOLE.fin$AGE),scale=T)
+  
+  age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
-  edu.thermometer <- thermometer.coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
+  
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
   colnames(edu.thermometer) <- c('EDU-','EDU+')
+  
   beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
   rownames(beh.brain.confounds) <- rownames(TADPOLE.fin)
@@ -121,6 +123,9 @@ CA is a technique akin to PCA but initially designed for contingency and nominal
   kable(dt, "latex", caption = "\\label{table:disj} An example of disjunctive (SEX) and pseudo-disjunctive (AGE, EDU) coding through the fuzzy or Escofier transforms. For disjunctive an pseudo-disunctive data, each variable has a row-wise sum of 1 across its respective columns, and thus the row sums across the table are the number of original variables.", booktabs = T) %>%
   kable_styling(latex_options =c("hold_position")) %>%
   add_header_above(c(" ", "Original coding" = 3, "Disjunctive and pseudo-disjunctive coding" = 6))
+  
+  
+  ppaaause()
   
 ```
 
@@ -306,13 +311,13 @@ For all examples in this paper we use a candidate set of single nucleotide polym
 ```{r echo=F, results="asis", include=T, message=FALSE, warning=FALSE}
 
 base.ex.snps <- c("Aa","aa","aa","AA","Aa","AA")
-geno.model <- make.data.nominal(as.matrix(base.ex.snps))
+geno.model <- make_data_disjunctive(as.matrix(base.ex.snps))
   colnames(geno.model) <- gsub("1\\.","",colnames(geno.model))
   geno.model <- geno.model[,c("AA","Aa","aa")]
-dom.model <- make.data.nominal(as.matrix( c("Aa+aa","Aa+aa","Aa+aa","AA","Aa+aa","AA") ))
+dom.model <- make_data_disjunctive(as.matrix( c("Aa+aa","Aa+aa","Aa+aa","AA","Aa+aa","AA") ))
   colnames(dom.model) <- gsub("1\\.","",colnames(dom.model))
   dom.model <- dom.model[,c("AA","Aa+aa")]
-rec.model <- make.data.nominal(as.matrix( c("AA+Aa","AA+Aa","aa","AA+Aa","AA+Aa","AA+Aa") ))
+rec.model <- make_data_disjunctive(as.matrix( c("AA+Aa","AA+Aa","aa","AA+Aa","AA+Aa","AA+Aa") ))
   colnames(rec.model) <- gsub("1\\.","",colnames(rec.model)) 
   rec.model <- rec.model[,c("AA+Aa","aa")]
 
@@ -334,7 +339,7 @@ Our first example asks and answers the question: "which genotypes are associated
 ```{r sample_descriptives, echo=F, results="asis", include=T, warning=F, message=F}
 
 age.edu.n.tab <- TADPOLE.fin[,c("DX_bl","AGE","PTGENDER","PTEDUCAT")] %>% group_by(DX_bl) %>% summarise(N=n(), `age (mean)` = mean(AGE), `age (sd)` = sd(AGE), `edu (mean)` = mean(PTEDUCAT), `edu (sd)` = sd(PTEDUCAT))
-sex.tab <- t(make.data.nominal(as.matrix(TADPOLE.fin[,"PTGENDER"]))) %*% make.data.nominal(as.matrix(TADPOLE.fin[,"DX_bl"]))
+sex.tab <- t(make_data_disjunctive(as.matrix(TADPOLE.fin[,"PTGENDER"]))) %*% make_data_disjunctive(as.matrix(TADPOLE.fin[,"DX_bl"]))
   rownames(sex.tab) <- gsub("1\\.","",rownames(sex.tab))
   colnames(sex.tab) <- gsub("1\\.","",colnames(sex.tab))
 
@@ -355,7 +360,7 @@ kable(desc.tab, format = "latex", booktabs=T, caption="\\label{table:desctab} De
 
 ```{r small_analyses, echo=F, include=T, warning=F, message=F}
   
-  X <- make.data.nominal(as.matrix(TADPOLE.fin$DX_bl))
+  X <- make_data_disjunctive(as.matrix(TADPOLE.fin$DX_bl))
     rownames(X) <- rownames(TADPOLE.fin)
     colnames(X) <- gsub("1\\.","",colnames(X))
   Y <- genetic.nom
@@ -465,7 +470,7 @@ Though PLS-R was initally developed as a regression approach---especially to han
 
   disc1.lims <- c(-max(abs(rbind(disc1.scores,disc1.ly)[,1:2])),max(abs(rbind(disc1.scores,disc1.ly)[,1:2])))*1.2
   
-  DESIGN <- make.data.nominal(as.matrix(TADPOLE.fin$DX_bl))
+  DESIGN <- make_data_disjunctive(as.matrix(TADPOLE.fin$DX_bl))
     colnames(DESIGN) <- gsub("1\\.","",colnames(DESIGN))
   fii2fi.res <- fii2fi(DESIGN,disc1.ly,disc1.scores)
   assigned.grps <- colnames(fii2fi.res$assignments)[apply(fii2fi.res$assignments,1,function(x){which(x==1)})]
@@ -519,13 +524,13 @@ While the overall objective of this example is to understand the relationship be
 
 
     ## could add ADAS_11 and ADAS_13
-  cont.vals.doubled <- escofier.coding( cbind(TADPOLE.fin[,c("FDG_bl","AV45_bl","ADAS13_bl")],structural.norm),scale=T)
+  cont.vals.doubled <- escofier_coding( cbind(TADPOLE.fin[,c("FDG_bl","AV45_bl","ADAS13_bl")],structural.norm),scale=T)
     
     ## could add MOCA
-  ord.vals.doubled <- thermometer.coding(TADPOLE.fin[,c("MOCA_bl","CDRSB_bl")],mins = c(0,0), maxs = c(30,9), norm.to.one = T)
+  ord.vals.doubled <- thermometer_coding(TADPOLE.fin[,c("MOCA_bl","CDRSB_bl")],mins = c(0,0), maxs = c(30,9), norm.to.one = T)
   
 
-  nom.vals <- make.data.nominal(as.matrix(TADPOLE.fin[,c("DX_bl")]))
+  nom.vals <- make_data_disjunctive(as.matrix(TADPOLE.fin[,c("DX_bl")]))
   colnames(nom.vals) <- gsub("1\\.","",colnames(nom.vals))
   rownames(nom.vals) <- rownames(TADPOLE.fin)
   
@@ -536,9 +541,9 @@ While the overall objective of this example is to understand the relationship be
   
     
     #### NEED TO COME BACK TO THIS.
-  age.doubled <- escofier.coding(as.matrix(TADPOLE.fin$AGE),scale=T)
+  age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
-  edu.thermometer <- thermometer.coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
@@ -667,9 +672,9 @@ Finally, we interpret the results of residualized analyses (limited to the first
 
 
   
-  age.doubled <- escofier.coding(as.matrix(TADPOLE.fin$AGE[-c(drop.rows)]),scale=T)
+  age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE[-c(drop.rows)]),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
-  edu.thermometer <- thermometer.coding(as.matrix(TADPOLE.fin$PTEDUCAT[-c(drop.rows)]),norm.to.one = T)
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT[-c(drop.rows)]),norm.to.one = T)
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[-c(drop.rows),c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
