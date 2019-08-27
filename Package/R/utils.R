@@ -173,18 +173,10 @@ thermometer_coding <- function (DATA, mins, maxs)
     colnames(DATA) <- as.character(1:ncol(DATA))
   }
 
+  dat.col.names <- c(paste0(colnames(DATA), "+"), paste0(colnames(DATA), "-"))
+
   ## these need a lot of checks:
     ### and these need to be cleaned up substantially...
-  if(missing(mins)){
-    mins <- apply(DATA, 2, min, na.rm = T)
-  }
-  if(length(mins)!=ncol(DATA)){
-    mins <- apply(DATA, 2, min, na.rm = T)
-  }
-  if(any( mins > apply(DATA, 2, min, na.rm = T))){
-    mins <- apply(DATA, 2, min, na.rm = T)
-  }
-
   if(missing(maxs)){
     maxs <- apply(DATA, 2, max, na.rm = T)
   }
@@ -194,20 +186,19 @@ thermometer_coding <- function (DATA, mins, maxs)
   if(any( maxs < apply(DATA, 2, max, na.rm = T))){
     maxs <- apply(DATA, 2, max, na.rm = T)
   }
+
+  if(missing(mins)){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
+  if(length(mins)!=ncol(DATA)){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
+  if(any( mins > apply(DATA, 2, min, na.rm = T))){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
   ## clean the above.
 
-    ## actually now that I have maxs I need to use that.
-  # DATAOUT <- apply(DATA, 2, function(x) {
-  #   max(x, na.rm = T) - x
-  # })
-  DATAOUT <- mapply("-", maxs, as.data.frame(DATA), SIMPLIFY = T)
-    rownames(DATAOUT) <- rownames(DATA)
-    colnames(DATAOUT) <- colnames(DATA)
-  dat.col.names <- c(paste0(colnames(DATAOUT), "+"), paste0(colnames(DATAOUT), "-"))
-
-  ## the core of it all.
-  DATAOUT <- as.matrix(cbind(sweep(sweep(DATAOUT, 2, maxs, "-") * -1, 2, maxs, "/"), sweep(sweep(DATAOUT, 2, mins, "-"), 2, maxs, "/")))
-
+  DATAOUT <- sweep(cbind(sweep(DATA, 2, maxs, "-") * -1, sweep(DATA, 2, mins, "-")),2, (maxs-mins), "/")
   colnames(DATAOUT) <- dat.col.names
   attributes(DATAOUT)$variable.map <- gsub("\\-", "", gsub("\\+", "", dat.col.names))
   return(DATAOUT)

@@ -7,7 +7,11 @@
 thermometer_coding(DATA, mins, maxs)
 }
 \arguments{
-\item{DATA}{A matrix of data with assumed ordinal data for all columns}
+\item{DATA}{A matrix of data with assumed ordinal data for all columns.}
+
+\item{mins}{a vector of minimum values to use as the "lower pole". Typically used when a known minimum exists.}
+
+\item{maxs}{a vector of maximum values to use as the "lower pole". Typically used when a known maximum exists.}
 }
 \value{
 \item{DATAOUT}{Matrix: of size \code{nrow(DATA)} rows and \code{ncol(DATA)*2} columns.}
