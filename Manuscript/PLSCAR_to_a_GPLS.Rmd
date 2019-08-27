@@ -108,7 +108,7 @@ CA is a technique akin to PCA but initially designed for contingency and nominal
   age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
   
-  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT))
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   
   beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)

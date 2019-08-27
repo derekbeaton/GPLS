@@ -164,22 +164,42 @@ escofier_coding <- function (DATA, center = T, scale = T)
 #' \item{DATAOUT}{Matrix: of size \code{nrow(DATA)} rows and \code{ncol(DATA)*2} columns.}
 #'
 
-thermometer_coding <- function (DATA)
+thermometer_coding <- function (DATA, mins, maxs)
 {
   if (is.null(colnames(DATA))) {
     warning("'colnames(DATA)' were NULL. Setting to 1:ncol(DATA).")
     colnames(DATA) <- as.character(1:ncol(DATA))
   }
 
+  ## these need a lot of checks:
+    ### and these need to be cleaned up substantially...
+  if(missing(mins)){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
+  if(length(mins)!=ncol(DATA)){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
+  if(any( mins > apply(DATA, 2, min, na.rm = T))){
+    mins <- apply(DATA, 2, min, na.rm = T)
+  }
+
+  if(missing(maxs)){
+    maxs <- apply(DATA, 2, max, na.rm = T)
+  }
+  if(length(maxs)!=ncol(DATA)){
+    maxs <- apply(DATA, 2, max, na.rm = T)
+  }
+  if(any( maxs < apply(DATA, 2, max, na.rm = T))){
+    maxs <- apply(DATA, 2, max, na.rm = T)
+  }
+  ## clean the above.
+
   DATAOUT <- apply(DATA, 2, function(x) {
     max(x, na.rm = T) - x
   })
-
-  mins <- apply(DATAOUT, 2, min, na.rm = T)
-  maxs <- apply(DATAOUT, 2, max, na.rm = T)
-
   dat.col.names <- c(paste0(colnames(DATAOUT), "+"), paste0(colnames(DATAOUT), "-"))
 
+  ## the core of it all.
   DATAOUT <- as.matrix(cbind(sweep(sweep(DATAOUT, 2, maxs, "-") * -1, 2, maxs, "/"), sweep(sweep(DATAOUT, 2, mins, "-"), 2, maxs, "/")))
 
   colnames(DATAOUT) <- dat.col.names
