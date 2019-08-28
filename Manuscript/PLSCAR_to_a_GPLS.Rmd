@@ -50,6 +50,7 @@ library(kableExtra)
 ## need pandoc latex tables but skip this for now...?
 ```
 ```{r example_setup, echo=F, include=F}
+library(TExPosition)
 library(GSVD)
 library(GPLS)
 library(corrplot)
@@ -111,7 +112,7 @@ CA is a technique akin to PCA but initially designed for contingency and nominal
   edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT))
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   
-  beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
+  beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
   rownames(beh.brain.confounds) <- rownames(TADPOLE.fin)
   
@@ -124,8 +125,7 @@ CA is a technique akin to PCA but initially designed for contingency and nominal
   kable_styling(latex_options =c("hold_position")) %>%
   add_header_above(c(" ", "Original coding" = 3, "Disjunctive and pseudo-disjunctive coding" = 6))
   
-  
-  ppaaause()
+
   
 ```
 
@@ -327,7 +327,8 @@ snp.tab <- cbind(base.ex.snps, geno.model, dom.model, rec.model)
 
   kable( as.data.frame(snp.tab), "latex", caption="\\label{table:snps_models_disj} An example of a SNP with its genotypes for respective individuals and disjunctive coding for three types of genetic models: genotypic (three levels), dominant (two levels: major homozygote vs. presence of minor allele), and recessive (two levels: presence of major allele vs. minor homozygote)." , booktabs=T) %>% kable_styling(latex_options =c("hold_position")) %>%
   add_header_above(c(" ", "SNP" = 1, "Genotypic" = 3, "Dominant" = 2, "Recessive" = 2))
-
+  
+  
 ```
 
 
@@ -356,6 +357,7 @@ mf.col <- apply(sex.tab,2,function(x){ paste(x,collapse=" (") } %>% paste(.,coll
 kable(desc.tab, format = "latex", booktabs=T, caption="\\label{table:desctab} Descriptives and demographics for the sample.") %>%
   kable_styling(latex_options =c("hold_position")) 
   
+
 ```
 
 ```{r small_analyses, echo=F, include=T, warning=F, message=F}
@@ -365,20 +367,20 @@ kable(desc.tab, format = "latex", booktabs=T, caption="\\label{table:desctab} De
     colnames(X) <- gsub("1\\.","",colnames(X))
   Y <- genetic.nom
   
-  ols.res <- plsrca(X,Y)
+  ols.res <- plsca_reg(X,Y)
   
 ```
 
-For this example we refer to diagnosis (groups) as the predictors (${\bf X}$) and the genotypic data as the responses (${\bf Y}$). Both data types are coded in disjunctive format (see Tables \ref{table:disj} and \ref{table:snps_models_disj}). Because there are five columns (groups) in ${\bf X}$, PLS-CA-R produces only four latent variables (a.k.a. components). Table \ref{table:r2ex1} presents the cumulative explained variance for both ${\bf X}$ and ${\bf Y}$ and shows that groups explain only a small amount of genotypic variance: $R^2=$ `r round(max(ols.res$r2.y.cumulative),digits=4)`.
+For this example we refer to diagnosis (groups) as the predictors (${\bf X}$) and the genotypic data as the responses (${\bf Y}$). Both data types are coded in disjunctive format (see Tables \ref{table:disj} and \ref{table:snps_models_disj}). Because there are five columns (groups) in ${\bf X}$, PLS-CA-R produces only four latent variables (a.k.a. components). Table \ref{table:r2ex1} presents the cumulative explained variance for both ${\bf X}$ and ${\bf Y}$ and shows that groups explain only a small amount of genotypic variance: $R^2=$ `r round(sum(ols.res$r2.y),digits=4)`.
 
 ```{r echo=F,results="asis"}
-ols.r2.table <- cbind(ols.res$r2.x.cumulative,  ols.res$r2.y.cumulative)
+ols.r2.table <- cbind(cumsum(ols.res$r2_x),  cumsum(ols.res$r2_y))
 colnames(ols.r2.table) <- c("X (groups) R-squared cumulative","Y (genotypes) R-squared cumulative")
-rownames(ols.r2.table) <- paste0("Latent variable ",1:length(ols.res$beta.vec))
+rownames(ols.r2.table) <- paste0("Latent variable ",1:length(ols.res$betas))
 
 kable(ols.r2.table,digits = 5,
       format="latex",
-      caption=paste("\\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained ", round(max(ols.res$r2.y.cumulative)*100,digits=4), "\\% of the genotypes.",sep=""),
+      caption=paste("\\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained ", round(sum(ols.res$r2.y)*100,digits=4), "\\% of the genotypes.",sep=""),
       booktabs=T) %>%
   kable_styling(latex_options =c("hold_position")) # %>%
   # add_header_above(c(" ", "Original coding" = 3, "Disjunctive and pseudo-disjunctive coding" = 6))
@@ -395,9 +397,9 @@ In a simple regression-like framework we can compute the variance contributed by
 
 par.opts <- par(mfrow=c(2,1))
 var.cutoff <- 1/ncol(genetic.data)
-genotype.leverages <- rowSums(ols.res$v.matrix^2)/length(ols.res$beta.vec) # normed to 1
+genotype.leverages <- rowSums(ols.res$v^2)/length(ols.res$betas) # normed to 1
 
-snp.leverages <- rowSums(t(genetic.nom.design) %*% (ols.res$v.matrix^2))/length(ols.res$beta.vec) # normed to 1
+snp.leverages <- rowSums(t(genetic.nom.design) %*% (ols.res$v^2))/length(ols.res$betas) # normed to 1
   names(snp.leverages) <- gsub("1\\.","",names(snp.leverages))
 
   
@@ -424,6 +426,8 @@ text(cbind(high.leverage.snps,snp.leverages[high.leverage.snps]),labels = names(
 mtext(paste0("(B)"), side = 3, adj = 0,line=0.75,cex=1.5)
 
 par(par.opts)
+
+
 ```
 
 Though PLS-R was initally developed as a regression approach---especially to handle highly collinear predictors or a set of predictors that are not full rank [see explanations in @wold_collinearity_1984]---it is far more common to use PLS to find latent structures (i.e., components or latent variables) [@abdi_partial_2010-1]. From this point forward we show only the more common "projection onto latent structures" perspectives. We show the latent variable scores (observations) and component scores (variables) for the first two latent variables/components in Figure \ref{fig:contributions_ex1}. The first latent variable scores (Fig. \ref{fig:contributions_ex1}a) shows a gradient from the control (CN) group through to the Alzheimer's Disease (AD) groups (CN to SMC to EMCI to LMCI to AD). The second latent variable shows a dissociation of the EMCI group from all other groups (Fig. \ref{fig:contributions_ex1}b). Figure \ref{fig:contributions_ex1}c and d show the component scores for the variables. Genotypes on the left side of first latent variable (a.k.a., component; horizontal axis in Figs. \ref{fig:contributions_ex1}c and d) are more associated with CN and SMC than the other groups, where as genotypes on the right side are more associated with AD and LMCI than the other groups. Genotypes highlighted in purple are those that contribute more than expected variance to the first component. Through the latent structures approach we can more clearly see the relationships between groups and genotypes. Because we treat the data categorically and code for genotypes, we can identify the specific genotypes that contribute to these effects. For example the 'AA' genotype of rs769449 and the 'GG' genotype of rs2075650 are more associated with AD and LMCI than the other groups. In conrast, the 'TT' genotype of rs405697 and the 'TT' genotype rs439401 are more associated with the CN group than other groups (and thus could suggest potential protective effects).
@@ -431,49 +435,54 @@ Though PLS-R was initally developed as a regression approach---especially to han
 
 ```{r echo=F,results="asis", fig.cap="\\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. In this figure (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.", fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center",fig.pos = "!hbtp"}
   
-  genotype.contributions_12 <- (ols.res$v.matrix[,1:2]^2) > var.cutoff
-  fj.cols <- rep(add.alpha("grey80",.6),nrow(ols.res$fj.matrix))
-  fj.cols <- ifelse(rowSums(genotype.contributions_12)==2,add.alpha("goldenrod",.8),fj.cols)
-  fj.cols <- ifelse(genotype.contributions_12[,1]==T & genotype.contributions_12[,2]==F,add.alpha("mediumorchid4",.7),fj.cols)
+  genotype.contributions_12 <- (ols.res$v[,1:2]^2) > var.cutoff
+  fj.cols <- rep(prettyGraphs::add.alpha("grey80",.6),nrow(ols.res$fj))
+  fj.cols <- ifelse(rowSums(genotype.contributions_12)==2,prettyGraphs::add.alpha("goldenrod",.8),fj.cols)
+  fj.cols <- ifelse(genotype.contributions_12[,1]==T & genotype.contributions_12[,2]==F,prettyGraphs::add.alpha("mediumorchid4",.7),fj.cols)
   fj.cex <- ifelse(rowSums(genotype.contributions_12)==0,.5,1.25)
   
+  
   par.opts <- par(mfrow=c(2,2))
-  #sp.latentvar_plot(ols.res, display_names = F, bg=add.alpha("mediumorchid4",.6),col=add.alpha("grey80",.6),pch=21)
-  sp.latentvar_plot(ols.res, display_names = F, bg=add.alpha(ind.cols,.5),col=add.alpha("grey80",.5),pch=21)
-  svd.line(cbind(ols.res$lx[,1],ols.res$ly[,1]),col=add.alpha("black",.6),lwd=2)
+  #sp.latentvar_plot(ols.res, display_names = F, bg=prettyGraphs::add.alpha("mediumorchid4",.6),col=prettyGraphs::add.alpha("grey80",.6),pch=21)
+  sp.latentvar_plot(ols.res, display_names = F, bg=prettyGraphs::add.alpha(ind.cols,.5),col=prettyGraphs::add.alpha("grey80",.5),pch=21)
+  svd.line(cbind(ols.res$lx[,1],ols.res$ly[,1]),col=prettyGraphs::add.alpha("black",.6),lwd=2)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  #sp.latentvar_plot(ols.res, axis = 2, display_names = F, bg=add.alpha("mediumorchid4",.6),col=add.alpha("grey80",.6),pch=21)
-  sp.latentvar_plot(ols.res, axis = 2, display_names = F, bg=add.alpha(ind.cols,.5), col=add.alpha("grey80",.5),pch=21)
-  svd.line(cbind(ols.res$lx[,2],ols.res$ly[,2]),col=add.alpha("black",.6),lwd=2)
+  #sp.latentvar_plot(ols.res, axis = 2, display_names = F, bg=prettyGraphs::add.alpha("mediumorchid4",.6),col=prettyGraphs::add.alpha("grey80",.6),pch=21)
+  sp.latentvar_plot(ols.res, axis = 2, display_names = F, bg=prettyGraphs::add.alpha(ind.cols,.5), col=prettyGraphs::add.alpha("grey80",.5),pch=21)
+  svd.line(cbind(ols.res$lx[,2],ols.res$ly[,2]),col=prettyGraphs::add.alpha("black",.6),lwd=2)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(ols.res$fi.a.matrix,col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
+  ours::component.plot(ols.res$fi %*% diag(1/ols.res$d),col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
   ## here I should provide color coding for items above expected for the whole model and just for either of the visualized two.
-  fj.a.copy <- ols.res$fj.a.matrix
+  fj.a.copy <- ols.res$fj %*% diag(1/ols.res$d)
+  rownames(fj.a.copy) <- colnames(Y)
   rownames(fj.a.copy) <- ifelse(genotype.contributions_12[,1],rownames(fj.a.copy),"")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  #ep.component.plot(fj.a.copy,display_names = T,pch=21,col=add.alpha("black",.6),bg=fj.cols, cex=fj.cex, text.cex = .5)
-  component.plot(fj.a.copy,display_names = T,pch=20,col=fj.cols, cex=fj.cex, text.cex = .5)
+  #ep.ours::component.plot(fj.a.copy,display_names = T,pch=21,col=prettyGraphs::add.alpha("black",.6),bg=fj.cols, cex=fj.cex, text.cex = .5)
+  ours::component.plot(fj.a.copy,display_names = T,pch=20,col=fj.cols, cex=fj.cex, text.cex = .5)
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
+  
 ```
+
+[[HEY, YOU, READING THIS: There are row/colnames issues causing problems with some of the code because it's not propogating through to GPLS from GSVD. Fix it here for now then in the package(s)]]
 
 
 ```{r echo=F, results="asis", fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:discriminant_ex1} Discriminant analysis with the latent variable approach. In this figure (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \\textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \\textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect group assignment in black and gray, respectively.",fig.pos = "!hbtp", warning=F, message=F}
 
 
-  disc1.scores <- ols.res$fi.matrix
+  disc1.scores <- ols.res$fi
   disc1.ly <- ols.res$ly * sqrt(nrow(Y))
 
   disc1.lims <- c(-max(abs(rbind(disc1.scores,disc1.ly)[,1:2])),max(abs(rbind(disc1.scores,disc1.ly)[,1:2])))*1.2
   
   DESIGN <- make_data_disjunctive(as.matrix(TADPOLE.fin$DX_bl))
     colnames(DESIGN) <- gsub("1\\.","",colnames(DESIGN))
-  fii2fi.res <- fii2fi(DESIGN,disc1.ly,disc1.scores)
-  assigned.grps <- colnames(fii2fi.res$assignments)[apply(fii2fi.res$assignments,1,function(x){which(x==1)})]
+  fii2fi.res <- TExPosition::fii2fi(DESIGN,disc1.ly,disc1.scores)
+  assigned.grps <- colnames(fii2fi.res$confusion)[apply(fii2fi.res$assignments,1,function(x){which(x==1)})]
   
   assigned.cols <- plyr::mapvalues(assigned.grps,from=names(grp.cols),to=grp.cols)
   names(assigned.cols) <- rownames(fii2fi.res$assignments)
@@ -486,16 +495,16 @@ Though PLS-R was initally developed as a regression approach---especially to han
   
   par.opts <- par(mfrow=c(2,2))
   
-  component.plot(disc1.scores, col=grp.cols,xlim = disc1.lims,ylim=disc1.lims,main="Groups",pos=c(2,1,3,4,2),cex=2,text.cex = 1)
+  ours::component.plot(disc1.scores, col=grp.cols,xlim = disc1.lims,ylim=disc1.lims,main="Groups",pos=c(2,1,3,4,2),cex=2,text.cex = 1)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(disc1.ly, display_names = F,col=add.alpha(ind.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Actual",xlab="LY1",ylab="LY2")
+  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(ind.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Actual",xlab="LY1",ylab="LY2")
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(disc1.ly, display_names = F,col=add.alpha(assigned.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Assigned",xlab="LY1",ylab="LY2")
+  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(assigned.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Assigned",xlab="LY1",ylab="LY2")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(disc1.ly, display_names = F,col=add.alpha(correct.incorrect.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Correct vs. Incorrect",xlab="LY1",ylab="LY2")
+  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(correct.incorrect.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Correct vs. Incorrect",xlab="LY1",ylab="LY2")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -504,6 +513,9 @@ Though PLS-R was initally developed as a regression approach---especially to han
 
 
 This group-based analysis is also a discriminant analysis because it maximally separates groups. Thus we can classify observations by assigning them to the closest group. To correctly project observations onto the latent variables we compute $[{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K}$ where $1$ is a $1 \times K$ vector of ones where ${\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)$ are "row profiles" of ${\bf Y}$ (i.e., each element of ${\bf Y}$ divided by its respective row sum). To note $[{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K} = {\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$. Observations from ${\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$ are then assigned to the closest group in ${\mathbf F}_{J}$, either for per component, across a subset of components, or all components. For this example we use the full set (four) of components. The assigned groups can then be compared to the *a priori* groups to compute a classification accuracy. Figure \ref{fig:discriminant_ex1} shows the results of the discriminant analysis but only visualized on the first two components. Figures \ref{fig:discriminant_ex1}a and b show the scores for ${\mathbf F}_{J}$ and ${\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$, respectively. Figure \ref{fig:discriminant_ex1}c shows the assignment of observations to their closest group. Figure \ref{fig:discriminant_ex1}d visualizes the accuracy of the assignment, where observations in black are correct assignments (gray are incorrect assignments). The total classification accuracy `r round((sum(diag(conf.tab)) / sum(conf.tab))*100,digits=2)`% (where chance accuracy was `r round(sum((colSums(DESIGN) / sum(DESIGN))^2)*100,digits=2)`%). This particular case of PLS-CA-R is also identical to the discriminant PLS-CA [@beaton_partial_2016]. Finally, typical PLS-R discriminant analyses are applied in scenarios where a small set of, or even a single, (typically) categorical responses are predicted from many predictors [@perez-enciso_prediction_2003]. However, such an approach may be overoptimitic in its prediction and classification [@rodriguez-perez_overoptimism_2018]. Thus we present discriminant PLS-CA-R in the prior example more akin to a typical regression problem (i.e., here a single predcitor with multiple responses).
+
+
+[[HEY, YOU, AGAIN: There are row/colnames issues everywhere now. GOOD LUCK WITH THAT!]]
 
 ```{r echo=F,results="asis"}
 kable(conf.tab[c("CN","SMC","EMCI","LMCI","AD"),c("CN","SMC","EMCI","LMCI","AD")],format="latex",caption="\\label{table:assign_ex1} The actual (row) vs. assigned (column) accuracies for the discriminant analysis.", booktabs=T) %>%
@@ -545,19 +557,19 @@ While the overall objective of this example is to understand the relationship be
   colnames(age.doubled) <- c('AGE-','AGE+')
   edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
   colnames(edu.thermometer) <- c('EDU-','EDU+')
-  beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
+  beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
   rownames(beh.brain.confounds) <- rownames(TADPOLE.fin)
   
   
-  regress.beh.brain.pls <- plsrca(beh.brain.confounds,pre.mixed.X)
+  regress.beh.brain.pls <- plsca_reg(beh.brain.confounds,pre.mixed.X)
 
   gene.confounds <- as.matrix(TADPOLE.fin[,c("PTETHCAT","PTRACCAT","PTGENDER")])
   gene.confounds <- gsub("Unknown",NA,gene.confounds)
-  gene.confounds.nom <- makeNominalData(gene.confounds)
+  gene.confounds.nom <- make_data_disjunctive(gene.confounds)
   colnames(gene.confounds.nom) <- gsub("PTGENDER","SEX",gsub("PTETHCAT","ETH",gsub("PTRACCAT","RACE",colnames(gene.confounds.nom))))
   
-  regress.genes.pls <- plsrca(gene.confounds.nom,genetic.nom)
+  regress.genes.pls <- plsca_reg(gene.confounds.nom,genetic.nom)
   
   
   ## regressed data.
@@ -565,19 +577,22 @@ While the overall objective of this example is to understand the relationship be
   genetic.resids <- regress.genes.pls$Y.resid
   
   
-  plsrca.res <- plsrca(pre.mixed.X,genetic.nom)
-  plsrca.res_regressed <- plsrca(mixed.X.resids,genetic.resids) 
+  plsrca.res <- plsca_reg(pre.mixed.X,genetic.nom)
+  plsrca.res_regressed <- plsca_reg(mixed.X.resids,genetic.resids) 
   
   
-  beh.brain.confounds.colors <- rep(add.alpha("grey60",.6),ncol(beh.brain.confounds))
+  beh.brain.confounds.colors <- rep(prettyGraphs::add.alpha("grey60",.6),ncol(beh.brain.confounds))
   names(beh.brain.confounds.colors) <- colnames(beh.brain.confounds)
   beh.brain.confounds.colors[colnames(beh.brain.confounds)[grep("\\+",colnames(beh.brain.confounds))]] <- "mediumorchid4"
   beh.brain.confounds.colors["Male"] <- "aquamarine3"
   beh.brain.confounds.colors["Female"] <- "coral3"
   
-  mixed.X.colors <- rep(add.alpha("grey60",.6),ncol(pre.mixed.X))
+  mixed.X.colors <- rep(prettyGraphs::add.alpha("grey60",.6),ncol(pre.mixed.X))
   names(mixed.X.colors) <- colnames(pre.mixed.X)
   mixed.X.colors[colnames(pre.mixed.X)[grep("\\+",colnames(pre.mixed.X))]] <- "mediumorchid4"
+  
+  paaause()
+  
   
 ```
 
@@ -589,16 +604,16 @@ Next we perform two analyses with the same goal: understand the relationship bet
  
   par.opts <- par(mfrow=c(2,2))
 
-  component.plot(regress.beh.brain.pls$fi.a.matrix,cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
+  ours::component.plot(regress.beh.brain.pls$fi %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(regress.beh.brain.pls$fj.a.matrix,cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
+  ours::component.plot(regress.beh.brain.pls$fj %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(regress.genes.pls$fi.a.matrix,cex=2,text.cex = .75,pch=20,display_names = T)
+  ours::component.plot(regress.genes.pls$fi %*% diag(1/regress.genes.pls$d),cex=2,text.cex = .75,pch=20,display_names = T)
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(regress.genes.pls$fj.a.matrix,cex=1,text.cex = .5,pch=20,display_names = T)
+  ours::component.plot(regress.genes.pls$fj %*% diag(1/regress.genes.pls$d),cex=1,text.cex = .5,pch=20,display_names = T)
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -611,18 +626,18 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a and c) vs.
 ```{r echo=F,results="asis",fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.",fig.pos = "!hbtp"}
 
   par.opts <- par(mfrow=c(2,2))
-  component.plot(plsrca.res$fi.a.matrix,cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
-  thigmophobe.labels(plsrca.res$fi.a.matrix[,1],plsrca.res$fi.a.matrix[,2],labels = rownames(plsrca.res$fi.a.matrix), col=mixed.X.colors, cex=.75)
+  ours::component.plot(plsrca.res$fi %*% diag(1/plsrca.res$d),cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
+  thigmophobe.labels(plsrca.res$fi[,1] / plsrca.res$d[1], plsrca.res$fi[,2] / plsrca.res$d[2],labels = rownames(plsrca.res$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(plsrca.res_regressed$fi.a.matrix,cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
-  thigmophobe.labels(plsrca.res_regressed$fi.a.matrix[,1],plsrca.res_regressed$fi.a.matrix[,2],labels = rownames(plsrca.res_regressed$fi.a.matrix), col=mixed.X.colors, cex=.75)
+  ours::component.plot(plsrca.res_regressed$fi %*% diag(1/plsrca.res_regressed$d),cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
+  thigmophobe.labels(plsrca.res_regressed$fi[,1] / plsrca.res_regressed$d[1],plsrca.res_regressed$fi[,2] / plsrca.res_regressed$d[2],labels = rownames(plsrca.res_regressed$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
     
-  component.plot(plsrca.res$fj.a.matrix,display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
+  ours::component.plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  component.plot(plsrca.res_regressed$fj.a.matrix,display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regresse$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -635,17 +650,17 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a and c) vs.
 
   par.opts <- par(mfrow=c(2,2))
 
-  sp.latentvar_plot(plsrca.res, display_names = F, bg=add.alpha(ind.cols,.5),col=add.alpha("grey80",.5),pch=21,main="Original LV1")
+  sp.latentvar_plot(plsrca.res, display_names = F, bg=prettyGraphs::add.alpha(ind.cols,.5),col=prettyGraphs::add.alpha("grey80",.5),pch=21,main="Original LV1")
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  sp.latentvar_plot(plsrca.res_regressed, display_names = F, bg=add.alpha(ind.cols,.5),col=add.alpha("grey80",.5),pch=21,main="Residualized LV1")
+  sp.latentvar_plot(plsrca.res_regressed, display_names = F, bg=prettyGraphs::add.alpha(ind.cols,.5),col=prettyGraphs::add.alpha("grey80",.5),pch=21,main="Residualized LV1")
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  plot(plsrca.res$lx[,1],plsrca.res_regressed$lx[,1],bg=add.alpha(ind.cols,.5), col=add.alpha("grey80",.5),pch=21,xlab="Original LX 1",ylab="Residualized LX 1")
+  plot(plsrca.res$lx[,1],plsrca.res_regressed$lx[,1],bg=prettyGraphs::add.alpha(ind.cols,.5), col=prettyGraphs::add.alpha("grey80",.5),pch=21,xlab="Original LX 1",ylab="Residualized LX 1")
   legend("topleft",legend=names(grp.cols[c("CN","SMC","EMCI","LMCI","AD")]),pch=18,col=grp.cols[c("CN","SMC","EMCI","LMCI","AD")],text.col = grp.cols[c("CN","SMC","EMCI","LMCI","AD")], cex=.75)
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  plot(plsrca.res$ly[,1],plsrca.res_regressed$ly[,1],bg=add.alpha(ind.cols,.5), col=add.alpha("grey80",.5),pch=21,xlab="Original LY 1",ylab="Residualized LY 1")
+  plot(plsrca.res$ly[,1],plsrca.res_regressed$ly[,1],bg=prettyGraphs::add.alpha(ind.cols,.5), col=prettyGraphs::add.alpha("grey80",.5),pch=21,xlab="Original LY 1",ylab="Residualized LY 1")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
     
   par(par.opts)
@@ -676,22 +691,22 @@ Finally, we interpret the results of residualized analyses (limited to the first
   colnames(age.doubled) <- c('AGE-','AGE+')
   edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT[-c(drop.rows)]),norm.to.one = T)
   colnames(edu.thermometer) <- c('EDU-','EDU+')
-  beh.brain.confounds <- cbind(makeNominalData(as.matrix(TADPOLE.fin[-c(drop.rows),c("PTGENDER")])),age.doubled,edu.thermometer)
+  beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[-c(drop.rows),c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
   rownames(beh.brain.confounds) <- rownames(TADPOLE.fin)[-c(drop.rows)]
   
     ## this puts it back into its oritingal space, but we can't guarantee that that will be orthgonal
-   regress.uptake.pls <- plsrca(beh.brain.confounds,CTX.uptake_drop)
+   regress.uptake.pls <- plsca_reg(beh.brain.confounds,CTX.uptake_drop)
   
   gene.confounds <- as.matrix(TADPOLE.fin[rownames(genetic.nom_drop),c("PTETHCAT","PTRACCAT","PTGENDER")])
   gene.confounds <- gsub("Unknown",NA,gene.confounds)
-  gene.confounds.nom <- makeNominalData(gene.confounds)
+  gene.confounds.nom <- make_data_disjunctive(gene.confounds)
   colnames(gene.confounds.nom) <- gsub("PTGENDER","SEX",gsub("PTETHCAT","ETH",gsub("PTRACCAT","RACE",colnames(gene.confounds.nom))))
   
-  regress.genes.drop.pls <- plsrca(gene.confounds.nom,genetic.nom_drop)
+  regress.genes.drop.pls <- plsca_reg(gene.confounds.nom,genetic.nom_drop)
   
   
-  big.plsrca.res <- plsrca(regress.uptake.pls$Y.resid,regress.genes.drop.pls$Y.resid)
+  big.plsrca.res <- plsca_reg(regress.uptake.pls$Y.resid,regress.genes.drop.pls$Y.resid)
    
 ```
 
@@ -700,30 +715,30 @@ In this final example we make use of all the features of PLS-CA-R: an example wi
 ```{r echo=F,results="asis",fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:brain_genotypes_ex2} PLS-CA-R to predict genotypes from amyloid burden (\"AV45 uptake\"). The top figure (A) shows the latent variable scores for the observations on the first latent variable with group averages. The bottom figures (B) and (C) show the amyloid burden in cortical regions and the genotypes, respecively. In (A) we see a gradient from the Alzheimer's Disease (AD) group to the control (CON) group. Only items with above expected contribution to variance on the first LV are highlighed in purple.",fig.pos = "!hbtp"}
   par.opts <- par(no.readonly = T)
 
-  big.fi.show <- which((big.plsrca.res$u.matrix[,1]^2) > (1/nrow(big.plsrca.res$fi.a.matrix)))
-  big.fj.show <- which((big.plsrca.res$v.matrix[,1]^2) > (1/ncol(genetic.nom)))
+  big.fi.show <- which((big.plsrca.res$u[,1]^2) > (1/nrow(big.plsrca.res$fi)))
+  big.fj.show <- which((big.plsrca.res$v[,1]^2) > (1/ncol(genetic.nom)))
 
-  big.fi.cols <- rep(add.alpha("grey80",.6),nrow(big.plsrca.res$u.matrix))
+  big.fi.cols <- rep(prettyGraphs::add.alpha("grey80",.6),nrow(big.plsrca.res$u))
     big.fi.cols[big.fi.show] <- "mediumorchid4"
-  big.fj.cols <- rep(add.alpha("grey80",.6),nrow(big.plsrca.res$v.matrix))
+  big.fj.cols <- rep(prettyGraphs::add.alpha("grey80",.6),nrow(big.plsrca.res$v))
     big.fj.cols[big.fj.show] <- "mediumorchid4"
   
     
   layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
   
-  sp.latentvar_plot(big.plsrca.res, display_names = F, bg=add.alpha(ind.cols[rownames(big.plsrca.res$lx)],.5),col=add.alpha("grey80",.5),pch=21)
+  sp.latentvar_plot(big.plsrca.res, display_names = F, bg=prettyGraphs::add.alpha(ind.cols[rownames(big.plsrca.res$lx)],.5),col=prettyGraphs::add.alpha("grey80",.5),pch=21)
   big.Lv1.grps <- t(W.DESIGN[rownames(big.plsrca.res$lx),]) %*% cbind(big.plsrca.res$lx[,1],big.plsrca.res$ly[,1])
-  points(big.Lv1.grps,col=add.alpha("black",.6),pch=18,cex=3.35)
+  points(big.Lv1.grps,col=prettyGraphs::add.alpha("black",.6),pch=18,cex=3.35)
   points(big.Lv1.grps,col=grp.cols,pch=18,cex=3)
   legend("topleft",legend=c("CN","SMC","EMCI","LMCI","AD"),pch=18,col=grp.cols[c("CN","SMC","EMCI","LMCI","AD")],text.col = grp.cols[c("CN","SMC","EMCI","LMCI","AD")], cex=.75)
   mtext(paste0("(A)"), side = 3, adj = 0,line=0.75,cex=1.5)
 
-  component.plot(big.plsrca.res$fi.a.matrix,cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
-  thigmophobe.labels(big.plsrca.res$fi.a.matrix[big.fi.show,1],big.plsrca.res$fi.a.matrix[big.fi.show,2],labels=rownames(big.plsrca.res$fi.a.matrix)[big.fi.show],col="mediumorchid4",cex=.5)
+  ours::component.plot(big.plsrca.res$fi %*% diag(1/big.plsrca.res$d),cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
+  thigmophobe.labels(big.plsrca.res$fi[big.fi.show,1] / big.plsrca.res$d[1], big.plsrca.res$fi[big.fi.show,2] / big.plsrca.res$d[2], labels=rownames(big.plsrca.res$fi)[big.fi.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(B)"), side = 3, adj = 0,line=0.75,cex=1.5)
   
-  component.plot(big.plsrca.res$fj.a.matrix,display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
-  thigmophobe.labels(big.plsrca.res$fj.a.matrix[big.fj.show,1],big.plsrca.res$fj.a.matrix[big.fj.show,2],labels=rownames(big.plsrca.res$fj.a.matrix)[big.fj.show],col="mediumorchid4",cex=.5)
+  ours::component.plot(big.plsrca.res$fj %*% diag(1/big.plsrca.res$d),display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
+  thigmophobe.labels(big.plsrca.res$fj[big.fj.show,1] / big.plsrca.res$d[1], big.plsrca.res$fj[big.fj.show,2] / big.plsrca.res$d[2], labels=rownames(big.plsrca.res$fj)[big.fj.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(C)"), side = 3, adj = 0,line=0.75,cex=1.5)
   
   par(par.opts)

@@ -215,6 +215,13 @@ gpls_reg <- function(X, Y,
   Y_residual <- Y - Y_reconstructed
 
 
+  rownames(tx) <- rownames(lx)
+  rownames(X_reconstructeds) <- rownames(X_residuals) <- rownames(X)
+  rownames(u_hat) <- colnames(X_reconstructeds) <- colnames(X_residuals) <- colnames(X)
+  rownames(Y_reconstructed) <- rownames(Y_residual) <- rownames(Y_reconstructeds) <- rownames(Y_residuals) <- rownames(Y)
+  colnames(Y_reconstructed) <- colnames(Y_residual) <- colnames(Y_reconstructeds) <- colnames(Y_residuals) <- colnames(Y)
+
+
   return( list(
     d = d, u = u, v = v, lx = lx, ly = ly,
     p = p, q = q, fi = fi, fj = fj,
