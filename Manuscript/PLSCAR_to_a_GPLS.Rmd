@@ -27,7 +27,7 @@ keywords:
 - canonical correlation analysis
 
 abstract: |
-  The present and future of large scale studies of human brain and behavior---in typical and disease populations---is "mutli-omics" and "deep-phenotyping". These studies rely on highly interdisciplinary teams that collect extremely diverse types of data across numerous systems and scales of measurement (e.g., genetics, brain structure, and behavior). Such large, complex, and heterogeneous data requires relatively simple methods that allow for flexibility in analyses without the loss of the inherent properties of various data types. Here we introduce a method specifically designed for these problems: partial least squares-correspondence analysis-regression (PLS-CA-R). PLS-CA-R generalizes PLS regression for use with virtually any data type (e.g., continuous, ordinal, categorical, non-negative values), and more broadly generalizes many of the routine "two-table" multivariate techniques such as various PLS approaches, canonical correlation analysis, and redundancy analysis (a.k.a. reduced rank regression).
+  The present and future of large scale studies of human brain and behavior---in typical and disease populations---is "mutli-omics", "deep-phenotyping", or other types of multi-source and multi-domain data collection initiatives. These studies rely on highly interdisciplinary teams that collect extremely diverse types of data across numerous systems and scales of measurement (e.g., genetics, brain structure, behavior, and demographics). Such large, complex, and heterogeneous data requires relatively simple methods that allow for flexibility in analyses without the loss of the inherent properties of various data types. Here we introduce a method specifically designed for these problems: partial least squares-correspondence analysis-regression (PLS-CA-R). PLS-CA-R generalizes PLS regression for use with virtually any data type (e.g., continuous, ordinal, categorical, non-negative values). Additionally, we expand upon the bases of PLS-CA-R in order to show a broader generalization many of the routine "two-table" multivariate techniques and their respective algorithms, such as various PLS approaches, canonical correlation analysis, and redundancy analysis (a.k.a. reduced rank regression).
    
 bibliography: plscar.bib
 output: rticles::asa_article
@@ -55,7 +55,6 @@ library(GSVD)
 library(GPLS)
 library(corrplot)
 library(plotrix)
-# library(ours)
 library(dplyr)
 library(here)
 
@@ -63,8 +62,9 @@ load(paste0(Sys.getenv("DATA_DIR"),"TADPOLE.fin2.rda"))
 load(paste0(Sys.getenv("DATA_DIR"),"genetic.data.rda"))
 load(paste0(Sys.getenv("DATA_DIR"),"TADPOLE_Dict.fin2.rda"))
 
-source("./Code/supplemental_functions.R")
-source("./Code/data_prep_after_load.R")
+
+source("../Code/supplemental_functions.R")
+source("../Code/data_prep_after_load.R")
   
 ```
 
@@ -558,7 +558,7 @@ While the overall objective of this example is to understand the relationship be
   edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT))
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
-  colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
+  colnames(beh.brain.confounds) <- gsub("1\\.","",colnames(beh.brain.confounds))
   rownames(beh.brain.confounds) <- rownames(TADPOLE.fin)
   
   
@@ -591,9 +591,6 @@ While the overall objective of this example is to understand the relationship be
   names(mixed.X.colors) <- colnames(pre.mixed.X)
   mixed.X.colors[colnames(pre.mixed.X)[grep("\\+",colnames(pre.mixed.X))]] <- "mediumorchid4"
   
-  paaause()
-  
-  
 ```
 
 First we show the PLS-CA-R between each data set and their respective confounds. The main effects of age, sex, and education explained `r round(max(regress.beh.brain.pls$r2.y.cumulative)*100,digits=2)`% of the variance of the behavioral and brain data, where the main effects of sex, race, and ethnicity explained `r round(max(regress.genes.pls$r2.y.cumulative)*100,digits=2)`% of the variance of the genotypic data. The first two components of each analysis are shown in \ref{fig:confound_predictors_ex2}. In the brain and behavioral data, age explains a substantial amount of variance and effectively is Component 1. In the genotypic analysis, race is the primary explanatory effect; more specifically, the first two components are effectively explained by those that identify as black or African-American (Component 1) vs. those that identify as Asian, Native, Hawaiian, or Latino/Hispanic (Component 2). Both data sets were reconstituted (see Eq. \ref{eq:Yresid}) so that they were orthogonal to these confounds. 
@@ -617,6 +614,7 @@ Next we perform two analyses with the same goal: understand the relationship bet
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
+
   
 ```
 
@@ -637,10 +635,11 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a and c) vs.
   ours::component.plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regresse$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regressed$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
+  
 ```
 
 
@@ -664,6 +663,7 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a and c) vs.
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
     
   par(par.opts)
+  
 ```
 
 
@@ -706,7 +706,7 @@ Finally, we interpret the results of residualized analyses (limited to the first
   regress.genes.drop.pls <- plsca_reg(gene.confounds.nom,genetic.nom_drop)
   
   
-  big.plsrca.res <- plsca_reg(regress.uptake.pls$Y.resid,regress.genes.drop.pls$Y.resid)
+  big.plsrca.res <- plsca_reg(regress.uptake.pls$Y_residual,regress.genes.drop.pls$Y_residual)
    
 ```
 
@@ -742,6 +742,7 @@ In this final example we make use of all the features of PLS-CA-R: an example wi
   mtext(paste0("(C)"), side = 3, adj = 0,line=0.75,cex=1.5)
   
   par(par.opts)
+  
 ```
 
 
