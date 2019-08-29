@@ -109,6 +109,12 @@ pls_can <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scal
     gpls_can_results$Y_hats[,,i] <- gpls_can_results$Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
   }
 
+  rownames(gpls_can_results$X_hat) <- rownames(gpls_can_results$X_hats) <- rownames(X)
+  colnames(gpls_can_results$X_hat) <- colnames(gpls_can_results$X_hats) <- colnames(X)
+
+  rownames(gpls_can_results$Y_hat) <- rownames(gpls_can_results$Y_hats) <- rownames(Y)
+  colnames(gpls_can_results$Y_hat) <- colnames(gpls_can_results$Y_hats) <- colnames(Y)
+
   return(gpls_can_results)
 
 }

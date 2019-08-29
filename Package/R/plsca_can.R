@@ -90,6 +90,13 @@ plsca_can <- function(X, Y, components = 0, tol = .Machine$double.eps){
     gpls_can_results$Y_hats[,,i] <- (gpls_can_results$Y_reconstructeds[,,i] + Y_ca_preproc$E) * sum(Y)
   }
 
+
+  rownames(gpls_can_results$X_hat) <- rownames(gpls_can_results$X_residual) <- rownames(gpls_can_results$X_hats) <- rownames(X)
+  colnames(gpls_can_results$X_hat) <- colnames(gpls_can_results$X_residual) <- colnames(gpls_can_results$X_hats) <- colnames(X)
+
+  rownames(gpls_can_results$Y_hat) <- rownames(gpls_can_results$Y_residual) <- rownames(gpls_can_results$Y_hats) <- rownames(Y)
+  colnames(gpls_can_results$Y_hat) <- colnames(gpls_can_results$Y_residual) <- colnames(gpls_can_results$Y_hats) <- colnames(Y)
+
   return(gpls_can_results)
 
 

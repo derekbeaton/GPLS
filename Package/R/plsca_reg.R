@@ -72,6 +72,7 @@ plsca_reg <- function(X, Y, components = 0, tol = .Machine$double.eps){
                                YLW = diag(1/Y_ca_preproc$m), YRW = diag(1/Y_ca_preproc$w),
                                components = components, tol = tol)
 
+    ### not exactly the same residual as in PLS REG; should harmonize or check this.
   gpls_reg_results$Y_residual <- ((Y_ca_preproc$Z - gpls_reg_results$Y_reconstructed) + Y_ca_preproc$E) * sum(Y)
   gpls_reg_results$Y_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
 
@@ -82,6 +83,12 @@ plsca_reg <- function(X, Y, components = 0, tol = .Machine$double.eps){
      gpls_reg_results$X_hats[,,i] <- (gpls_reg_results$X_reconstructeds[,,i] + X_ca_preproc$E) * sum(X)
      gpls_reg_results$Y_hats[,,i] <- (gpls_reg_results$Y_reconstructeds[,,i] + Y_ca_preproc$E) * sum(Y)
   }
+
+  rownames(gpls_reg_results$X_hats) <- rownames(X)
+  colnames(gpls_reg_results$X_hats) <- colnames(X)
+
+  rownames(gpls_reg_results$Y_hat) <- rownames(gpls_reg_results$Y_residual) <- rownames(gpls_reg_results$Y_hats) <- rownames(Y)
+  colnames(gpls_reg_results$Y_hat) <- colnames(gpls_reg_results$Y_residual) <- colnames(gpls_reg_results$Y_hats) <- colnames(Y)
 
   return(gpls_reg_results)
 

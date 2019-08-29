@@ -539,7 +539,7 @@ While the overall objective of this example is to understand the relationship be
   cont.vals.doubled <- escofier_coding( cbind(TADPOLE.fin[,c("FDG_bl","AV45_bl","ADAS13_bl")],structural.norm),scale=T)
     
     ## could add MOCA
-  ord.vals.doubled <- thermometer_coding(TADPOLE.fin[,c("MOCA_bl","CDRSB_bl")],mins = c(0,0), maxs = c(30,9), norm.to.one = T)
+  ord.vals.doubled <- thermometer_coding(TADPOLE.fin[,c("MOCA_bl","CDRSB_bl")], mins = c(0,0), maxs = c(30,9))
   
 
   nom.vals <- make_data_disjunctive(as.matrix(TADPOLE.fin[,c("DX_bl")]))
@@ -555,7 +555,7 @@ While the overall objective of this example is to understand the relationship be
     #### NEED TO COME BACK TO THIS.
   age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
-  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT),norm.to.one = T)
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT))
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[,c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
@@ -573,8 +573,8 @@ While the overall objective of this example is to understand the relationship be
   
   
   ## regressed data.
-  mixed.X.resids <- regress.beh.brain.pls$Y.resid
-  genetic.resids <- regress.genes.pls$Y.resid
+  mixed.X.resids <- regress.beh.brain.pls$Y_residual
+  genetic.resids <- regress.genes.pls$Y_residual
   
   
   plsrca.res <- plsca_reg(pre.mixed.X,genetic.nom)
@@ -689,7 +689,7 @@ Finally, we interpret the results of residualized analyses (limited to the first
   
   age.doubled <- escofier_coding(as.matrix(TADPOLE.fin$AGE[-c(drop.rows)]),scale=T)
   colnames(age.doubled) <- c('AGE-','AGE+')
-  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT[-c(drop.rows)]),norm.to.one = T)
+  edu.thermometer <- thermometer_coding(as.matrix(TADPOLE.fin$PTEDUCAT[-c(drop.rows)]))
   colnames(edu.thermometer) <- c('EDU-','EDU+')
   beh.brain.confounds <- cbind(make_data_disjunctive(as.matrix(TADPOLE.fin[-c(drop.rows),c("PTGENDER")])),age.doubled,edu.thermometer)
   colnames(beh.brain.confounds) <- gsub("\\.","",colnames(beh.brain.confounds))
