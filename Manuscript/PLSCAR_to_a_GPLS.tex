@@ -86,18 +86,22 @@ data}
 \bigskip
 \begin{abstract}
 The present and future of large scale studies of human brain and
-behavior---in typical and disease populations---is ``mutli-omics'' and
-``deep-phenotyping''. These studies rely on highly interdisciplinary
-teams that collect extremely diverse types of data across numerous
-systems and scales of measurement (e.g., genetics, brain structure, and
-behavior). Such large, complex, and heterogeneous data requires
-relatively simple methods that allow for flexibility in analyses without
-the loss of the inherent properties of various data types. Here we
-introduce a method specifically designed for these problems: partial
-least squares-correspondence analysis-regression (PLS-CA-R). PLS-CA-R
-generalizes PLS regression for use with virtually any data type (e.g.,
-continuous, ordinal, categorical, non-negative values), and more broadly
-generalizes many of the routine ``two-table'' multivariate techniques
+behavior---in typical and disease populations---is ``mutli-omics'',
+``deep-phenotyping'', or other types of multi-source and multi-domain
+data collection initiatives. These massive studies rely on highly
+interdisciplinary teams that collect extremely diverse types of data
+across numerous systems and scales of measurement (e.g., genetics, brain
+structure, behavior, and demographics). Such large, complex, and
+heterogeneous data requires relatively simple methods that allow for
+flexibility in analyses without the loss of the inherent properties of
+various data types. Here we introduce a method designed specifically to
+address these problems: partial least squares-correspondence
+analysis-regression (PLS-CA-R). PLS-CA-R generalizes PLS regression for
+use with virtually any data type (e.g., continuous, ordinal,
+categorical, non-negative values). Though the primary emphasis here is
+on a PLS-regression approach generalized for data types, we also show
+that PLS-CA-R leads to additional generalizations of many routine
+``two-table'' multivariate techniques and their respective algorithms,
 such as various PLS approaches, canonical correlation analysis, and
 redundancy analysis (a.k.a. reduced rank regression).
 \end{abstract}
@@ -115,25 +119,28 @@ redundancy analysis (a.k.a. reduced rank regression).
 \label{section:Intro}
 
 Today's large scale and multi-site studies, such as the UK BioBank
-(\url{https://www.ukbiobank.ac.uk/}) and Rotterdam
-(\url{http://www.erasmus-epidemiology.nl/}) studies, collect population
-level data across numerous types and modalities, including but not
-limited to genetics, neurological, and various behavioral, clinical, and
-laboratory measures. Similarly, other types of large scale
-studies---typically those that emphasize diseases and
-disorders---collect more ``depth'' of data: many more modalities but on
-smaller samples; such as, the Ontario Neurodegenerative Disease Research
-Initiative (ONDRI) \citep{farhan_ontario_2016} which includes genetics,
-multiple modalities of brain imaging \citep{duchesne_canadian_2019}, and
-a wide array of behavioral, cognitive, clinical, and laboratory
-batteries, and many modalities ``between'' those, such as ocular
-imaging, gait \& balance \citep{montero-odasso_motor_2017-1}, eye
-tracking, and neuropathology data sets. Though such large samples (e.g.,
-UK BioBank) or depth of data on individuals (e.g., ONDRI) are necessary
-to understand typical and disordered samples and populations, few
-statistical and machine learning approaches exist that easily accomodate
-such large (whether ``big'' or ``wide''), complex, and heterogeneous
-data sets that also respect the inherent properties of such data.
+(\url{https://www.ukbiobank.ac.uk/}) and the Rotterdam study
+(\url{http://www.erasmus-epidemiology.nl/}), collect population level
+data across numerous types and modalities, including but not limited to
+genetics, neurological, and various behavioral, clinical, and laboratory
+measures. Similarly, other types of large scale studies---typically
+those that emphasize diseases and disorders---collect more ``depth'' of
+data for each participant: many measures and modalities on smaller
+samples. Some such studies include the Ontario Neurodegenerative Disease
+Research Initiative (ONDRI) \citep{farhan_ontario_2016} which includes
+genetics, multiple types of magnetic resonance brain imaging
+\citep{duchesne_canadian_2019}, a wide array of behavioral, cognitive,
+clinical, and laboratory batteries, as well as many modalities
+``between'' those, such as ocular imaging, gait \& balance
+\citep{montero-odasso_motor_2017-1}, eye tracking, and neuropathology.
+Though large samples (e.g., UK BioBank) and depth of data (e.g., ONDRI)
+are necessary to understand typical and disordered samples and
+populations, few statistical and machine learning approaches exist that
+easily accomodate such large (whether ``big'' or ``wide''), complex, and
+heterogeneous data sets that also respect the inherent properties of
+such data, while also accomodating numerous issues such as
+multi-collinearity and more variables than observations
+(``\(n << P\)'').
 
 In many cases, the mixture of data types results in sacrafices because
 of transformations or the use of incorrect assumptions. For example, to
