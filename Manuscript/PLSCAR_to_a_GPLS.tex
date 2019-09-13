@@ -198,11 +198,22 @@ and within a well-established framework.
 After we formalize and illustrate PLS-CA-R, we then show that the core
 of PLS-CA-R also works as a much more generalized framework, and we then
 go into detail on how PLS-CA-R provides the basis of more generalized
-PLS framework spans: multiple data types, multiple PLS algorithms
-(regression, canonical, and correlation approaches), various
-optmizations (e.g., covariance as in PLS or correlation as in canonical
-correlation), can incorporate various transformations for alternate
-metrics, and ridge-like regularization.
+PLS framework spans: multiple data types, various optmizations (e.g.,
+covariance as in PLS or correlation as in canonical correlation),
+various transformations for alternate metrics, and ridge-like
+regularization. Furthermore this framework spans multiple PLS
+algorithms. We place particular emphasis on three of the most commonly
+used PLS algorithms: (1) PLS ``correlation''---also known as PLSSVD
+(CITE) or Tucker's Interbattery Factor Analysis (CITE), (2) PLS
+``canonical'' (CITE), and (3) PLS ``regression''. PLS correlation is a
+symmetric method where neither data table plays a privileged (or
+predictive) role, and is performed with a single pass of the singular
+value decomposition (SVD). PLS canonical is also symmetric, but makes
+use of the SVD iteratively and deflates both data tables in each
+iteration. PLS regression is an asymmetric method where one data table
+is privileged (``predictors'') and also makes use of the SVD iteratively
+with deflation of both data tables. We discuss the particularities of
+these algorithms later in the paper.
 
 This paper is orgnized as follows. In Section \ref{section:PLSCAR} we
 introduce sufficient background for, and then formalize, PLS-CA-R. Next,
@@ -256,26 +267,29 @@ extracts the diagonal of a matrix and produces a vector.
 
 \label{section:GSVDCA}
 
-The GSVD generalizes the SVD wherein the GSVD decomposes a matrix as
-\({\mathbf A} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}\) but
+The GSVD generalizes the SVD wherein the GSVD decomposes a matrix
+\({\mathbf X}\) with \(I\) rows and \(J\) columns as
+\({\mathbf X} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}\) but
 under the constraints of
-\({\mathbf P}^{T}{\mathbf W}_{p}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{q}{\mathbf Q}\),
-where \({\mathbf A}\) is of rank \(M\) and \({\boldsymbol \Delta}\) is a
+\({\mathbf P}^{T}{\mathbf M}_{{\mathbf X}}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{{\mathbf X}}{\mathbf Q}\),
+where \({\mathbf X}\) is of rank \(M\) and \({\boldsymbol \Delta}\) is a
 \(M \times M\) diagonal matrix of singular values. With the GSVD,
 \({\mathbf P}\) and \({\mathbf Q}\) are referred to as the
 \emph{generalized} singular vectors. Practically, the GSVD is performed
 through the SVD as
-\(\widetilde{\mathbf A} = {\mathbf W}_{p}^{\frac{1}{2}}{\mathbf A}{\mathbf W}_{q}^{\frac{1}{2}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\),
+\(\widetilde{\mathbf X} = {\mathbf M}_{{\mathbf X}}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{{\mathbf X}}^{\frac{1}{2}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\),
 where the generalized singular vectors are computed from the singular
-vectors as \({\mathbf P} = {\mathbf W}_{p}^{-\frac{1}{2}}{\mathbf U}\)
-and \({\mathbf Q} = {\mathbf W}_{q}^{-\frac{1}{2}}{\mathbf V}\). For
-simplicity and brevity we will refer to the use of the GSVD through
+vectors as
+\({\mathbf P} = {\mathbf M}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
+and
+\({\mathbf Q} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf V}\).
+For simplicity and brevity we will refer to the use of the GSVD through
 ``triplet notation'' \citep{holmes_multivariate_2008} but in the form of
-\(\mathrm{GSVD(} {\mathbf W}_{p}, {\mathbf A}, {\mathbf W}_{q} \mathrm{)}\),
+\(\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf X}, {\mathbf W}_{{\mathbf X}} \mathrm{)}\),
 which is akin to how the multiplication steps work \citep[see
 also][]{beaton2018generalization}. The standard SVD is the GSVD but with
 identity matrices as the weights:
-\(\mathrm{GSVD(} {\mathbf I}, {\mathbf A}, {\mathbf I} \mathrm{)}\)
+\(\mathrm{GSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I} \mathrm{)}\)
 \citep[see also][]{takane_relationships_2003}.
 
 CA is a technique akin to PCA but initially designed for contingency and
@@ -298,9 +312,47 @@ We then define the \emph{expected} matrix as
 then compute the \emph{deviation} matrix as
 \({\mathbf Z}_{\mathbf A} = {\mathbf O}_{\mathbf A} - {\mathbf E}_{\mathbf A}\).
 Finally, we perform CA as
-\(\mathrm{GSVD(} {\mathbf W}_{I}, {\mathbf Z}_{\mathbf A}, {\mathbf W}_{J} \mathrm{)}\)
+\(\mathrm{GSVD(} {\mathbf W}_{I}^{-1}, {\mathbf Z}_{\mathbf A}, {\mathbf W}_{J}^{-1} \mathrm{)}\)
 with the \emph{weights} of
-\({\mathbf W}_{I} = \mathrm{diag\{} {\mathbf w}_{I}^{-1} \mathrm{\}} \text{ and } {\mathbf W}_{J} = \mathrm{diag\{} {\mathbf w}_{J}^{-1} \mathrm{\}}\).
+\({\mathbf W}_{I} = \mathrm{diag\{} {\mathbf w}_{I} \mathrm{\}} \text{ and } {\mathbf W}_{J} = \mathrm{diag\{} {\mathbf w}_{J} \mathrm{\}}\).
+
+We now introduce an extension of the GSVD and its triplet concept for
+PLS, called the ``GPLSSVD sextuplet'' in the form of
+\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}\).
+Like with the GSVD let us refer to
+\(\widetilde{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
+and
+\(\widetilde{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
+The GPLSSVD also makes use of the SVD wherein
+\({\mathbf R} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = \widetilde{\mathbf{X}}^{T}\widetilde{\mathbf{Y}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
+The GPLSSVD generalized singular vectors are computed as
+\({\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
+and
+\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\).
+The GPLSSVD also produces latent variables
+\({\mathbf L}_{\mathbf X} = {\mathbf X}{\mathbf U}\) and
+\({\mathbf L}_{\mathbf Y} = {\mathbf X}{\mathbf V}\) where
+\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\).
+By its definition, the maximization of the latent variables (i.e.,
+\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\))
+is the same as PLS correlation (CITE, CITE), also known as PLSSVD (CITE)
+or Tucker's interbattery factor analysis (CITE); specifically,
+\(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Y}, {\mathbf I} \mathrm{)}\)
+is base version of PLS correlation (a.k.a. PLSSVD or Tucker's approach).
+All other properties (e.g., orthogonality) of the SVD and GSVD exist for
+the GPLSSVD.
+
+Finally, we also introduce a small modification of the ``triplet'' and
+``sextuplet'' notations as a ``quadruplet'' and a ``septuplet'' that
+indicate the desired rank to be returned by the GSVD or GPLSSVD. For
+example, if we want only one component from either approach we would
+indicate the desired rank to return as
+\(\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf X}, {\mathbf W}_{{\mathbf X}}, 1 \mathrm{)}\)
+and
+\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Y}, {\mathbf W}_{\mathbf Y}, 1 \mathrm{)}\).
+Both the GSVD and GPLSSVD in these cases would return only 1 pair of
+singular (and genearlized) vectors and one singular value; for GPLSSVD
+it would return only one pair of latent variables.
 
 \begin{table}[!h]
 
@@ -329,13 +381,10 @@ SUBJ 6 & Female & 66.7 & 14 & 0 & 1 & 0.90 & 0.10 & 0.50 & 0.50\\
 \label{section:plscar_form}
 
 For simplicity assume in the following formulation that \({\mathbf X}\)
-and \({\mathbf Y}\) are both disjunctive, pseudo-disjunctive (i.e.,
-thermometer coding or Escofier coding; see
-\citet{escofier_traitement_1979}, \citet{beaton_partial_2016}, and
-\citet{beaton2018generalization} for background and later sections) as
-seen in Table \ref{table:disj}. This formulation also applies generally
-to non-negative data (see later sections). We define observed matrices
-for \({\mathbf X}\) and \({\mathbf Y}\) as
+and \({\mathbf Y}\) are both disjunctive as seen in Table
+\ref{table:disj}. This formulation also applies generally to
+non-negative data (see later sections). We define observed matrices for
+\({\mathbf X}\) and \({\mathbf Y}\) as
 
 \begin{equation}
 \begin{aligned}
@@ -357,105 +406,55 @@ columns. We compute row probabilities as \begin{equation}
 \begin{equation}
 {\mathbf E}_{\mathbf X} = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T} \text{ and } {\mathbf E}_{\mathbf Y} = {\mathbf m}_{\mathbf Y}{\mathbf w}_{\mathbf Y}^{T},
 \label{eq:models}
-\end{equation} and weighted deviation matrices as \begin{equation}
-{\mathbf Z}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{-\frac{1}{2}} ({\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}) \text{ and } {\mathbf Z}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}({\mathbf O}_{\mathbf Y} - {\mathbf E}_{\mathbf Y}),
+\end{equation} and deviation matrices as \begin{equation}
+{\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X} \text{ and } {\mathbf Z}_{\mathbf Y} = {\mathbf O}_{\mathbf Y} - {\mathbf E}_{\mathbf Y},
 \label{eq:plscar_Zs}
 \end{equation}
 
-There exists three scenarios to consider for how to choose the most
-appropriate weight computations. All three weight computation scenarios
-come from standard CA or multiple factor analysis (MFA)
-\citep{abdi_multiple_2013, escofier_multiple_1994} approaches: (1) both
-\({\mathbf X}\) and \({\mathbf Y}\) are completely disjunctive or
-pseudo-disjunctive, (2) both \({\mathbf X}\) and \({\mathbf Y}\) contain
-at least one non-disjunctive variable, and (3) \({\mathbf X}\) is
-completely disjunctive or pseudo-disjunctive and \({\mathbf Y}\)
-contains at least one non-disjunctive variable (or vice versa). For
-scenario (1) both the CA-style and MFA-style weights are identical where
-\({\mathbf w}_{J} = {\mathbf O}_{\mathbf R}{\mathbf 1} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\)
+For PLS-CA-R we have two matrices, \({\mathbf Z}_{\mathbf X}\) which is
+\(I \times J\) and \({\mathbf Z}_{\mathbf Y}\) which is \(I \times K\),
+and with their respective row and column weights:
+\({\mathbf M}_{\mathbf X} = \mathrm{diag\{}{\mathbf m}_{\mathbf X} \mathrm{\}}\),
+\({\mathbf M}_{\mathbf Y} = \mathrm{diag\{}{\mathbf m}_{\mathbf Y} \mathrm{\}}\),
+\({\mathbf W}_{\mathbf X} = \mathrm{diag\{}{\mathbf w}_{\mathbf X} \mathrm{\}}\),
 and
-\({\mathbf w}_{K} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf R})^{T} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T}\).
-For scenario (2) we recommend only using the MFA-style weights where
-\({\mathbf w}_{J} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\) and
-\({\mathbf w}_{K} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T}\). For
-scenario (3) let us assume that \({\mathbf X}\) is completely
-disjunctive or pseudo-disjunctive and \({\mathbf Y}\) contains at least
-one non-disjunctive variable. The CA-style and MFA-style weights are
-equivalent for the \(K\) variables of \({\mathbf Y}\) where
-\({\mathbf w}_{K} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf R})^{T} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T}\),
-but CA-style weights and MFA-style weights differ for the \(J\)
-variables of \({\mathbf X}\) and thus a choice must be made between
-\({\mathbf w}_{J} = {\mathbf O}_{\mathbf R}{\mathbf 1}\) or
-\({\mathbf w}_{J} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\). If a
-table contains a mixture of counts/otherwise non-negatives (e.g.,
-decimals) and disjunctive (or pseudo-disjunctive) then we recommend
-re-normalizing each column vector of counts to the total number of rows,
-so that the weights do not become excessively large or small by
-comparison to all other variables (each of which have a summed weight of
-\(I\)), though expertise and knowledge of the problem should be used
-when such making such decisions. The opposite is true when the
-properties of \({\mathbf X}\) and \({\mathbf Y}\) are switched. We
-recommend MFA-style weights as the default, however, in many practical
-cases the CA-style and MFA-style negligibly differ if at all. Thus, for
-the weights we select one of the scenarios from above and define weights
-for the GSVD as \begin{equation}
-{\mathbf W}_{J} =  \mathrm{diag\{} {\mathbf w}_{J}^{-1} \mathrm{\}} \text{ and } {\mathbf W}_{K} = \mathrm{diag\{} {\mathbf w}_{K}^{-1} \mathrm{\}}.
-\label{eq:genweights}
-\end{equation}
+\({\mathbf W}_{\mathbf Y} = \mathrm{diag\{}{\mathbf w}_{\mathbf Y} \mathrm{\}}\).
+PLS-CA-R makes use of the rank 1 GPLSSVD
+iteratively---\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}\)---and
+works as follows. For PLS-CA-R we have
+\(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}}\)
+and
+\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}\)
 
-PLS-CA-R makes use of the GSVD iteratively. In each step of PLS-CA-R we
-use only a rank 1 model via the GSVD. For PLS-CA-R we have two matrices:
-\({\mathbf Z}_{\mathbf X}\) which is \(I \times J\) and
-\({\mathbf Z}_{\mathbf Y}\) which is \(I \times K\). First we compute
-the cross-product between \({\mathbf Z}_{\mathbf X}\) and
-\({\mathbf Z}_{\mathbf Y}\) as
-\({\mathbf Z}_{\mathbf R} = {\mathbf Z}_{\mathbf X}^{T}{\mathbf Z}_{\mathbf Y}\)
-and decompose \({\mathbf Z}_{\mathbf R}\) as
-\(\mathrm{GSVD(} {\mathbf W}_{J}, {\mathbf Z}_{\mathbf R}, {\mathbf W}_{K} \mathrm{)}\)
-where
-
-\begin{equation}
-{\mathbf Z}_{\mathbf R} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T},
-\end{equation} where
-\({\boldsymbol \delta} = \mathrm{diag\{} {\boldsymbol \Delta} \mathrm{\}}\).
-We then compute the latent variables as \begin{equation}
+First we compute the weighted cross-product between
+\(\widetilde{\mathbf Z}_{\mathbf X}\) and
+\(\widetilde{\mathbf Z}_{\mathbf Y}\) as
+\({\mathbf Z}_{\mathbf R} = \widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\),
+where \begin{equation}
+{\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}.
+\label{eq:the_svd_for_plscar}
+\end{equation} Given that we make use of the rank 1 solution iteratively
+we have \(\delta\) as the first singular value, \({\mathbf u}\) as the
+first left singular vector, and \({\mathbf v}\) as the first right
+singular vector from Eq. \label{eq:the_svd_for_plscar}. We then compute
+the latent variables as \begin{equation}
 \begin{aligned}
-{\boldsymbol \ell}_{\mathbf X} = {\mathbf Z}_{\mathbf X}{\mathbf W}_{J}{\mathbf p} \text{ and } {\boldsymbol \ell}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y}{\mathbf W}_{K}{\mathbf q},
+{\boldsymbol \ell}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf u} \text{ and } {\boldsymbol \ell}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf v},
 \label{eq:lvs}
 \end{aligned}
-\end{equation} where \({\mathbf p}\) and \({\mathbf q}\) are the first
-pair of generalized singular values from \({\mathbf P}\) and
-\({\mathbf Q}\), respectively. We then compute a normalized version of
+\end{equation} We then compute a normalized version of
 \({\boldsymbol \ell}_{\mathbf X}\) as
 \({\mathbf t} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}\).
-In PLS-CA-R, just like in PLS-R and OLS, we compute regression
-coefficients akin to \(\beta\) as
+We then compute the component coefficient as
 \(b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}\). Next we compute
-the loadings associated with \({\mathbf Z}_{\mathbf X}\) as
-\(\widehat{\mathbf p} = {\mathbf Z}_{\mathbf X}^{T}{\mathbf t}\). We
-refer to the loadings from the rank 1 GSVD associated with
-\({\mathbf Z}_{\mathbf X}\) and \({\mathbf Z}_{\mathbf Y}\) respectively
-as \(\widetilde{\mathbf p}\) and \(\widetilde{\mathbf q}\) where
-\(\widetilde{\mathbf p} = {\mathbf p}\) and
-\(\widetilde{\mathbf q} = {\mathbf q}\); likewise
-\(\widetilde{\delta} = {\boldsymbol \delta}_{1}\). Penultimately, we
-compute rank 1 predicted versions of \({\mathbf Z}_{\mathbf X}\) and
+the predicted loadings of \({\mathbf Z}_{\mathbf X}\) as
+\(\widehat{\mathbf u} = {\mathbf t}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\).
+We then compute rank 1 predicted versions of \({\mathbf Z}_{\mathbf X}\)
+and \({\mathbf Z}_{\mathbf Y}\) as
+\(\widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}} \text{ and } \widehat{\mathbf Z}_{{\mathbf Y},1} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}\widetilde{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
+
+Finally, we deflate \({\mathbf Z}_{\mathbf X}\) and
 \({\mathbf Z}_{\mathbf Y}\) as
-\(\widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf t}\widehat{\mathbf p}^{T} \text{ and } \widehat{\mathbf Z}_{{\mathbf Y},1} = b{\mathbf t}\widetilde{\mathbf q}^{T}\).
-At this point we can compute the variance explained in \({\bf Y}\) by
-\({\bf X}\) for each rank 1 model. We refer to the sum of the
-eigenvalues (i.e., trace) from CA for \({\bf X}\) and \({\bf Y}\) as
-\({\phi}_{\bf X}\) and \({\phi}_{\bf Y}\), respectively. We compute the
-sum of the eigenvalues for
-\(\mathrm{GSVD(} \mathrm{diag\{} {\mathbf m}_{\bf X}^{-1} \mathrm{\}}, {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}, \mathrm{diag\{} {\mathbf w}_{\bf X}^{-1}\mathrm{\}} \mathrm{)}\)
-and
-\(\mathrm{GSVD(} \mathrm{diag\{} {\mathbf m}_{\bf Y}^{-1} \mathrm{\}}, {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}, \mathrm{diag\{} {\mathbf w}_{\bf Y}^{-1}\mathrm{\}} \mathrm{)}\)
-and refer to them as \({\phi}_{{\bf X},1}\) and \({\phi}_{{\bf Y},1}\),
-respectively. The explained variances for the rank 1 model is
-\(\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},1}}{{\phi}_{\bf X}}\) and
-\(\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},1}}{{\phi}_{\bf Y}}\). Finally,
-we deflate \({\mathbf Z}_{\mathbf X}\) and \({\mathbf Z}_{\mathbf Y}\)
-as
 \({\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}\)
 and
 \({\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}\).
