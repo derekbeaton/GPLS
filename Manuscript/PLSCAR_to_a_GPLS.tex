@@ -262,10 +262,13 @@ denotes the Moore-Penrose pseudo-inverse. The diagonal operation,
 \(\mathrm{diag\{\}}\), transforms a vector into a diagonal matrix, or
 extracts the diagonal of a matrix and produces a vector.
 
-\hypertarget{the-gsvd-ca-and-gplssvd}{%
-\subsection{The GSVD, CA, and GPLSSVD}\label{the-gsvd-ca-and-gplssvd}}
+\hypertarget{the-svd-gsvd-ca-and-gplssvd}{%
+\subsection{The SVD, GSVD, CA, and
+GPLSSVD}\label{the-svd-gsvd-ca-and-gplssvd}}
 
 \label{section:GSVDCA}
+
+{[}Explain SVD here\ldots{}{]}
 
 The GSVD generalizes the SVD wherein the GSVD decomposes a matrix
 \({\mathbf X}\) with \(I\) rows and \(J\) columns as
@@ -283,6 +286,12 @@ vectors as
 \({\mathbf P} = {\mathbf M}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
 and
 \({\mathbf Q} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf V}\).
+From the weights, generalized singular vectors, and singular values we
+can obtain component (a.k.a. factor) scores as
+\({\mathbf F}_{I} = {\mathbf M}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
+and
+\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf Q}{\boldsymbol \Delta}\)
+for the \(I\) rows and \(J\) columns of \({\mathbf X}\), respectively.
 For simplicity and brevity we will refer to the use of the GSVD through
 ``triplet notation'' \citep{holmes_multivariate_2008} but in the form of
 \(\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf X}, {\mathbf W}_{{\mathbf X}} \mathrm{)}\),
@@ -290,7 +299,10 @@ which is akin to how the multiplication steps work \citep[see
 also][]{beaton2018generalization}. The standard SVD is the GSVD but with
 identity matrices as the weights:
 \(\mathrm{GSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I} \mathrm{)}\)
-\citep[see also][]{takane_relationships_2003}.
+\citep[see also][]{takane_relationships_2003}, and thus if
+\({\mathbf X}\) were column-wise centered and/or normalized then
+\(\mathrm{GSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I} \mathrm{)}\) is
+principal components analysis (PCA).
 
 CA is a technique akin to PCA but initially designed for contingency and
 nominal data and operates under the assumption of indepdence (i.e., akin
@@ -317,30 +329,43 @@ with the \emph{weights} of
 \({\mathbf W}_{I} = \mathrm{diag\{} {\mathbf w}_{I} \mathrm{\}} \text{ and } {\mathbf W}_{J} = \mathrm{diag\{} {\mathbf w}_{J} \mathrm{\}}\).
 
 We now introduce an extension of the GSVD and its triplet concept for
-PLS, called the ``GPLSSVD sextuplet'' in the form of
+PLS, called the ``GPLSSVD sextuplet'' to decompose the the relationship
+between two matrices each with \(I\) rows: \({\mathbf X}\) with \(J\)
+columns and \({\mathbf Y}\) with \(K\) columns. The ``GPLSSVD
+sextuplet'' takes the form of
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}\).
 Like with the GSVD let us refer to
 \(\widetilde{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
 and
 \(\widetilde{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
-The GPLSSVD also makes use of the SVD wherein
-\({\mathbf R} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = \widetilde{\mathbf{X}}^{T}\widetilde{\mathbf{Y}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
-The GPLSSVD generalized singular vectors are computed as
+The GPLSSVD makes use of the SVD wherein
+\({\mathbf R} = \widetilde{\mathbf{X}}^{T}\widetilde{\mathbf{Y}} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
+The GPLSSVD generalized singular vectors and component scores are
+computed as
 \({\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
 and
-\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\).
-The GPLSSVD also produces latent variables
-\({\mathbf L}_{\mathbf X} = {\mathbf X}{\mathbf U}\) and
+\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
+for the \(J\) columns of \({\mathbf X}\), and
+\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\)
+and
+\({\mathbf F}_{K} = {\mathbf W}_{{\mathbf Y}}{\mathbf Q}{\boldsymbol \Delta}\)
+for the \(K\) columns of \({\mathbf Y}\). The GPLSSVD also produces
+scores for the \(I\) rows of each matrix---usually called latent
+variables---as \({\mathbf L}_{\mathbf X} = {\mathbf X}{\mathbf U}\) and
 \({\mathbf L}_{\mathbf Y} = {\mathbf X}{\mathbf V}\) where
 \({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\).
 By its definition, the maximization of the latent variables (i.e.,
 \({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\))
-is the same as PLS correlation (CITE, CITE), also known as PLSSVD (CITE)
-or Tucker's interbattery factor analysis (CITE); specifically,
+is the same as PLS correlation
+\citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996},
+also known as PLSSVD \citep{tenenhaus_regression_1998} and originally as
+Tucker's interbattery factor analysis \citep{tucker_inter-battery_1958}.
+Specifically, if \({\mathbf X}\) and \({\mathbf Y}\) were each
+column-wise centered and/or normalized, then
 \(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Y}, {\mathbf I} \mathrm{)}\)
-is base version of PLS correlation (a.k.a. PLSSVD or Tucker's approach).
-All other properties (e.g., orthogonality) of the SVD and GSVD exist for
-the GPLSSVD.
+is PLS correlation (a.k.a. PLSSVD or Tucker's approach). All other
+properties (e.g., orthogonality) of the SVD and GSVD exist for the
+GPLSSVD.
 
 Finally, we also introduce a small modification of the ``triplet'' and
 ``sextuplet'' notations as a ``quadruplet'' and a ``septuplet'' that
@@ -350,9 +375,10 @@ indicate the desired rank to return as
 \(\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf X}, {\mathbf W}_{{\mathbf X}}, 1 \mathrm{)}\)
 and
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Y}, {\mathbf W}_{\mathbf Y}, 1 \mathrm{)}\).
-Both the GSVD and GPLSSVD in these cases would return only 1 pair of
-singular (and genearlized) vectors and one singular value; for GPLSSVD
-it would return only one pair of latent variables.
+Both the GSVD and GPLSSVD in these cases would return only one set of
+singular vectors, generalized singular vectors, and component scores,
+and one singular value; for GPLSSVD it would return only one pair of
+latent variables.
 
 \begin{table}[!h]
 
@@ -362,7 +388,9 @@ it would return only one pair of latent variables.
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Original coding} & \multicolumn{6}{c}{Disjunctive and pseudo-disjunctive coding} \\
 \cmidrule(l{2pt}r{2pt}){2-4} \cmidrule(l{2pt}r{2pt}){5-10}
-  & SEX & AGE & EDU & 1Male & 1Female & AGE- & AGE+ & EDU- & EDU+\\
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{SEX} & \multicolumn{2}{c}{AGE} & \multicolumn{2}{c}{EDU} \\
+\cmidrule(l{2pt}r{2pt}){5-6} \cmidrule(l{2pt}r{2pt}){7-8} \cmidrule(l{2pt}r{2pt}){9-10}
+  & SEX & AGE & EDU & Male & Female & AGE- & AGE+ & EDU- & EDU+\\
 \midrule
 SUBJ 1 & Male & 64.8 & 16 & 1 & 0 & 1.03 & -0.03 & 0.33 & 0.67\\
 SUBJ 2 & Female & 63.6 & 18 & 0 & 1 & 1.11 & -0.11 & 0.17 & 0.83\\
@@ -381,8 +409,9 @@ SUBJ 6 & Female & 66.7 & 14 & 0 & 1 & 0.90 & 0.10 & 0.50 & 0.50\\
 \label{section:plscar_form}
 
 For simplicity assume in the following formulation that \({\mathbf X}\)
-and \({\mathbf Y}\) are both disjunctive as seen in Table
-\ref{table:disj}. This formulation also applies generally to
+and \({\mathbf Y}\) are both complete disjunctive tables as seen in
+Table \ref{table:disj} (see SEX columns) or Table
+\ref{table:snps_models_disj}. This formulation also applies generally to
 non-negative data (see later sections). We define observed matrices for
 \({\mathbf X}\) and \({\mathbf Y}\) as
 
@@ -402,7 +431,7 @@ columns. We compute row probabilities as \begin{equation}
 {\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T} \text{ and } {\mathbf w}_{\mathbf Y} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T},
 \label{eq:weightmats_v1}
 \end{equation} which are the column sums of the observed matrices in Eq.
-\ref{eq:observedXY}. We then define \emph{expected} matrices as
+\ref{eq:observedXY}. We then define expected matrices as
 \begin{equation}
 {\mathbf E}_{\mathbf X} = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T} \text{ and } {\mathbf E}_{\mathbf Y} = {\mathbf m}_{\mathbf Y}{\mathbf w}_{\mathbf Y}^{T},
 \label{eq:models}
@@ -413,7 +442,7 @@ columns. We compute row probabilities as \begin{equation}
 
 For PLS-CA-R we have two matrices, \({\mathbf Z}_{\mathbf X}\) which is
 \(I \times J\) and \({\mathbf Z}_{\mathbf Y}\) which is \(I \times K\),
-and with their respective row and column weights:
+and their respective row and column weights of
 \({\mathbf M}_{\mathbf X} = \mathrm{diag\{}{\mathbf m}_{\mathbf X} \mathrm{\}}\),
 \({\mathbf M}_{\mathbf Y} = \mathrm{diag\{}{\mathbf m}_{\mathbf Y} \mathrm{\}}\),
 \({\mathbf W}_{\mathbf X} = \mathrm{diag\{}{\mathbf w}_{\mathbf X} \mathrm{\}}\),
@@ -421,76 +450,76 @@ and
 \({\mathbf W}_{\mathbf Y} = \mathrm{diag\{}{\mathbf w}_{\mathbf Y} \mathrm{\}}\).
 PLS-CA-R makes use of the rank 1 GPLSSVD
 iteratively---\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}\)---and
-works as follows. For PLS-CA-R we have
+works as follows.
+
+First we have
 \(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}}\)
 and
-\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}\)
-
-First we compute the weighted cross-product between
+\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}\).
+Then we compute the cross-product between
 \(\widetilde{\mathbf Z}_{\mathbf X}\) and
 \(\widetilde{\mathbf Z}_{\mathbf Y}\) as
 \({\mathbf Z}_{\mathbf R} = \widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\),
 where \begin{equation}
 {\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}.
 \label{eq:the_svd_for_plscar}
-\end{equation} Given that we make use of the rank 1 solution iteratively
-we have \(\delta\) as the first singular value, \({\mathbf u}\) as the
-first left singular vector, and \({\mathbf v}\) as the first right
-singular vector from Eq. \label{eq:the_svd_for_plscar}. We then compute
-the latent variables as \begin{equation}
+\end{equation} Because we make use of the rank 1 solution iteratively,
+we only the first vectors and values from Eq.
+\ref{eq:the_svd_for_plscar}. Thus we distinguish what we retain as
+\(\tilde\delta\), \(\widetilde{\mathbf u}\), \(\widetilde{\mathbf v}\),
+\(\widetilde{\mathbf p}\), \(\widetilde{\mathbf q}\), and
+\(\widetilde{\mathbf f}_{J}\), and \(\widetilde{\mathbf f}_{K}\). We
+then compute the latent variables as \begin{equation}
 \begin{aligned}
-{\boldsymbol \ell}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf u} \text{ and } {\boldsymbol \ell}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf v},
+{\boldsymbol \ell}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}\widetilde{\mathbf u} \text{ and } {\boldsymbol \ell}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v}.
 \label{eq:lvs}
 \end{aligned}
-\end{equation} We then compute a normalized version of
-\({\boldsymbol \ell}_{\mathbf X}\) as
-\({\mathbf t} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}\).
-We then compute the component coefficient as
-\(b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}\). Next we compute
-the predicted loadings of \({\mathbf Z}_{\mathbf X}\) as
+\end{equation} Next we compute
+\({\mathbf t}_{\mathbf X} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}\),
+\(b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}\), and
 \(\widehat{\mathbf u} = {\mathbf t}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\).
-We then compute rank 1 predicted versions of \({\mathbf Z}_{\mathbf X}\)
+We use \({\mathbf t}_{\mathbf X}\), \(b\), and \(\widehat{\mathbf u}\)
+to compute rank 1 ``predicted'' versions of \({\mathbf Z}_{\mathbf X}\)
 and \({\mathbf Z}_{\mathbf Y}\) as
-\(\widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}} \text{ and } \widehat{\mathbf Z}_{{\mathbf Y},1} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}\widetilde{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
 
-Finally, we deflate \({\mathbf Z}_{\mathbf X}\) and
+\begin{equation}
+\begin{aligned}
+\widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}} \text{ and } \\
+\widehat{\mathbf Z}_{{\mathbf Y},1} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}.
+\label{eq:rank1_preds_plscar}
+\end{aligned}
+\end{equation} Finally, we deflate \({\mathbf Z}_{\mathbf X}\) and
 \({\mathbf Z}_{\mathbf Y}\) as
 \({\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}\)
 and
 \({\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}\).
-
+We then repeat the iterative procedure with these deflated
+\({\mathbf Z}_{\mathbf X}\) and \({\mathbf Z}_{\mathbf Y}\):
+\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}\).
 The computations outlined above are performed for \(C\) iterations
 where: (1) \(C\) is some pre-specified number of intended latent
 variables where \(C < M\) where where \(M\) is the rank of
-\({\mathbf Z}_{\mathbf X}\), (2) \(C=M\), or (3) when
-\({\mathbf Z}_{\mathbf X} = {\mathbf 0}\),
-\({\mathbf Z}_{\mathbf Y} = {\mathbf 0}\), or
-\({\mathbf Z}_{\mathbf R} = {\mathbf 0}\) where \({\mathbf 0}\) is a
-null matrix. Upon the stopping condition we would have \(C\) components
-and collected any vectors into corresponding matrices. Those matrices
-are:
+\(\widetilde{\mathbf Z}_{\mathbf X}\), (2) \(C=M\), or (3) when
+\({\mathbf Z}_{\mathbf X} = {\mathbf 0}\) or
+\({\mathbf Z}_{\mathbf Y} = {\mathbf 0}\) where \({\mathbf 0}\) is a
+null matrix. Upon the stopping condition we would have \(C\) components,
+and would have collected any vectors into corresponding matrices. Those
+matrices are,
 
 \begin{itemize}
 \item
-  a \(C \times C\) diagonal matrix \({\mathbf B}\) of regression
-  coefficients,
+  two \(C \times C\) diagonal matrices \({\mathbf B}\) and
+  \(\widetilde{\boldsymbol \Delta}\),
 \item
-  the \(I \times C\) matrices \({\mathbf L}_{\mathbf X}\) and
-  \({\mathbf L}_{\mathbf Y}\) that are the projected row scores for each
-  data matrix,
+  the \(I \times C\) matrices \({\mathbf L}_{\mathbf X}\),
+  \({\mathbf L}_{\mathbf Y}\), and \({\mathbf T}_{\mathbf X}\),
 \item
-  the \(I \times C\) matrix \({\mathbf T}\) of latent variables,
+  the \(J \times C\) matrices \(\widetilde{\mathbf U}\),
+  \(\widehat{\mathbf U}\), \(\widetilde{\mathbf P}\), and
+  \(\widetilde{\mathbf F}_{J}\), and
 \item
-  two \(J \times C\) matrices that contain the SVD-based loadings
-  \(\widetilde{\mathbf P}\) and projected loadings
-  \(\widehat{\mathbf P}\) of the rows of \({\mathbf Z}_{\mathbf R}\)
-  (derived from the columns of \({\mathbf Z}_{\mathbf X}\)),
-\item
-  the \(K \times C\) SVD-based loadings \(\widetilde{\mathbf Q}\), and
-  finally,
-\item
-  a \(C \times C\) diagonal matrix of singular values
-  \(\widetilde{\boldsymbol \Delta}\).
+  the \(K \times C\) matrices \(\widetilde{\mathbf V}\),
+  \(\widetilde{\mathbf Q}\), \(\widetilde{\mathbf F}_{K}\),
 \end{itemize}
 
 \RestyleAlgo{boxed}
