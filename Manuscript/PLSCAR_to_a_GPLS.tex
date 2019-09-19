@@ -203,17 +203,21 @@ covariance as in PLS or correlation as in canonical correlation),
 various transformations for alternate metrics, and ridge-like
 regularization. Furthermore this framework spans multiple PLS
 algorithms. We place particular emphasis on three of the most commonly
-used PLS algorithms: (1) PLS ``correlation''---also known as PLSSVD
-(CITE) or Tucker's Interbattery Factor Analysis (CITE), (2) PLS
-``canonical'' (CITE), and (3) PLS ``regression''. PLS correlation is a
-symmetric method where neither data table plays a privileged (or
-predictive) role, and is performed with a single pass of the singular
-value decomposition (SVD). PLS canonical is also symmetric, but makes
-use of the SVD iteratively and deflates both data tables in each
-iteration. PLS regression is an asymmetric method where one data table
-is privileged (``predictors'') and also makes use of the SVD iteratively
-with deflation of both data tables. We discuss the particularities of
-these algorithms later in the paper.
+used PLS algorithms: (1) PLS ``correlation'' decomposition
+\citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996}---also
+known as PLSSVD \citep{tenenhaus_regression_1998} or Tucker's
+Interbattery Factor Analysis \citep{tucker_inter-battery_1958}, (2) PLS
+``canonical'' decompostion \citep{tenenhaus_regression_1998}, and (3)
+PLS ``regression''
+\citep{wold_soft_1975, wold_collinearity_1984, wold_pls-regression_2001}.
+PLS correlation is a symmetric method where neither data table plays a
+privileged (or predictive) role, and is performed with a single pass of
+the singular value decomposition (SVD). PLS canonical is also symmetric,
+but makes use of the SVD iteratively and deflates both data tables in
+each iteration. PLS regression is an asymmetric method where one data
+table is privileged (``predictors'') and also makes use of the SVD
+iteratively with deflation of both data tables. We discuss the
+particularities of these algorithms later in the paper.
 
 This paper is orgnized as follows. In Section \ref{section:PLSCAR} we
 introduce sufficient background for, and then formalize, PLS-CA-R. Next,
@@ -268,7 +272,19 @@ GPLSSVD}\label{the-svd-gsvd-ca-and-gplssvd}}
 
 \label{section:GSVDCA}
 
-{[}Explain SVD here\ldots{}{]}
+The singular value decomposition (SVD) decomposes a matrix
+\({\mathbf X}\) with \(I\) rows and \(J\) as
+\({\mathbf X} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\) where
+\({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
+where \({\mathbf X}\) is of rank \(M\) and \({\boldsymbol \Delta}\) is a
+\(M \times M\) diagonal matrix of singular values, and
+\({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\) is a \(M \times M\)
+diagonal matrix of eigenvalues. \({\mathbf U}\) and \({\mathbf V}\) are
+referred to as the left and right singular vectors, respectively. From
+the SVD we can compute component (a.k.a. factor) scores as
+\({\mathbf F}_{I} = {\mathbf U}{\boldsymbol \Delta}\) and
+\({\mathbf F}_{J} = {\mathbf V}{\boldsymbol \Delta}\) for the \(I\) rows
+and \(J\) columns of \({\mathbf X}\), respectively.
 
 The GSVD generalizes the SVD wherein the GSVD decomposes a matrix
 \({\mathbf X}\) with \(I\) rows and \(J\) columns as
@@ -304,27 +320,27 @@ identity matrices as the weights:
 \(\mathrm{GSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I} \mathrm{)}\) is
 principal components analysis (PCA).
 
-CA is a technique akin to PCA but initially designed for contingency and
-nominal data and operates under the assumption of indepdence (i.e., akin
-to \(\chi^2\)). See \citet{greenacre_theory_1984},
-\citet{greenacre_correspondence_2010-1}, and
-\citet{lebart_multivariate_1984} for detailed English explanations of CA
-and see \citet{escofier-cordier_analyse_1965} and
+Correspondence analysis (CA) is a technique akin to PCA but initially
+designed for contingency and nominal data, and operates under the
+assumption of indepdence (i.e., akin to \(\chi^2\)). See
+\citet{greenacre_theory_1984}, \citet{greenacre_correspondence_2010-1},
+and \citet{lebart_multivariate_1984} for detailed English explanations
+of CA and see \citet{escofier-cordier_analyse_1965} and
 \citet{benzecri_analyse_1973} for the origins of CA. Assume the matrix
-\({\mathbf A}\) is some \(I \times J\) matrix comprised of non-negative
+\({\mathbf X}\) is some \(I \times J\) matrix comprised of non-negative
 data, generally counts (co-occurences between rows and columns) or
 categorical data transformed into disjunctive format (see ``SEX'' in see
 Table \ref{table:disj}). CA is performed with the GSVD as follows. First
 we define the \emph{observed} matrix
-\({\mathbf O}_{\mathbf A} = {\mathbf A} \times ({\mathbf 1}^{T}{\mathbf A} {\mathbf 1})^{-1}\).
+\({\mathbf O}_{\mathbf X} = {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}\).
 Next we compute the marginal probabilities from the observed matrix as
-\({\mathbf w}_{I} = {\mathbf O}_{\mathbf A}{\mathbf 1} = \text{ and } {\mathbf w}_{J} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf A})^{T}\).
+\({\mathbf w}_{I} = {\mathbf O}_{\mathbf X}{\mathbf 1} = \text{ and } {\mathbf w}_{J} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\).
 We then define the \emph{expected} matrix as
-\({\mathbf E}_{\mathbf A} = {\mathbf w}_{I}{\mathbf w}_{J}^{T}\). We
+\({\mathbf E}_{\mathbf X} = {\mathbf w}_{I}{\mathbf w}_{J}^{T}\). We
 then compute the \emph{deviation} matrix as
-\({\mathbf Z}_{\mathbf A} = {\mathbf O}_{\mathbf A} - {\mathbf E}_{\mathbf A}\).
+\({\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}\).
 Finally, we perform CA as
-\(\mathrm{GSVD(} {\mathbf W}_{I}^{-1}, {\mathbf Z}_{\mathbf A}, {\mathbf W}_{J}^{-1} \mathrm{)}\)
+\(\mathrm{GSVD(} {\mathbf W}_{I}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{J}^{-1} \mathrm{)}\)
 with the \emph{weights} of
 \({\mathbf W}_{I} = \mathrm{diag\{} {\mathbf w}_{I} \mathrm{\}} \text{ and } {\mathbf W}_{J} = \mathrm{diag\{} {\mathbf w}_{J} \mathrm{\}}\).
 
@@ -464,7 +480,7 @@ where \begin{equation}
 {\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}.
 \label{eq:the_svd_for_plscar}
 \end{equation} Because we make use of the rank 1 solution iteratively,
-we only the first vectors and values from Eq.
+we only retain the first vectors and values from Eq.
 \ref{eq:the_svd_for_plscar}. Thus we distinguish what we retain as
 \(\tilde\delta\), \(\widetilde{\mathbf u}\), \(\widetilde{\mathbf v}\),
 \(\widetilde{\mathbf p}\), \(\widetilde{\mathbf q}\), and
@@ -476,8 +492,8 @@ then compute the latent variables as \begin{equation}
 \end{aligned}
 \end{equation} Next we compute
 \({\mathbf t}_{\mathbf X} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}\),
-\(b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}\), and
-\(\widehat{\mathbf u} = {\mathbf t}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\).
+\(b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}\), and
+\(\widehat{\mathbf u} = {\mathbf t}_{\mathbf X}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\).
 We use \({\mathbf t}_{\mathbf X}\), \(b\), and \(\widehat{\mathbf u}\)
 to compute rank 1 ``predicted'' versions of \({\mathbf Z}_{\mathbf X}\)
 and \({\mathbf Z}_{\mathbf Y}\) as
@@ -509,7 +525,8 @@ matrices are,
 \begin{itemize}
 \item
   two \(C \times C\) diagonal matrices \({\mathbf B}\) and
-  \(\widetilde{\boldsymbol \Delta}\),
+  \(\widetilde{\boldsymbol \Delta}\) with each \(b\) and
+  \(\tilde\delta\) on the diagonal with zeros off-diagonal,
 \item
   the \(I \times C\) matrices \({\mathbf L}_{\mathbf X}\),
   \({\mathbf L}_{\mathbf Y}\), and \({\mathbf T}_{\mathbf X}\),
@@ -553,11 +570,10 @@ PLS-CA-R maximizes the common information between
 
 \begin{equation}
 \begin{aligned}
-\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = \\
-({\mathbf Z}_{\mathbf X}{\mathbf W}_{J}{\mathbf p})^{T}({\mathbf Z}_{\mathbf Y}{\mathbf W}_{K}{\mathbf q}) = \\
-{\mathbf p}^{T}{\mathbf W}_{J}{\mathbf Z}_{\mathbf X}^{T}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{K}{\mathbf q} = \\
-{\mathbf p}^{T}{\mathbf W}_{J}{\mathbf Z}_{{\mathbf R}}{\mathbf W}_{K}{\mathbf q} = \\
-{\mathbf p}^{T}{\mathbf W}_{J}{\mathbf P}{\mathbf \Delta}{\mathbf Q}^{T}{\mathbf W}_{K}{\mathbf q} = \delta,
+\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = 
+({\mathbf M}_{X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{\frac{1}{2}}{\mathbf W}_{X}^{\frac{1}{2}}\widetilde{\mathbf p})^{T}({\mathbf M}_{Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{\frac{1}{2}}{\mathbf W}_{Y}^{\frac{1}{2}}\widetilde{\mathbf q}) = \\
+(\widetilde{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{\frac{1}{2}}\widetilde{\mathbf p})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{\frac{1}{2}}\widetilde{\mathbf q}) = (\widetilde{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{\frac{1}{2}}{\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{\frac{1}{2}}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf v}) = \\
+(\widetilde{\mathbf Z}_{\mathbf X}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v}) = \widetilde{\mathbf u}\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v}  = \widetilde\delta,
 \end{aligned}
 \end{equation} where \(\delta\) is the first singular value from
 \({\mathbf \Delta}\) for each \(c\) step. Furthermore, PLS-CA-R
