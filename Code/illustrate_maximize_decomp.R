@@ -27,15 +27,17 @@ t(plsca_reg_results$lx) %*% plsca_reg_results$ly
 diag(t(plsca_reg_results$lx) %*% plsca_reg_results$ly)
 plsca_reg_results$d
 
-# t((M_X %^% (-1/2)) %*% ca_preproc_X$Z %*% (W_X %^% (-1)) %*% plsca_reg_results$p[,1]) %*%
-#   ((M_Y %^% (-1/2)) %*% ca_preproc_Y$Z %*% (W_Y %^% (-1)) %*% plsca_reg_results$q[,1])
-
 t((M_X %^% (-1/2)) %*% ca_preproc_X$Z %*% (W_X %^% (-1)) %*%  plsca_reg_results$p[,1]  ) %*%
   ((M_Y %^% (-1/2)) %*% ca_preproc_Y$Z %*% (W_Y %^% (-1)) %*%  plsca_reg_results$q[,1]  )
 
+t((M_X %^% (-1/2)) %*% ca_preproc_X$Z %*% (W_X %^% (-1/2)) %*% (W_X %^% (-1/2)) %*%  plsca_reg_results$p[,1]  ) %*%
+  ((M_Y %^% (-1/2)) %*% ca_preproc_Y$Z %*% (W_Y %^% (-1/2))%*% (W_Y %^% (-1/2)) %*%  plsca_reg_results$q[,1]  )
 
-t((M_X %^% (-1/2)) %*% ca_preproc_X$Z %*% (W_X %^% (-1/2)) %*% (W_X %^% (1/2)) %*%  (W_X %^% (-1/2) %*% plsca_reg_results$u[,1])  ) %*%
-  ((M_Y %^% (-1/2)) %*% ca_preproc_Y$Z %*% (W_Y %^% (-1/2))%*% (W_Y %^% (1/2)) %*%  (W_Y %^% (-1/2) %*% plsca_reg_results$v[,1])  )
+t( ZX_tilde %*% (W_X %^% (-1/2)) %*%  plsca_reg_results$p[,1]  ) %*%
+  ( ZY_tilde %*% (W_Y %^% (-1/2)) %*%  plsca_reg_results$q[,1]  )
+
+t( ZX_tilde %*% (W_X %^% (-1/2)) %*% (W_X %^% (1/2)) %*%  plsca_reg_results$u[,1]  ) %*%
+  ( ZY_tilde %*% (W_Y %^% (-1/2)) %*% (W_Y %^% (1/2)) %*%  plsca_reg_results$v[,1]  )
 
 t(ZX_tilde %*% plsca_reg_results$u[,1]) %*% (ZY_tilde %*% plsca_reg_results$v[,1])
 
@@ -43,13 +45,14 @@ t(plsca_reg_results$u[,1]) %*% t(ZX_tilde) %*% ZY_tilde %*% plsca_reg_results$v[
 
 t(plsca_reg_results$u[,1]) %*% ZR %*% plsca_reg_results$v[,1]
 
-## diagonal identity, and orthogonal.
-t(plsca_reg_results$p) %*% W_X %*% plsca_reg_results$p
-t(plsca_reg_results$tx) %*% plsca_reg_results$tx
+## diagonal orthogonal.
 t(plsca_reg_results$lx) %*% plsca_reg_results$lx
+## diagonal orthogonal & identity
+t(plsca_reg_results$p) %*% (W_X %^% (-1)) %*% plsca_reg_results$p
+t(plsca_reg_results$tx) %*% plsca_reg_results$tx
 
-## diagonal identity, but not orthogonal.
-t(plsca_reg_results$q) %*% W_Y %*% plsca_reg_results$q
+## not orthogonal, but identity on the diagonal
+t(plsca_reg_results$q) %*% (W_Y %^% (-1)) %*% plsca_reg_results$q
 
 
 

@@ -259,17 +259,13 @@ PLS-CA-R maximizes the common information between ${\mathbf Z}_{\mathbf X}$ and 
 \begin{aligned}
 \underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = 
 ({\mathbf M}_{X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{-1}\widetilde{\mathbf p})^{T}({\mathbf M}_{Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-1}\widetilde{\mathbf q}) = \\
-
-
-
-(\widetilde{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{\frac{1}{2}}\widetilde{\mathbf p})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{\frac{1}{2}}\widetilde{\mathbf q}) = (\widetilde{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{\frac{1}{2}}{\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{\frac{1}{2}}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf v}) = \\
-
-
-
+({\mathbf M}_{X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{-\frac{1}{2}}{\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf p})^{T}({\mathbf M}_{Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf q}) = \\
+( \widetilde{\mathbf Z}_{\mathbf X} {\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf p})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf q}) = 
+( \widetilde{\mathbf Z}_{\mathbf X} {\mathbf W}_{X}^{-\frac{1}{2}}{\mathbf W}_{X}^{\frac{1}{2}}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}{\mathbf W}_{Y}^{\frac{1}{2}}\widetilde{\mathbf v}) = \\ 
 (\widetilde{\mathbf Z}_{\mathbf X}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v}) = \widetilde{\mathbf u}\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v}  = \widetilde\delta,
 \end{aligned}
 \end{equation}
-where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for each $c$ step. PLS-CA-R maximization is subject to the orthogonality constraint that ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$. This orthogonality constraint propagates through to many of the vectors and matrices associated with ${\mathbf Z}_{\mathbf X}$ and thus ${\mathbf t}_{c}^{T}{\mathbf t}_{c'} = \widetilde{\mathbf p}_{c}^{T}{\mathbf W}_{J}\widetilde{\mathbf p}_{c'} = 0$ where ${\mathbf T}^{T}{\mathbf T} = \widetilde{\mathbf P}^{T}{\mathbf W}_{J}\widetilde{\mathbf P} = {\mathbf I}$; these orthogonality constraints do not apply to the various vectors and matrices associated with ${\mathbf Y}$.
+where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for each $c$ step. PLS-CA-R maximization is subject to the orthogonality constraint that ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$. This orthogonality constraint propagates through to many of the vectors and matrices associated with ${\mathbf Z}_{\mathbf X}$ where ${\mathbf T}_{\mathbf X}^{T}{\mathbf T}_{\mathbf X} = \widetilde{\mathbf P}^{T}{\mathbf W}_{J}^{-1}\widetilde{\mathbf P} = \widetilde{\mathbf U}^{T}\widetilde{\mathbf U} = {\mathbf I}$; these orthogonality constraints do not apply to the various vectors and matrices associated with ${\mathbf Y}$.
 
 PLS-CA-R is a "double decomposition" approach where
 \begin{equation}
