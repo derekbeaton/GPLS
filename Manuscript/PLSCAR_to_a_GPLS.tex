@@ -536,34 +536,17 @@ matrices are,
   \(\widetilde{\mathbf F}_{J}\), and
 \item
   the \(K \times C\) matrices \(\widetilde{\mathbf V}\),
-  \(\widetilde{\mathbf Q}\), \(\widetilde{\mathbf F}_{K}\),
+  \(\widetilde{\mathbf Q}\), \(\widetilde{\mathbf F}_{K}\).
 \end{itemize}
 
-\RestyleAlgo{boxed}
-\begin{algorithm}
-\DontPrintSemicolon
-\SetAlgoLined
-\KwResult{Generalized PLS-regression between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{${\mathbf Z}_{{\mathbf X}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{J}$, ${\mathbf W}_{K}$, $C$}
-\Output{${\mathbf T}$, $\widehat{\mathbf P}$, $\widetilde{\mathbf Q}$, ${\mathbf B}$}
-\BlankLine
-Define ${\mathbf Z}_{{\mathbf X}}^{(0)} = {\mathbf Z}_{{\mathbf X}}$\;
-Define ${\mathbf Z}_{{\mathbf Y}}^{(0)} = {\mathbf Z}_{{\mathbf Y}}$\;
-\For{$c=1, \dots, C$}{
-  $\mathbf{Z}_{\mathbf{R}} \leftarrow {\mathbf Z}_{{\mathbf X}}^{T}{\mathbf Z}_{{\mathbf Y}}$ \\
-  ${\delta}\mathbf{p}\widetilde{\mathbf{q}}^{T} \leftarrow \mathrm{GSVD(} {\mathbf W}_{J}, \mathbf{Z}_{\mathbf{R}}, {\mathbf W}_{K} \mathrm{)}$ of rank 1 \\
-  ${\boldsymbol \ell}_{\mathbf X} \leftarrow {\mathbf Z}_{\mathbf X}{\mathbf W}_{J}{\mathbf p}$ \\
-  ${\boldsymbol \ell}_{\mathbf Y} \leftarrow {\mathbf Z}_{\mathbf Y}{\mathbf W}_{K}{\mathbf q}$ \\
-  ${\mathbf t} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
-  $\widehat{\mathbf p} \leftarrow {\mathbf Z}_{\mathbf X}^{T}{\mathbf t}$\\
-  $b \leftarrow {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}$\\
-  ${\mathbf Z}_{{\mathbf X}}^{(c)} \leftarrow {\mathbf Z}_{{\mathbf X}}^{(c-1)} - {\mathbf t}\widehat{\mathbf p}^{T}$\\
-  ${\mathbf Z}_{{\mathbf Y}}^{(c)} \leftarrow {\mathbf Z}_{{\mathbf Y}}^{(c-1)} - b{\mathbf t}\widetilde{\mathbf{q}}^{T}$
-}
-\caption{Generalized PLS-regression algorithm. The results of a rank 1 GSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. Given the way we have formalized PLS-CA-R, the input values match those established in this Section; see also Eq. \ref{eq:doubledecomp}. It must be noted that this algorithm generalizes PLS-R both to a variety of data types and for a variety of optmizations (e.g., canonical correlation, reduced rank regression (redundancy analysis), regularization). See the Discussion section for an explanation of how this algorithm generalizes PLS-R in the aforementioned ways.}
-\label{algo:plscar}
-\end{algorithm}
+The algorithm for PLS-CA-R is presented in Algorithm \ref{algo:plscar}
+in Section \ref{section:Disc}. However, we present Algorithm
+\ref{algo:plscar} as a ``generalized partial least squares regression''
+by way of the GPLSSVD sextuplet. We discuss the generalized aspects of
+the algorithm in more detail in Section \ref{section:Disc}.
+
+\hypertarget{maximization-in-pls-ca-r}{%
+\subsection{Maximization in PLS-CA-R}\label{maximization-in-pls-ca-r}}
 
 PLS-CA-R maximizes the common information between
 \({\mathbf Z}_{\mathbf X}\) and \({\mathbf Z}_{\mathbf Y}\) such that
@@ -583,63 +566,10 @@ subject to the orthogonality constraint that
 \({\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0\)
 when \(c \neq c'\). This orthogonality constraint propagates through to
 many of the vectors and matrices associated with
-\({\mathbf Z}_{\mathbf X}\) and thus
-\({\mathbf t}_{c}^{T}{\mathbf t}_{c'} = \widetilde{\mathbf p}_{c}^{T}{\mathbf W}_{J}\widetilde{\mathbf p}_{c'} = 0\)
-where
-\({\mathbf T}^{T}{\mathbf T} = \widetilde{\mathbf P}^{T}{\mathbf W}_{J}\widetilde{\mathbf P} = {\mathbf I}\);
+\({\mathbf Z}_{\mathbf X}\) where
+\({\mathbf T}_{\mathbf X}^{T}{\mathbf T}_{\mathbf X} = \widetilde{\mathbf P}^{T}{\mathbf W}_{J}^{-1}\widetilde{\mathbf P} = \widetilde{\mathbf U}^{T}\widetilde{\mathbf U} = {\mathbf I}\);
 these orthogonality constraints do not apply to the various vectors and
 matrices associated with \({\mathbf Y}\).
-
-PLS-CA-R is a ``double decomposition'' approach where \begin{equation}
-{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf P}^{T} \text{ and } \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf T}{\mathbf B}\widetilde{\mathbf Q}^{T}.
-\label{eq:doubledecomp}
-\end{equation}
-
-Furthermore, \(\widehat{{\mathbf Z}}_{\mathbf Y}\) can be expressed as a
-regression model
-\(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf T} {\mathbf B}\widetilde{\mathbf Q}^{T} = {\mathbf Z}_{\mathbf X}\widehat{\mathbf P}^{{T}{+}}{\mathbf B}\widetilde{\mathbf Q}^{T}\).
-The connection to ordinary least squares (OLS) and standard regression
-can now be seen. PLS-CA-R, like PLS-R, provides the same estimated
-predicted values as in OLS under the conditions that \({\bf Z}_{\bf X}\)
-is (1) full rank, (2) non-singular, (3) not excessively multicollinear:
-
-\begin{equation}
-\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf T} {\mathbf B}\widetilde{\mathbf Q}^{T} = {\mathbf Z}_{\mathbf X} ({\mathbf Z}_{\mathbf X}^{T}{\mathbf Z}_{\mathbf X})^{+} {\mathbf Z}_{\mathbf X}^T {\mathbf Z}_{\mathbf Y}.
-\label{ols_equivalence}
-\end{equation}
-
-The additional orthogonality relationships are that
-\(\widehat{{\mathbf Z}}_{\mathbf Y} \perp ({\mathbf Z}_{\mathbf Y} - \widehat{{\mathbf Z}}_{\mathbf Y})\)
-and
-\(\widehat{{\mathbf Z}}_{\mathbf X} \perp ({\mathbf Z}_{\mathbf X} - \widehat{{\mathbf Z}}_{\mathbf X})\).
-These orthogonality conditions illustrate a way to residualize (i.e.,
-``regress out'' or ``correct'') for known confounding effects, akin to
-how residuals are used in OLS.
-
-For visualization of results in PLS-CA-R we define a set of component
-scores more akin to how CA visualizes component scores because both
-techniques project \(\chi^2\) distances into a Euclidean space. In
-PLS-CA-R we define component scores as \begin{equation}
-{\mathbf F}_{J} = {\mathbf W}_{J}\widetilde{\mathbf P} \textrm{ and } {\mathbf F}_{K} = {\mathbf W}_{K}\widetilde{\mathbf Q},
-\label{eq:fifj}
-\end{equation} where the orthogonality constraint of the component
-scores holds:
-\({\mathbf F}_{J}^{T}{\mathbf W}_{J}{\mathbf F}_{J} = {\bf I}\). The
-component scores in PLS-CA-R are akin to what is referred to as the
-``asymmetric'' component scores in CA which exclude the use of the
-singular values to weight each set of component scores. Symmetric
-component scores include the multiplication of
-\(\widetilde{\boldsymbol \Delta}\) where symmetric equivalents of Eq.
-\ref{eq:fifj} are
-\({\mathbf F}^{'}_{J} = {\mathbf W}_{J}\widetilde{\mathbf P}\widetilde{\boldsymbol \Delta}\)
-and
-\({\mathbf F}^{'}_{K} = {\mathbf W}_{K}\widetilde{\mathbf Q}\widetilde{\boldsymbol \Delta}\).
-However, in PLS-CA-R (and PLS-R), each subsequent \(\boldsymbol \delta\)
-is not guaranteed to be smaller than the previous, with the exception of
-all \(\boldsymbol \delta\) are smaller than the first. This is a
-by-product of the iterative process and the deflation steps and is not
-true if only one single pass with the SVD or GSVD were used (e.g.,
-PLS-CA, PLS-correlation).
 
 \hypertarget{reconstitution-of-responses-and-predictors}{%
 \subsection{Reconstitution of responses (and
@@ -647,43 +577,51 @@ predictors)}\label{reconstitution-of-responses-and-predictors}}
 
 \label{section:recresp}
 
-PLS-CA-R produces a both predicted and residualized version of
-\({\mathbf Y}\), where the predicted and residualized estimates are
-orthogonal to one another. Recall that
-\(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf T} {\mathbf B}\widetilde{\mathbf Q}^{T}\).
-We compute a reconstituted form of \({\mathbf Y}\) as
+PLS-CA-R is a ``double decomposition'' where \begin{equation}
+{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T} \text{ and } \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
+\label{eq:doubledecomp}
+\end{equation} and
+\(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}\).
+PLS-CA-R, like PLS-R, provides the same estimated predicted values as in
+OLS under the conditions that \({\bf Z}_{\bf X}\) is (1) full rank, (2)
+non-singular, (3) not excessively multicollinear: \begin{equation}
+\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T {\mathbf Z}_{\mathbf Y},
+\label{ols_equivalence}
+\end{equation} where
+\({\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T\widetilde{\mathbf Z}_{\mathbf Y}\).
+This connection to OLS shows how to residualize (i.e., ``regress out''
+or ``correct'') for known confounding effects, akin to how residuals are
+computed in OLS. We can do so with the original
+\({\mathbf Z}_{\mathbf Y}\) as
+\({\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}\).
 
-\begin{equation}
+PLS-CA-R produces a both predicted and residualized version of
+\({\mathbf Y}\). Recall that
+\(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}\).
+We compute a reconstituted form of \({\mathbf Y}\) as \begin{equation}
 \widehat{\mathbf Y} = (\widehat{{\mathbf Z}}_{\mathbf Y} + {\mathbf E}_{\mathbf Y}) \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}),
 \label{eq:Yhat}
-\end{equation} which is simply the opposite steps of computing the
-deviations matrix wherein we add back in the expected values and then
-scale the data by the total sum of the original matrix. Furthermore, we
-can also compute the residualized values (i.e., ``error'') as
-\begin{equation}
-{\mathbf Y}_{\epsilon} = [ {\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}({\mathbf Z}_{\mathbf Y} - \widehat{{\mathbf Z}}_{\mathbf Y})] + {\mathbf E}_{\mathbf Y}) \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}).
+\end{equation} which is the opposite steps of computing the deviations
+matrix. We add back in the expected values and then scale the data by
+the total sum of the original matrix. The same can be done for
+residualized values (i.e., ``error'') as \begin{equation}
+{\mathbf Y}_{\epsilon} = [({\mathbf Z}_{\mathbf Y} - \widehat{{\mathbf Z}}_{\mathbf Y}) + {\mathbf E}_{\mathbf Y}] \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}).
 \label{eq:Yresid}
-\end{equation}
-
-CA can be applied directly to either \(\widehat{\mathbf Y}\) or
-\({\mathbf Y}_{\epsilon}\). In general, the components from the CA of
-\(\widehat{\mathbf Y}\) are orthogonal to the components from the CA of
-\({\mathbf Y}_{\epsilon}\). However, in some cases---because of the
-models, i.e., \({\mathbf E}_{\mathbf Y}\)---the results from each CA are
-nearly but not exactly orthogonal. This near-orthogonality occurs when
-at least one positive value (e.g., counts) exists in either \({\bf X}\)
-or \({\bf Y}\), and through the reconstituion by ``uncentering'' via
-\({\mathbf E}_{\mathbf Y}\), specifically when Eq. \ref{eq:xy_rowvecs}
-are not identical values. In fact, through the concept of generalized
+\end{equation} Typically, \({\mathbf E}_{\mathbf Y}\) is derived from
+the model of the data (as noted in Eq. \ref{eq:models}). However, the
+reconstituted space could come from any model by way of generalized
 correspondence analysis (GCA)
 \citetext{\citealp{escofier1983analyse}; \citealp{escofier1984analyse}; \citealp[for
-more details and background see also][]{beaton2018generalization}}, we
-can place the data (e.g., \({\mathbf Z}_{\mathbf Y}\), or
-\(\widehat{{\mathbf Z}}_{\mathbf Y}\)) back into any reasonable space;
-that is, \({\mathbf E}_{\mathbf Y}\) could be obtained from models not
-directly derived from the data but could be obtained from some
-theoretical or population data. The same procedures can be applied to
-obtain a reconstituted \({\mathbf X}\).
+more details and background see also][]{beaton2018generalization}}. With
+GCA we could place the data back into any reasonable space. We can use
+alternates to \({\mathbf E}_{\mathbf Y}\) that would be obtained from
+some known priors, a theoretical model, out of sample data, or even
+population estimates. The same procedures can be applied to obtain a
+reconstituted \({\mathbf X}\). Finally, CA can then be applied directly
+to either \(\widehat{\mathbf Y}\) or \({\mathbf Y}_{\epsilon}\).
+
+\hypertarget{concluding-remarks}{%
+\subsection{Concluding remarks}\label{concluding-remarks}}
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
@@ -1299,6 +1237,35 @@ regularization, and several typical PLS algorithms.
 
 \hypertarget{pls-algorithms}{%
 \subsection{PLS algorithms}\label{pls-algorithms}}
+
+{[}{[}This section is all borked up because I've moved the GPLSREG
+algorithm down here{]}{]}
+
+\RestyleAlgo{boxed}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Generalized PLS-regression between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{${\mathbf Z}_{{\mathbf X}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{J}$, ${\mathbf W}_{K}$, $C$}
+\Output{${\mathbf T}$, $\widehat{\mathbf P}$, $\widetilde{\mathbf Q}$, ${\mathbf B}$}
+\BlankLine
+Define ${\mathbf Z}_{{\mathbf X}}^{(0)} = {\mathbf Z}_{{\mathbf X}}$\;
+Define ${\mathbf Z}_{{\mathbf Y}}^{(0)} = {\mathbf Z}_{{\mathbf Y}}$\;
+\For{$c=1, \dots, C$}{
+  $\mathbf{Z}_{\mathbf{R}} \leftarrow {\mathbf Z}_{{\mathbf X}}^{T}{\mathbf Z}_{{\mathbf Y}}$ \\
+  ${\delta}\mathbf{p}\widetilde{\mathbf{q}}^{T} \leftarrow \mathrm{GSVD(} {\mathbf W}_{J}, \mathbf{Z}_{\mathbf{R}}, {\mathbf W}_{K} \mathrm{)}$ of rank 1 \\
+  ${\boldsymbol \ell}_{\mathbf X} \leftarrow {\mathbf Z}_{\mathbf X}{\mathbf W}_{J}{\mathbf p}$ \\
+  ${\boldsymbol \ell}_{\mathbf Y} \leftarrow {\mathbf Z}_{\mathbf Y}{\mathbf W}_{K}{\mathbf q}$ \\
+  ${\mathbf t} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
+  $\widehat{\mathbf p} \leftarrow {\mathbf Z}_{\mathbf X}^{T}{\mathbf t}$\\
+  $b \leftarrow {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}$\\
+  ${\mathbf Z}_{{\mathbf X}}^{(c)} \leftarrow {\mathbf Z}_{{\mathbf X}}^{(c-1)} - {\mathbf t}\widehat{\mathbf p}^{T}$\\
+  ${\mathbf Z}_{{\mathbf Y}}^{(c)} \leftarrow {\mathbf Z}_{{\mathbf Y}}^{(c-1)} - b{\mathbf t}\widetilde{\mathbf{q}}^{T}$
+}
+\caption{Generalized PLS-regression algorithm. The results of a rank 1 GSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. Given the way we have formalized PLS-CA-R, the input values match those established in this Section; see also Eq. \ref{eq:doubledecomp}. It must be noted that this algorithm generalizes PLS-R both to a variety of data types and for a variety of optmizations (e.g., canonical correlation, reduced rank regression (redundancy analysis), regularization). See the Discussion section for an explanation of how this algorithm generalizes PLS-R in the aforementioned ways.}
+\label{algo:plscar}
+\end{algorithm}
 
 In general there exist three primary PLS algorithms: PLS correlation
 decomposition \citep{bookstein1994partial, ketterlinus1989partial}

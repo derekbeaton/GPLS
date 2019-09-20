@@ -60,19 +60,23 @@ t(plsca_reg_results$q) %*% (W_Y %^% (-1)) %*% plsca_reg_results$q
 
 (plsca_reg_results$tx %*% t(plsca_reg_results$u_hat)) / ZX_tilde
 
-#
-# (YLW %^% (-1/2)) %*% (tx %*% diag(betas) %*% t(v)) %*% (YRW %^% (-1/2))
-
-((M_X %^% (-1)) %^% (-1/2)) %*% (plsca_reg_results$tx %*% diag(plsca_reg_results$betas) %*% t(plsca_reg_results$v)) %*% ((W_X %^% (-1)) %^% (-1/2)) / plsca_reg_results$Y_reconstructed
-## and re-express it as
-
-
+## sort of a redundant check as this is literally how it is defined.
+Z_Y_hat <- ((M_Y %^% (-1)) %^% (-1/2)) %*% (plsca_reg_results$tx %*% diag(plsca_reg_results$betas) %*% t(plsca_reg_results$v)) %*% ((W_Y %^% (-1)) %^% (-1/2))
+Z_Y_hat / plsca_reg_results$Y_reconstructed
+  ## also the same
+Z_Y_hat / (((M_Y %^% (-1)) %^% (-1/2)) %*% ZX_tilde %*% (plsca_reg_results$u_hat %^% (-1)) %*% diag(plsca_reg_results$betas) %*% t(plsca_reg_results$v) %*% ((W_Y %^% (-1)) %^% (-1/2)))
 
 
 ## illustration of OLS (Eq. 11)
 
+## or if we were lazy:
+# Z_Y_hat <- plsca_reg_results$Y_reconstructed
+
+## these two are the same
+ZX_tilde %*%  (( t(ZX_tilde) %*% ZX_tilde ) %^% (-1)) %*% t(ZX_tilde) %*% ZY_tilde
+((plsca_reg_results$tx %*% diag(plsca_reg_results$betas) %*% t(plsca_reg_results$v)))
+
+## these two are the same
 ZX_tilde %*%  (( t(ZX_tilde) %*% ZX_tilde ) %^% (-1)) %*% t(ZX_tilde) %*% ca_preproc_Y$Z
+Z_Y_hat
 
-ca_preproc_X$Z %*%  (( t(ca_preproc_X$Z) %*% ca_preproc_X$Z ) %^% (-1)) %*% t(ca_preproc_X$Z) %*% ca_preproc_X$Z
-
-(ZX_tilde %*%  (( t(ZX_tilde) %*% ZX_tilde ) %^% (-1)) %*% t(ZX_tilde) %*% ca_preproc_Y$Z) / plsca_reg_results$Y_reconstructed
