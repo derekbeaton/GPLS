@@ -59,6 +59,8 @@ t(plsca_reg_results$q) %*% (W_Y %^% (-1)) %*% plsca_reg_results$q
 ## illustration of double decomposition (Eq. 10)
 
 (plsca_reg_results$tx %*% t(plsca_reg_results$u_hat)) / ZX_tilde
+(((M_X %^% (-1)) %^% (-1/2)) %*% (plsca_reg_results$tx %*% t(plsca_reg_results$u_hat)) %*% ((W_X %^% (-1)) %^% (-1/2))) / ca_preproc_X$Z
+
 
 ## sort of a redundant check as this is literally how it is defined.
 Z_Y_hat <- ((M_Y %^% (-1)) %^% (-1/2)) %*% (plsca_reg_results$tx %*% diag(plsca_reg_results$betas) %*% t(plsca_reg_results$v)) %*% ((W_Y %^% (-1)) %^% (-1/2))

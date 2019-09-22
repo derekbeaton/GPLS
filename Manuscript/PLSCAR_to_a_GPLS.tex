@@ -276,9 +276,9 @@ The singular value decomposition (SVD) decomposes a matrix
 \({\mathbf X}\) with \(I\) rows and \(J\) as
 \({\mathbf X} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\) where
 \({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
-where \({\mathbf X}\) is of rank \(M\) and \({\boldsymbol \Delta}\) is a
-\(M \times M\) diagonal matrix of singular values, and
-\({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\) is a \(M \times M\)
+where \({\mathbf X}\) is of rank \(A\) and \({\boldsymbol \Delta}\) is a
+\(A \times A\) diagonal matrix of singular values, and
+\({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\) is a \(A \times A\)
 diagonal matrix of eigenvalues. \({\mathbf U}\) and \({\mathbf V}\) are
 referred to as the left and right singular vectors, respectively. From
 the SVD we can compute component (a.k.a. factor) scores as
@@ -291,8 +291,8 @@ The GSVD generalizes the SVD wherein the GSVD decomposes a matrix
 \({\mathbf X} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}\) but
 under the constraints of
 \({\mathbf P}^{T}{\mathbf M}_{{\mathbf X}}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{{\mathbf X}}{\mathbf Q}\),
-where \({\mathbf X}\) is of rank \(M\) and \({\boldsymbol \Delta}\) is a
-\(M \times M\) diagonal matrix of singular values. With the GSVD,
+where \({\mathbf X}\) is of rank \(A\) and \({\boldsymbol \Delta}\) is a
+\(A \times A\) diagonal matrix of singular values. With the GSVD,
 \({\mathbf P}\) and \({\mathbf Q}\) are referred to as the
 \emph{generalized} singular vectors. Practically, the GSVD is performed
 through the SVD as
@@ -514,8 +514,8 @@ We then repeat the iterative procedure with these deflated
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}\).
 The computations outlined above are performed for \(C\) iterations
 where: (1) \(C\) is some pre-specified number of intended latent
-variables where \(C < M\) where where \(M\) is the rank of
-\(\widetilde{\mathbf Z}_{\mathbf X}\), (2) \(C=M\), or (3) when
+variables where \(C < A\) where where \(A\) is the rank of
+\(\widetilde{\mathbf Z}_{\mathbf X}\), (2) \(C=A\), or (3) when
 \({\mathbf Z}_{\mathbf X} = {\mathbf 0}\) or
 \({\mathbf Z}_{\mathbf Y} = {\mathbf 0}\) where \({\mathbf 0}\) is a
 null matrix. Upon the stopping condition we would have \(C\) components,
@@ -571,17 +571,19 @@ many of the vectors and matrices associated with
 these orthogonality constraints do not apply to the various vectors and
 matrices associated with \({\mathbf Y}\).
 
-\hypertarget{reconstitution-of-responses-and-predictors}{%
-\subsection{Reconstitution of responses (and
-predictors)}\label{reconstitution-of-responses-and-predictors}}
+\hypertarget{decomposition-and-reconstitution}{%
+\subsection{Decomposition and
+reconstitution}\label{decomposition-and-reconstitution}}
 
 \label{section:recresp}
 
 PLS-CA-R is a ``double decomposition'' where \begin{equation}
-{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T} \text{ and } \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
+{\mathbf Z}_{\mathbf X} = {\mathbf M}^{\frac{1}{2}}_{\mathbf X}{\mathbf T}\widehat{\mathbf U}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf X} \text{ and } \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}\widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
 \label{eq:doubledecomp}
-\end{equation} and
-\(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}\).
+\end{equation} and where
+\(\widetilde{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T}\)
+and
+\(\widehat{\widetilde{\mathbf Z}}_{\mathbf Y} = {\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}\).
 PLS-CA-R, like PLS-R, provides the same estimated predicted values as in
 OLS under the conditions that \({\bf Z}_{\bf X}\) is (1) full rank, (2)
 non-singular, (3) not excessively multicollinear: \begin{equation}
