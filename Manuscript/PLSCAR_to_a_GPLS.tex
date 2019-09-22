@@ -520,7 +520,7 @@ variables where \(C < A\) where where \(A\) is the rank of
 \({\mathbf Z}_{\mathbf Y} = {\mathbf 0}\) where \({\mathbf 0}\) is a
 null matrix. Upon the stopping condition we would have \(C\) components,
 and would have collected any vectors into corresponding matrices. Those
-matrices are,
+matrices are
 
 \begin{itemize}
 \item
@@ -578,13 +578,16 @@ reconstitution}\label{decomposition-and-reconstitution}}
 \label{section:recresp}
 
 PLS-CA-R is a ``double decomposition'' where \begin{equation}
-{\mathbf Z}_{\mathbf X} = {\mathbf M}^{\frac{1}{2}}_{\mathbf X}{\mathbf T}\widehat{\mathbf U}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf X} \text{ and } \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}\widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
+\begin{aligned}
+{\mathbf Z}_{\mathbf X} = {\mathbf M}^{\frac{1}{2}}_{\mathbf X}{\mathbf T}\widehat{\mathbf U}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf X} \text{ and }\\
+\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}\widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
 \label{eq:doubledecomp}
-\end{equation} and where
+\end{aligned}
+\end{equation} where
 \(\widetilde{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T}\)
 and
 \(\widehat{\widetilde{\mathbf Z}}_{\mathbf Y} = {\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}\).
-PLS-CA-R, like PLS-R, provides the same estimated predicted values as in
+PLS-CA-R, like PLS-R, provides the same estimated predicted values as
 OLS under the conditions that \({\bf Z}_{\bf X}\) is (1) full rank, (2)
 non-singular, (3) not excessively multicollinear: \begin{equation}
 \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T {\mathbf Z}_{\mathbf Y},
@@ -593,10 +596,8 @@ non-singular, (3) not excessively multicollinear: \begin{equation}
 \({\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T\widetilde{\mathbf Z}_{\mathbf Y}\).
 This connection to OLS shows how to residualize (i.e., ``regress out''
 or ``correct'') for known confounding effects, akin to how residuals are
-computed in OLS. We can do so with the original
-\({\mathbf Z}_{\mathbf Y}\) as
-\({\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}\).
-
+computed in OLS. We do so with the original \({\mathbf Z}_{\mathbf Y}\)
+as \({\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}\).
 PLS-CA-R produces a both predicted and residualized version of
 \({\mathbf Y}\). Recall that
 \(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}\).
@@ -612,18 +613,83 @@ residualized values (i.e., ``error'') as \begin{equation}
 \end{equation} Typically, \({\mathbf E}_{\mathbf Y}\) is derived from
 the model of the data (as noted in Eq. \ref{eq:models}). However, the
 reconstituted space could come from any model by way of generalized
-correspondence analysis (GCA)
+correspondence analysis
 \citetext{\citealp{escofier1983analyse}; \citealp{escofier1984analyse}; \citealp[for
 more details and background see also][]{beaton2018generalization}}. With
-GCA we could place the data back into any reasonable space. We can use
-alternates to \({\mathbf E}_{\mathbf Y}\) that would be obtained from
-some known priors, a theoretical model, out of sample data, or even
+GCA we could use any reasonable model with alternates to
+\({\mathbf E}_{\mathbf Y}\) that could be obtained, for examples, from
+known priors, a theoretical model, out of sample data, or even
 population estimates. The same procedures can be applied to obtain a
 reconstituted \({\mathbf X}\). Finally, CA can then be applied directly
 to either \(\widehat{\mathbf Y}\) or \({\mathbf Y}_{\epsilon}\).
 
 \hypertarget{concluding-remarks}{%
 \subsection{Concluding remarks}\label{concluding-remarks}}
+
+Now that we have formalized PLS-CA-R, we want to point out small
+variations, some caveats, and some additional features here. We go into
+much more detail in later sections on larger variations and broader
+generalizations through our formulation.
+
+In PLS-CA-R (and PLS-R) each subsequent \(\widetilde{\delta}\) is not
+guaranteed to be smaller than the previous, with the exception of all
+\(\widetilde \delta\) are smaller than the first. This is a by-product
+of the iterative process and the deflation steps, and does not occur
+with just a single pass of the SVD or GSVD (i.e., PLS-correlation
+decomposition). This poses two issues: (1) visualization of component
+scores and (2) explained variance; both of which we address here. For
+visualization of the component scores---which use
+\(\widetilde \delta\)---there is an alternative computation:
+\({\mathbf F}^{'}_{J} = {\mathbf W}_{J}\widetilde{\mathbf P}\) and
+\({\mathbf F}^{'}_{K} = {\mathbf W}_{K}\widetilde{\mathbf Q}\). This
+alternative is referred to as ``asymmetric component scores'' in the
+correspondence analysis literature (CITE). Additionally, instead of
+computing the variance per component or latent variable, we can instead
+compute the amount of variance explained by each component in
+\(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
+eigenvalues of each of the respective matrices per iteration. The trace
+for each is computed via CA (via the GSVD). Before the first iteration
+of PLS-CA-R we can obtain the the full variance (sum of the eigenvalues)
+of each matrix from
+\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}\)
+and
+\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}\),
+which we refer to as \({\phi}_{\bf X}\) and \({\phi}_{\bf Y}\),
+respectively. We can compute the sum of the eigenvalues for each
+deflated version of \({\mathbf Z}_{\mathbf X}\) and
+\({\mathbf Z}_{\mathbf Y}\) through the GSVD just as above, referred to
+as \({\phi}_{{\bf X},c}\) and \({\phi}_{{\bf Y},c}\). For each \(c\)
+component the proportion of explained variance for each matrix is
+\(\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}\) and
+\(\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}\).
+
+In our formulation, the weights we use are derived from the \(\chi^2\)
+assumption of independence. However nearly any choices of weights could
+be used, so long as the weight matrices are positive semi-definite. To
+note, if alternate row weights (i.e., \({\mathbf M}_{\mathbf X}\) or
+\({\mathbf M}_{\mathbf Y}\)) were chosen, then the fitted values and
+residuals are no longer guaranteed to be orthogonal (the same condition
+is true in weighted OLS). Additionally, alternate column weights (i.e.,
+\({\mathbf W}_{\mathbf X}\) or \({\mathbf W}_{\mathbf Y}\)) may deviate
+from the assumptions of \(\chi^2\) and may no longer reflect
+independence, or is an alternate metric altogether. There are some
+well-established alternates that we mention further in later sections,
+and through the concept of generalized correspondence analysis
+\citep{escofier1983analyse, escofier1984analyse} almost any weights or
+model could be used. However, those changes should be informed by sound
+statistical and theoretical assumptions.
+
+Finally, though we formalized PLS-CA-R as a method for categorical
+(nominal) data coded in complete disjunctive format (as seen in Table
+\ref{table:disj} (see SEX columns) or Table
+\ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various
+data types without loss of information. Specifically, both continuous
+and ordinal data can be handled with relative ease and in a
+``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
+where complete disjunctive would be a ``crisp coding'' (CITE). We
+introduce how to handle various data types as Section
+\label{section:appex} progresses to more complex (and ``real world'')
+problems.
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
