@@ -268,19 +268,16 @@ In PLS-CA-R (and PLS-R) each subsequent $\widetilde{\delta}$ is not guaranteed t
 
 In our formulation, the weights we use are derived from the $\chi^2$ assumption of independence. However nearly any choices of weights could be used, so long as the weight matrices are positive semi-definite. To note, if alternate row weights (i.e., ${\mathbf M}_{\mathbf X}$ or ${\mathbf M}_{\mathbf Y}$) were chosen, then the fitted values and residuals are no longer guaranteed to be orthogonal (the same condition is true in weighted OLS). Additionally, alternate column weights (i.e., ${\mathbf W}_{\mathbf X}$ or ${\mathbf W}_{\mathbf Y}$) may deviate from the assumptions of $\chi^2$ and may no longer reflect independence, or is an alternate metric altogether. There are some well-established alternates that we mention further in later sections, and through the concept of generalized correspondence analysis [@escofier1983analyse; @escofier1984analyse] almost any weights or model could be used. However, those changes should be informed by sound statistical and theoretical assumptions. 
 
-Finally, though we formalized PLS-CA-R as a method for categorical (nominal) data coded in complete disjunctive format (as seen in Table \ref{table:disj} (see SEX columns) or Table \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various data types without loss of information. Specifically, both continuous and ordinal data can be handled with relative ease and in a "pseudo-disjunctive" format, also referred to as "fuzzy coding" where complete disjunctive would be a "crisp coding" (CITE). We introduce how to handle various data types as Section \label{section:appex} progresses to more complex (and "real world") problems.
+Finally, though we formalized PLS-CA-R as a method for categorical (nominal) data coded in complete disjunctive format (as seen in Table \ref{table:disj} (see SEX columns) or Table \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various data types without loss of information. Specifically, both continuous and ordinal data can be handled with relative ease and in a "pseudo-disjunctive" format, also referred to as "fuzzy coding" where complete disjunctive would be a "crisp coding" [@greenacrefuzzy]. We introduce how to handle various data types as Section \label{section:appex} progresses to more complex (and "real world") problems.
 
 <!-- maybe what is immediatley below here is actually something to go into those sections and/or Discussion -->
 <!-- something about data types, norming, transforming, and choices one can make; make sure to cite "Ten quick tips on effective dimensionality reduction" -->
 <!-- to add to above, there's an important part re: ordinal vs. continous when fuzzy coded. the thermometer version is not centered on 0, but the escofier one is. that should be highlighted and emphasized -->
 
-
-<!-- pick up here and go downward -->
-
 # Applications & Examples
 \label{section:appex}
 
-The goal of this section is to provide a several illustrative examples with real data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). These examples highlight how to approach mixed data with PLS-CA-R as well as the multiple uses of PLS-CA-R (e.g., for analyses, as a residualization procedure). We present three sets of analyses to illustrate multiple uses of PLS-CA-R. First we introduce PLS-CA-R through a typical and relatively straightforward example: predict genotypes (categorical) from groups (categorical). Next we present analyses with the goal to predict genotypes from a small set of behavioral and brain variables. This second example serves multiple purposes: (1) how to recode and analyze mixed data (categorical, ordinal, and continuous), (2) how to use PLS-CA-R as an analysis technique, and (3) how to use PLS-CA-R as residualization technique (i.e., adjust for confounds) prior to subsequent analyses. Finally, we present a larger analysis with the goal to predict genotypes from cortical uptake of AV45 (i.e., a radiotracer) PET scan for beta-amyloid ("A$\beta$") deposition. This final example also makes use of residualization as illustrated in the second example. 
+The goal of this section is to provide a several illustrative examples with real data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). These examples highlight how to approach mixed data with PLS-CA-R as well as the multiple uses of PLS-CA-R (e.g., for analyses, as a residualization procedure). We present three sets of analyses to illustrate multiple uses of PLS-CA-R. First we introduce PLS-CA-R through a typical and relatively straightforward example: predict genotypes (categorical) from groups (categorical) where we can highlight multiple features of PLS-CA-R, with links back to OLS and polygenic risk scores. Next we present analyses with the goal to predict genotypes from a small set of behavioral and brain variables. This second example serves multiple purposes: (1) how to recode and analyze mixed data (categorical, ordinal, and continuous), (2) how to use PLS-CA-R as an analysis technique, and (3) how to use PLS-CA-R as residualization technique (i.e., adjust for confounds) prior to subsequent analyses. Finally, we present a larger analysis with the goal to predict genotypes from cortical uptake of AV45 (i.e., a radiotracer) PET scan for beta-amyloid ("A$\beta$") deposition. This final example also makes use of residualization as illustrated in the second example. 
 
 
 ## ADNI Data
@@ -356,7 +353,7 @@ kable(desc.tab, format = "latex", booktabs=T, caption="\\label{table:desctab} De
   
 ```
 
-For this example we refer to diagnosis (groups) as the predictors (${\bf X}$) and the genotypic data as the responses (${\bf Y}$). Both data types are coded in disjunctive format (see Tables \ref{table:disj} and \ref{table:snps_models_disj}). Because there are five columns (groups) in ${\bf X}$, PLS-CA-R produces only four latent variables (a.k.a. components). Table \ref{table:r2ex1} presents the cumulative explained variance for both ${\bf X}$ and ${\bf Y}$ and shows that groups explain only a small amount of genotypic variance: $R^2=$ `r round(sum(ols.res$r2.y),digits=4)`.
+For this example we refer to diagnosis (groups) as the predictors (${\bf X}$) and the genotypic data as the responses (${\bf Y}$). Both data types are coded in disjunctive format (see Tables \ref{table:disj} and \ref{table:snps_models_disj}). Because there are five columns (groups) in ${\bf X}$, PLS-CA-R produces only four latent variables (a.k.a. components). Table \ref{table:r2ex1} presents the cumulative explained variance for both ${\bf X}$ and ${\bf Y}$ and shows that groups explain only a small amount of genotypic variance: $R^2=$ `r round(sum(ols.res$r2_y),digits=4)`.
 
 ```{r echo=F,results="asis"}
 ols.r2.table <- cbind(cumsum(ols.res$r2_x),  cumsum(ols.res$r2_y))
@@ -365,7 +362,7 @@ rownames(ols.r2.table) <- paste0("Latent variable ",1:length(ols.res$betas))
 
 kable(ols.r2.table,digits = 5,
       format="latex",
-      caption=paste("\\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained ", round(sum(ols.res$r2.y)*100,digits=4), "\\% of the genotypes.",sep=""),
+      caption=paste("\\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained ", round(sum(ols.res$r2_y)*100,digits=4), "\\% of the genotypes.",sep=""),
       booktabs=T) %>%
   kable_styling(latex_options =c("hold_position")) # %>%
   # add_header_above(c(" ", "Original coding" = 3, "Disjunctive and pseudo-disjunctive coding" = 6))
@@ -375,7 +372,7 @@ kable(ols.r2.table,digits = 5,
 
 
 
-In a simple regression-like framework we can compute the variance contributed by genotypes or group (i.e., levels of variables) or variance contributed by entire variables (in this example: SNPs). First we compute the contributions to the variance of the genotypes (which is closely linked to leverage and Mahalanobis distances; CITE) as the sum of the squared loadings for each item: $[({\bf V} \odot {\bf V}){\bf 1}] \times C^{-1}$, where ${\bf 1}$ is a conformable vector of ones (note that ${\bf 1}({\bf V} \odot {\bf V}){\bf 1} = C$, where $C$ is the total number of latent variables or components). Total contribution values exist between 0 and 1 and describe the proportional variance each genotype contributes. Component-wise leverages, also called contributions to components (CITE), can be computed as $({\bf v}_{c} \odot {\bf v}_{c})$. Because the contributions are additive we can also add the contributions for all the genotypes per SNP. A simple criterion to identify genotypes or SNPs that contribute to the model is to identify which genotype or SNP contributes more variance than expected, which is one divided by the total number of original variables (i.e., SNPs). In this case that would be $1/ `r ncol(genetic.data)` = `r round(1/ncol(genetic.data),digits=4)`$. This criterion can be applied on the whole or component-wise. We show the genotypes and SNPs with above exepcted variance for the whole model (i.e., high contributing variables a regression framework) in Figure \ref{fig:leverages_ex1}. 
+In a simple regression-like framework we can compute the variance contributed by genotypes or group (i.e., levels of variables) or variance contributed by entire variables (in this example: SNPs). First we compute the contributions to the variance of the genotypes as the sum of the squared loadings for each item: $[({\bf V} \odot {\bf V}){\bf 1}] \times C^{-1}$, where ${\bf 1}$ is a conformable vector of ones. Total contribution values exist between 0 and 1 and describe the proportional variance each genotype contributes. These contributions to components can be computed as ${\bf v}_{c} \odot {\bf v}_{c}$. Because the contributions are additive we can also add the contributions for all the genotypes per SNP. A simple criterion to identify genotypes or SNPs that contribute to the model is to identify which genotype or SNP contributes more variance than expected, which is one divided by the total number of original variables (i.e., SNPs). In this case that would be $1/ `r ncol(genetic.data)` = `r round(1/ncol(genetic.data),digits=4)`$. This criterion can be applied on the whole or component-wise. We show the genotypes and SNPs with above exepcted variance for the whole model (i.e., high contributing variables a regression framework) in Figure \ref{fig:leverages_ex1}. 
 
 
 ```{r echo=F, fig.cap="\\label{fig:leverages_ex1} Regression approach to prediciton of genotypes from groups. Contributions across all components for genotypes (A; top) and the SNPs (B; bottom) computed as the summation of genotypes within a SNP. The horizontal line shows the expected variance and we only highlight genotypes (A; top) or SNPs (B; bottom) greater than the expected variance. Some of the highest contributing genotypes (e.g., AA and AG genotypes for rs769449) or SNPs (e.g.,  rs769449 and rs20756560) come from the APOE and TOMM40 genes.",fig.height=8,fig.width=6, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center",fig.pos = "!hbtp"}
@@ -438,9 +435,11 @@ Though PLS-R was initally developed as a regression approach---especially to han
   svd.line(cbind(ols.res$lx[,2],ols.res$ly[,2]),col=prettyGraphs::add.alpha("black",.6),lwd=2)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(ols.res$fi %*% diag(1/ols.res$d),col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
+  # ours::component.plot(ols.res$fi %*% diag(1/ols.res$d),col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
+  ours::component.plot(ols.res$fi,col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
   ## here I should provide color coding for items above expected for the whole model and just for either of the visualized two.
-  fj.a.copy <- ols.res$fj %*% diag(1/ols.res$d)
+  # fj.a.copy <- ols.res$fj %*% diag(1/ols.res$d)
+  fj.a.copy <- ols.res$fj
   rownames(fj.a.copy) <- colnames(Y)
   rownames(fj.a.copy) <- ifelse(genotype.contributions_12[,1],rownames(fj.a.copy),"")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
@@ -452,8 +451,6 @@ Though PLS-R was initally developed as a regression approach---especially to han
   par(par.opts)
   
 ```
-
-[[HEY, YOU, READING THIS: There are row/colnames issues causing problems with some of the code because it's not propogating through to GPLS from GSVD. Fix it here for now then in the package(s)]]
 
 
 ```{r echo=F, results="asis", fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:discriminant_ex1} Discriminant analysis with the latent variable approach. In this figure (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \\textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \\textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect group assignment in black and gray, respectively.",fig.pos = "!hbtp", warning=F, message=F}
@@ -493,14 +490,12 @@ Though PLS-R was initally developed as a regression approach---especially to han
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
-  
+
 ```
 
 
 This group-based analysis is also a discriminant analysis because it maximally separates groups. Thus we can classify observations by assigning them to the closest group. To correctly project observations onto the latent variables we compute $[{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K}$ where $1$ is a $1 \times K$ vector of ones where ${\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)$ are "row profiles" of ${\bf Y}$ (i.e., each element of ${\bf Y}$ divided by its respective row sum). To note $[{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K} = {\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$. Observations from ${\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$ are then assigned to the closest group in ${\mathbf F}_{J}$, either for per component, across a subset of components, or all components. For this example we use the full set (four) of components. The assigned groups can then be compared to the *a priori* groups to compute a classification accuracy. Figure \ref{fig:discriminant_ex1} shows the results of the discriminant analysis but only visualized on the first two components. Figures \ref{fig:discriminant_ex1}a and b show the scores for ${\mathbf F}_{J}$ and ${\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}$, respectively. Figure \ref{fig:discriminant_ex1}c shows the assignment of observations to their closest group. Figure \ref{fig:discriminant_ex1}d visualizes the accuracy of the assignment, where observations in black are correct assignments (gray are incorrect assignments). The total classification accuracy `r round((sum(diag(conf.tab)) / sum(conf.tab))*100,digits=2)`% (where chance accuracy was `r round(sum((colSums(DESIGN) / sum(DESIGN))^2)*100,digits=2)`%). This particular case of PLS-CA-R is also identical to the discriminant PLS-CA [@beaton_partial_2016]. Finally, typical PLS-R discriminant analyses are applied in scenarios where a small set of, or even a single, (typically) categorical responses are predicted from many predictors [@perez-enciso_prediction_2003]. However, such an approach may be overoptimitic in its prediction and classification [@rodriguez-perez_overoptimism_2018]. Thus we present discriminant PLS-CA-R in the prior example more akin to a typical regression problem (i.e., here a single predcitor with multiple responses).
 
-
-[[HEY, YOU, AGAIN: There are row/colnames issues everywhere now. GOOD LUCK WITH THAT!]]
 
 ```{r echo=F,results="asis"}
 kable(conf.tab[c("CN","SMC","EMCI","LMCI","AD"),c("CN","SMC","EMCI","LMCI","AD")],format="latex",caption="\\label{table:assign_ex1} The actual (row) vs. assigned (column) accuracies for the discriminant analysis.", booktabs=T) %>%
@@ -586,16 +581,20 @@ Next we perform two analyses with the same goal: understand the relationship bet
  
   par.opts <- par(mfrow=c(2,2))
 
-  ours::component.plot(regress.beh.brain.pls$fi %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
+  # ours::component.plot(regress.beh.brain.pls$fi %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
+ours::component.plot(regress.beh.brain.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(regress.beh.brain.pls$fj %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
+  # ours::component.plot(regress.beh.brain.pls$fj %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
+  ours::component.plot(regress.beh.brain.pls$fj,cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(regress.genes.pls$fi %*% diag(1/regress.genes.pls$d),cex=2,text.cex = .75,pch=20,display_names = T)
+  # ours::component.plot(regress.genes.pls$fi %*% diag(1/regress.genes.pls$d),cex=2,text.cex = .75,pch=20,display_names = T)
+  ours::component.plot(regress.genes.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T)
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(regress.genes.pls$fj %*% diag(1/regress.genes.pls$d),cex=1,text.cex = .5,pch=20,display_names = T)
+  # ours::component.plot(regress.genes.pls$fj %*% diag(1/regress.genes.pls$d),cex=1,text.cex = .5,pch=20,display_names = T)
+  ours::component.plot(regress.genes.pls$fj,cex=1,text.cex = .5,pch=20,display_names = T)
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -609,18 +608,22 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a and c) vs.
 ```{r echo=F,results="asis",fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.",fig.pos = "!hbtp"}
 
   par.opts <- par(mfrow=c(2,2))
-  ours::component.plot(plsrca.res$fi %*% diag(1/plsrca.res$d),cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
+  # ours::component.plot(plsrca.res$fi %*% diag(1/plsrca.res$d),cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
+ours::component.plot(plsrca.res$fi,cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
   thigmophobe.labels(plsrca.res$fi[,1] / plsrca.res$d[1], plsrca.res$fi[,2] / plsrca.res$d[2],labels = rownames(plsrca.res$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(plsrca.res_regressed$fi %*% diag(1/plsrca.res_regressed$d),cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
+  # ours::component.plot(plsrca.res_regressed$fi %*% diag(1/plsrca.res_regressed$d),cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
+  ours::component.plot(plsrca.res_regressed$fi,cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
   thigmophobe.labels(plsrca.res_regressed$fi[,1] / plsrca.res_regressed$d[1],plsrca.res_regressed$fi[,2] / plsrca.res_regressed$d[2],labels = rownames(plsrca.res_regressed$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
     
-  ours::component.plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
+  # ours::component.plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
+  ours::component.plot(plsrca.res$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regressed$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  # ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regressed$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  ours::component.plot(plsrca.res_regressed$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -718,11 +721,13 @@ In this final example we make use of all the features of PLS-CA-R: an example wi
   legend("topleft",legend=c("CN","SMC","EMCI","LMCI","AD"),pch=18,col=grp.cols[c("CN","SMC","EMCI","LMCI","AD")],text.col = grp.cols[c("CN","SMC","EMCI","LMCI","AD")], cex=.75)
   mtext(paste0("(A)"), side = 3, adj = 0,line=0.75,cex=1.5)
 
-  ours::component.plot(big.plsrca.res$fi %*% diag(1/big.plsrca.res$d),cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
+  # ours::component.plot(big.plsrca.res$fi %*% diag(1/big.plsrca.res$d),cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
+  ours::component.plot(big.plsrca.res$fi,cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
   thigmophobe.labels(big.plsrca.res$fi[big.fi.show,1] / big.plsrca.res$d[1], big.plsrca.res$fi[big.fi.show,2] / big.plsrca.res$d[2], labels=rownames(big.plsrca.res$fi)[big.fi.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(B)"), side = 3, adj = 0,line=0.75,cex=1.5)
   
-  ours::component.plot(big.plsrca.res$fj %*% diag(1/big.plsrca.res$d),display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
+  # ours::component.plot(big.plsrca.res$fj %*% diag(1/big.plsrca.res$d),display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
+  ours::component.plot(big.plsrca.res$fj,display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
   thigmophobe.labels(big.plsrca.res$fj[big.fj.show,1] / big.plsrca.res$d[1], big.plsrca.res$fj[big.fj.show,2] / big.plsrca.res$d[2], labels=rownames(big.plsrca.res$fj)[big.fj.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(C)"), side = 3, adj = 0,line=0.75,cex=1.5)
   

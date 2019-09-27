@@ -686,10 +686,10 @@ Finally, though we formalized PLS-CA-R as a method for categorical
 data types without loss of information. Specifically, both continuous
 and ordinal data can be handled with relative ease and in a
 ``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
-where complete disjunctive would be a ``crisp coding'' (CITE). We
-introduce how to handle various data types as Section
-\label{section:appex} progresses to more complex (and ``real world'')
-problems.
+where complete disjunctive would be a ``crisp coding''
+\citep{greenacrefuzzy}. We introduce how to handle various data types as
+Section \label{section:appex} progresses to more complex (and ``real
+world'') problems.
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
@@ -703,17 +703,18 @@ PLS-CA-R as well as the multiple uses of PLS-CA-R (e.g., for analyses,
 as a residualization procedure). We present three sets of analyses to
 illustrate multiple uses of PLS-CA-R. First we introduce PLS-CA-R
 through a typical and relatively straightforward example: predict
-genotypes (categorical) from groups (categorical). Next we present
-analyses with the goal to predict genotypes from a small set of
-behavioral and brain variables. This second example serves multiple
-purposes: (1) how to recode and analyze mixed data (categorical,
-ordinal, and continuous), (2) how to use PLS-CA-R as an analysis
-technique, and (3) how to use PLS-CA-R as residualization technique
-(i.e., adjust for confounds) prior to subsequent analyses. Finally, we
-present a larger analysis with the goal to predict genotypes from
-cortical uptake of AV45 (i.e., a radiotracer) PET scan for beta-amyloid
-(``A\(\beta\)'') deposition. This final example also makes use of
-residualization as illustrated in the second example.
+genotypes (categorical) from groups (categorical) where we can highlight
+multiple features of PLS-CA-R, with links back to OLS and polygenic risk
+scores. Next we present analyses with the goal to predict genotypes from
+a small set of behavioral and brain variables. This second example
+serves multiple purposes: (1) how to recode and analyze mixed data
+(categorical, ordinal, and continuous), (2) how to use PLS-CA-R as an
+analysis technique, and (3) how to use PLS-CA-R as residualization
+technique (i.e., adjust for confounds) prior to subsequent analyses.
+Finally, we present a larger analysis with the goal to predict genotypes
+from cortical uptake of AV45 (i.e., a radiotracer) PET scan for
+beta-amyloid (``A\(\beta\)'') deposition. This final example also makes
+use of residualization as illustrated in the second example.
 
 \hypertarget{adni-data}{%
 \subsection{ADNI Data}\label{adni-data}}
@@ -845,11 +846,11 @@ five columns (groups) in \({\bf X}\), PLS-CA-R produces only four latent
 variables (a.k.a. components). Table \ref{table:r2ex1} presents the
 cumulative explained variance for both \({\bf X}\) and \({\bf Y}\) and
 shows that groups explain only a small amount of genotypic variance:
-\(R^2=\) 0.
+\(R^2=\) 0.0065.
 
 \begin{table}[!h]
 
-\caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0\% of the genotypes.}
+\caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0.6471\% of the genotypes.}
 \centering
 \begin{tabular}{lrr}
 \toprule
@@ -866,17 +867,13 @@ Latent variable 4 & 1.00 & 0.00647\\
 In a simple regression-like framework we can compute the variance
 contributed by genotypes or group (i.e., levels of variables) or
 variance contributed by entire variables (in this example: SNPs). First
-we compute the contributions to the variance of the genotypes (which is
-closely linked to leverage and Mahalanobis distances; CITE) as the sum
+we compute the contributions to the variance of the genotypes as the sum
 of the squared loadings for each item:
 \([({\bf V} \odot {\bf V}){\bf 1}] \times C^{-1}\), where \({\bf 1}\) is
-a conformable vector of ones (note that
-\({\bf 1}({\bf V} \odot {\bf V}){\bf 1} = C\), where \(C\) is the total
-number of latent variables or components). Total contribution values
-exist between 0 and 1 and describe the proportional variance each
-genotype contributes. Component-wise leverages, also called
-contributions to components (CITE), can be computed as
-\(({\bf v}_{c} \odot {\bf v}_{c})\). Because the contributions are
+a conformable vector of ones. Total contribution values exist between 0
+and 1 and describe the proportional variance each genotype contributes.
+These contributions to components can be computed as
+\({\bf v}_{c} \odot {\bf v}_{c}\). Because the contributions are
 additive we can also add the contributions for all the genotypes per
 SNP. A simple criterion to identify genotypes or SNPs that contribute to
 the model is to identify which genotype or SNP contributes more variance
@@ -936,10 +933,6 @@ protective effects).
 \caption{\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. In this figure (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.}\label{fig:unnamed-chunk-5}
 \end{figure}
 
-{[}{[}HEY, YOU, READING THIS: There are row/colnames issues causing
-problems with some of the code because it's not propogating through to
-GPLS from GSVD. Fix it here for now then in the package(s){]}{]}
-
 \begin{figure}[!hbtp]
 
 {\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1} 
@@ -983,9 +976,6 @@ approach may be overoptimitic in its prediction and classification
 \citep{rodriguez-perez_overoptimism_2018}. Thus we present discriminant
 PLS-CA-R in the prior example more akin to a typical regression problem
 (i.e., here a single predcitor with multiple responses).
-
-{[}{[}HEY, YOU, AGAIN: There are row/colnames issues everywhere now.
-GOOD LUCK WITH THAT!{]}{]}
 
 \begin{table}[!h]
 
