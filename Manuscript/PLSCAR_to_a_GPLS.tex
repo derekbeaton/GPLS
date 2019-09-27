@@ -637,16 +637,17 @@ guaranteed to be smaller than the previous, with the exception of all
 of the iterative process and the deflation steps, and does not occur
 with just a single pass of the SVD or GSVD (i.e., PLS-correlation
 decomposition). This poses two issues: (1) visualization of component
-scores and (2) explained variance; both of which we address here. For
-visualization of the component scores---which use
-\(\widetilde \delta\)---there is an alternative computation:
+scores and (2) explained variance. For visualization of the component
+scores---which use \(\widetilde \delta\)---there is an alternative
+computation:
 \({\mathbf F}^{'}_{J} = {\mathbf W}_{J}\widetilde{\mathbf P}\) and
 \({\mathbf F}^{'}_{K} = {\mathbf W}_{K}\widetilde{\mathbf Q}\). This
 alternative is referred to as ``asymmetric component scores'' in the
-correspondence analysis literature (CITE). Additionally, instead of
-computing the variance per component or latent variable, we can instead
-compute the amount of variance explained by each component in
-\(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
+correspondence analysis literature
+\citep{abdi2014correspondence, greenacre1993biplots}. Additionally,
+instead of computing the variance per component or latent variable, we
+can instead compute the amount of variance explained by each component
+in \(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
 eigenvalues of each of the respective matrices per iteration. The trace
 for each is computed via CA (via the GSVD). Before the first iteration
 of PLS-CA-R we can obtain the the full variance (sum of the eigenvalues)
@@ -665,11 +666,11 @@ component the proportion of explained variance for each matrix is
 
 In our formulation, the weights we use are derived from the \(\chi^2\)
 assumption of independence. However nearly any choices of weights could
-be used, so long as the weight matrices are positive semi-definite. To
-note, if alternate row weights (i.e., \({\mathbf M}_{\mathbf X}\) or
+be used, so long as the weight matrices are positive semi-definite.
+However, if alternate row weights (i.e., \({\mathbf M}_{\mathbf X}\) or
 \({\mathbf M}_{\mathbf Y}\)) were chosen, then the fitted values and
 residuals are no longer guaranteed to be orthogonal (the same condition
-is true in weighted OLS). Additionally, alternate column weights (i.e.,
+is true in weighted OLS). Likewise, alternate column weights (i.e.,
 \({\mathbf W}_{\mathbf X}\) or \({\mathbf W}_{\mathbf Y}\)) may deviate
 from the assumptions of \(\chi^2\) and may no longer reflect
 independence, or is an alternate metric altogether. There are some
@@ -681,15 +682,15 @@ statistical and theoretical assumptions.
 
 Finally, though we formalized PLS-CA-R as a method for categorical
 (nominal) data coded in complete disjunctive format (as seen in Table
-\ref{table:disj} (see SEX columns) or Table
+\ref{table:disj}---see SEX columns---or Table
 \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various
 data types without loss of information. Specifically, both continuous
 and ordinal data can be handled with relative ease and in a
 ``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
 where complete disjunctive would be a ``crisp coding''
-\citep{greenacrefuzzy}. We introduce how to handle various data types as
-Section \label{section:appex} progresses to more complex (and ``real
-world'') problems.
+\citep{greenacrefuzzy}. We explain exactly to handle various data types
+as Section \label{section:appex} progresses, which reflects more ``real
+world'' problems: complex, mixed data types, and multi-source data.
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
@@ -778,7 +779,7 @@ four candidate genes. The 134 SNPs span 349 columns in disjunctive
 coding (see Table \ref{table:snps_models_disj}). Other data include
 diagnosis and demographics, some behavioral and cognitive instruments,
 and several types of brain-based measures. We discuss these additional
-data in further detail where these data are introduced.
+data in further detail when we introduce these data.
 
 \begin{table}[!h]
 
@@ -807,15 +808,15 @@ SUBJ 6 & AA & 1 & 0 & 0 & 1 & 0 & 1 & 0\\
 \label{section:plscarda}
 
 Our first example asks and answers the question: ``which genotypes are
-associated with which diagnoses?''. We do so through the prediction of
-genotypes from diagnosis. Diagnosis at baseline in the ADNI study is a
-mutually exclusive categorical variable that denotes which group each
-participant belongs to at the first visit in the study: control (CN;
-\(N=\) 155), subjective memory complaints (SMC; \(N=\) 99), early mild
-cognitive impairment (EMCI; \(N=\) 277), late mild cognitive impairment
-(LMCI; \(N=\) 134), and Alzheimer's disease (AD; \(N=\) 126). We present
-this first example analysis in two ways: akin to a standard regression
-via PLS a la Wold {[}\citet{wold_soft_1975};
+associated with which diagnostic category?''. We do so through the
+prediction of genotypes from diagnosis. Diagnosis at baseline in the
+ADNI study is a mutually exclusive categorical variable that denotes
+which group each participant belongs to (at the first visit): control
+(CN; \(N=\) 155), subjective memory complaints (SMC; \(N=\) 99), early
+mild cognitive impairment (EMCI; \(N=\) 277), late mild cognitive
+impairment (LMCI; \(N=\) 134), and Alzheimer's disease (AD; \(N=\) 126).
+We present this first example analysis in two ways: akin to a standard
+regression progblem a la Wold {[}\citet{wold_soft_1975};
 \citet{wold_collinearity_1984}; \citet{wold_principal_1987}; cf.~Eq.
 \ref{ols_equivalence}) and then again in the more recent, and now
 typical, multivariate perspective of ``projection onto latent
@@ -838,7 +839,7 @@ SMC & 99 & 72.19 (5.71) & 16.81 (2.51) & 40 (59)\\
 \end{tabular}
 \end{table}
 
-For this example we refer to diagnosis (groups) as the predictors
+For this example we refer to diagnosis groups as the predictors
 (\({\bf X}\)) and the genotypic data as the responses (\({\bf Y}\)).
 Both data types are coded in disjunctive format (see Tables
 \ref{table:disj} and \ref{table:snps_models_disj}). Because there are
@@ -850,16 +851,16 @@ shows that groups explain only a small amount of genotypic variance:
 
 \begin{table}[!h]
 
-\caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0.6471\% of the genotypes.}
+\caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0.65\% of the genotypes.}
 \centering
 \begin{tabular}{lrr}
 \toprule
   & X (groups) R-squared cumulative & Y (genotypes) R-squared cumulative\\
 \midrule
-Latent variable 1 & 0.25 & 0.00263\\
-Latent variable 2 & 0.50 & 0.00423\\
-Latent variable 3 & 0.75 & 0.00553\\
-Latent variable 4 & 1.00 & 0.00647\\
+Latent variable 1 & 0.25 & 0.0026\\
+Latent variable 2 & 0.50 & 0.0042\\
+Latent variable 3 & 0.75 & 0.0055\\
+Latent variable 4 & 1.00 & 0.0065\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -874,8 +875,8 @@ a conformable vector of ones. Total contribution values exist between 0
 and 1 and describe the proportional variance each genotype contributes.
 These contributions to components can be computed as
 \({\bf v}_{c} \odot {\bf v}_{c}\). Because the contributions are
-additive we can also add the contributions for all the genotypes per
-SNP. A simple criterion to identify genotypes or SNPs that contribute to
+additive we can compute the contributions for a SNP through all of its
+all. A simple criterion to identify genotypes or SNPs that contribute to
 the model is to identify which genotype or SNP contributes more variance
 than expected, which is one divided by the total number of original
 variables (i.e., SNPs). In this case that would be \(1/ 134 = 0.0075\).
@@ -890,7 +891,7 @@ the genotypes and SNPs with above exepcted variance for the whole model
 
 }
 
-\caption{\label{fig:leverages_ex1} Regression approach to prediciton of genotypes from groups. Contributions across all components for genotypes (A; top) and the SNPs (B; bottom) computed as the summation of genotypes within a SNP. The horizontal line shows the expected variance and we only highlight genotypes (A; top) or SNPs (B; bottom) greater than the expected variance. Some of the highest contributing genotypes (e.g., AA and AG genotypes for rs769449) or SNPs (e.g.,  rs769449 and rs20756560) come from the APOE and TOMM40 genes.}\label{fig:unnamed-chunk-4}
+\caption{\label{fig:leverages_ex1} Regression approach to prediction of genotypes from groups. Contributions across all components for genotypes (A; top) and the SNPs (B; bottom) computed as the summation of genotypes within a SNP. The horizontal line shows the expected variance and we only highlight genotypes (A; top) or SNPs (B; bottom) greater than the expected variance. Some of the highest contributing genotypes (e.g., AA and AG genotypes for rs769449) or SNPs (e.g.,  rs769449 and rs20756560) come from the APOE and TOMM40 genes.}\label{fig:unnamed-chunk-4}
 \end{figure}
 
 Though PLS-R was initally developed as a regression
@@ -930,7 +931,7 @@ protective effects).
 
 }
 
-\caption{\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. In this figure (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.}\label{fig:unnamed-chunk-5}
+\caption{\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.}\label{fig:unnamed-chunk-5}
 \end{figure}
 
 \begin{figure}[!hbtp]
@@ -939,47 +940,44 @@ protective effects).
 
 }
 
-\caption{\label{fig:discriminant_ex1} Discriminant analysis with the latent variable approach. In this figure (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect group assignment in black and gray, respectively.}\label{fig:unnamed-chunk-6}
+\caption{\label{fig:discriminant_ex1} Discriminant PLS-CA-R. (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect assignment in black and gray, respectively.}\label{fig:unnamed-chunk-6}
 \end{figure}
 
 This group-based analysis is also a discriminant analysis because it
 maximally separates groups. Thus we can classify observations by
 assigning them to the closest group. To correctly project observations
 onto the latent variables we compute
-\([{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K}\)
+\({\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}} = [{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K}\boldsymbol{\Delta}^{-1}\)
 where \(1\) is a \(1 \times K\) vector of ones where
 \({\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)\) are ``row
 profiles'' of \({\bf Y}\) (i.e., each element of \({\bf Y}\) divided by
-its respective row sum). To note
-\([{\bf O}_{\bf Y} \oslash ({\bf m}_{\bf Y}{\bf 1}^T)]{\bf F}_{K} = {\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}\).
-Observations from \({\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}\) are
-then assigned to the closest group in \({\mathbf F}_{J}\), either for
-per component, across a subset of components, or all components. For
-this example we use the full set (four) of components. The assigned
-groups can then be compared to the \emph{a priori} groups to compute a
-classification accuracy. Figure \ref{fig:discriminant_ex1} shows the
-results of the discriminant analysis but only visualized on the first
-two components. Figures \ref{fig:discriminant_ex1}a and b show the
-scores for \({\mathbf F}_{J}\) and
+its respective row sum). Observations from
+\({\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}\) are then assigned to
+the closest group in \({\mathbf F}_{J}\), either for per component,
+across a subset of components, or all components. For this example we
+use the full set (four) of components. The assigned groups can then be
+compared to the \emph{a priori} groups to compute a classification
+accuracy. Figure \ref{fig:discriminant_ex1} shows the results of the
+discriminant analysis but only visualized on the first two components.
+Figures \ref{fig:discriminant_ex1}a and b show the scores for
+\({\mathbf F}_{J}\) and
 \({\mathbf L}_{\mathbf Y} \times I^{\frac{1}{2}}\), respectively. Figure
 \ref{fig:discriminant_ex1}c shows the assignment of observations to
 their closest group. Figure \ref{fig:discriminant_ex1}d visualizes the
 accuracy of the assignment, where observations in black are correct
 assignments (gray are incorrect assignments). The total classification
-accuracy 38.69\% (where chance accuracy was 23.08\%). This particular
-case of PLS-CA-R is also identical to the discriminant PLS-CA
-\citep{beaton_partial_2016}. Finally, typical PLS-R discriminant
-analyses are applied in scenarios where a small set of, or even a
-single, (typically) categorical responses are predicted from many
-predictors \citep{perez-enciso_prediction_2003}. However, such an
-approach may be overoptimitic in its prediction and classification
-\citep{rodriguez-perez_overoptimism_2018}. Thus we present discriminant
-PLS-CA-R in the prior example more akin to a typical regression problem
-(i.e., here a single predcitor with multiple responses).
+accuracy 38.69\% (where chance accuracy was 23.08\%). Finally, typical
+PLS-R discriminant analyses are applied in scenarios where a small set
+of, or even a single, (typically) categorical responses are predicted
+from many predictors \citep{perez-enciso_prediction_2003}. However, such
+an approach appears to be ``over optimistic'' in its prediction and
+classification \citep{rodriguez-perez_overoptimism_2018}, which is why
+we present discriminant PLS-CA-R more akin to a typical regression
+problem (i.e., here a single predictor with multiple responses).
 
 \begin{table}[!h]
 
-\caption{\label{tab:unnamed-chunk-7}\label{table:assign_ex1} The actual (row) vs. assigned (column) accuracies for the discriminant analysis.}
+\caption{\label{tab:unnamed-chunk-7}\label{table:assign_ex1} The \textit{a priori} (rows) vs. assigned (columns) accuracies for the discriminant analysis.}
 \centering
 \begin{tabular}{lrrrrr}
 \toprule
@@ -1019,72 +1017,72 @@ assumed confounds.
 
 Here, the predictors encompass a variety of data types: all of the brain
 markers (volumetric MRI estimates, functional PET estimates) and the
-ADAS13 can be regarded as continuous data, whereas the MoCA and
-especially the CDRSB can be regarded as ordinal. These two measures are
-regarded as ordinal because they have limited values constrained by a
-minimum and maximum score: the CDRSB exists between 0 and 9 generally by
-steps of 1, and the MoCA exists between 0 and 30, though values below 20
-are rare. Furthermore, the assumed differences between each level are
-not considered the same, for example, MoCA scores between 29 and 30 is
-regarded as generally preserved and normal (high) levels of cognition,
-where between 26 and 27 is (clinically) the line between impaired and
-unimpaired. There are many properties of PLS-CA-R by way of CA that
-allow for easy inclusion of mixed data types. In particular, continuous
-and ordinal data types can be coded into what is called thermometer
-\citep{beaton2018generalization}, fuzzy, or ``bipolar'' coding (because
-it has two poles) \citep{greenacrefuzzy}, and idea was initially
-propsosed by Escofier for continuous data
+ADAS13 appear as generally continuous data, whereas the MoCA and
+especially the CDRSB are generally ordinal because they have limited
+values constrained by a minimum and maximum score: the CDRSB exists
+between 0 and 9 generally by steps of 1, and the MoCA exists between 0
+and 30, though values below 20 are exceedingly rare. Furthermore, the
+assumed differences between each level are not considered the same, for
+example, MoCA scores of 29 and 30 are regarded as preserved and normal
+(high) levels of cognition, where as 26 and 27 is the (clinical) line
+between impaired and unimpaired. There are many properties of PLS-CA-R
+by way of CA that allow for easy inclusion of mixed data types. In
+particular, continuous and ordinal data types can be coded into what is
+called thermometer \citep{beaton2018generalization}, fuzzy, or
+``bipolar'' coding (because it has two poles) \citep{greenacrefuzzy},
+and idea was initially propsosed by Escofier for continuous data
 \citep{escofier_traitement_1979}. The ``Escofier transform'' allows
 continuous data to be analyzed by CA and produces the exact same results
 as PCA \citep{escofier_traitement_1979}. The same principles can be
 applied to ordinal data as well \citep{beaton2018generalization}.
 Continuous and ordinal data can be transformed into a
-``pseudo-disjunctive'' format that behaves like disjunctive data (see
-Table \ref{table:disj}) but preserves the values (as opposed to binning,
-or dichotomizing). Here, we refer to the transform for continuous data
-as the ``Escofier transform'' or ``Escofier coding''
-\citep{beaton_partial_2016} and the transform for ordinal data as the
-``thermometer transform'' or ``thermometer coding''. Because continuous,
-ordinal, and categorical data can all be trasnformed into a
-disjunctive-like format, they can all be analyzed with PLS-CA-R.
+``pseudo-disjunctive'' format that behaves exactly like complete
+disjunctive data (see Table \ref{table:disj}) but preserves the values
+(as opposed to binning, or dichotomizing). Here, we refer to the
+transform for continuous data as the ``Escofier transform'' or
+``Escofier coding'' \citep{beaton_partial_2016} and the transform for
+ordinal data as the ``thermometer transform'' or ``thermometer coding''.
+Because continuous, ordinal, and categorical data can all be trasnformed
+into a disjunctive-like format, they can all be analyzed with PLS-CA-R.
 
 While the overall objective of this example is to understand the
 relationship between routine markers of AD and genetics, confounds exist
 for both the predictors (behavioral and brain data) and the responses
 (genotype data): age, sex, and education influence the behavioral and
 brain variables, whereas sex, race, and ethnicity influence the
-genotypic data (CITE). To note, these confounds are also of mixed types
-(e.g., sex vs.~age). Thus in this example we illustrate the mixed
-analysis in two ways---unadjusted for confound and adjusted for
-confounds. First we show the effects of the confounds on the separate
-data sets, and then compare and contrast adjusted vs.~unadjusted
-analyes. For the ``mixed'' data analyses, the volumetric data were
-adjusted prior to these analyses by intracranial volume. Any other
-adjustments are described when needed.
+genotypic variables. To note, these confounds are also of mixed types
+(e.g., sex is categorical, age is generally continuous). Thus in this
+example we illustrate the mixed analysis in two ways---unadjusted and
+then adjusted for these confounds. First we show the effects of the
+confounds on the separate data sets, and then compare and contrast
+adjusted vs.~unadjusted analyes. For the ``mixed'' data analyses, the
+volumetric data were also normalized (divided by) by intracranial volume
+prior to these analyses; effectively transformed into proportional
+volumes within each participant. Any other adjustments are described
+when needed.
 
 First we show the PLS-CA-R between each data set and their respective
-confounds. The main effects of age, sex, and education explained
-\ensuremath{-\infty{}}\% of the variance of the behavioral and brain
-data, where the main effects of sex, race, and ethnicity explained
-\ensuremath{-\infty{}}\% of the variance of the genotypic data. The
-first two components of each analysis are shown in
-\ref{fig:confound_predictors_ex2}. In the brain and behavioral data, age
-explains a substantial amount of variance and effectively is Component
-1. In the genotypic analysis, race is the primary explanatory effect;
-more specifically, the first two components are effectively explained by
-those that identify as black or African-American (Component 1) vs.~those
-that identify as Asian, Native, Hawaiian, or Latino/Hispanic (Component
-2). Both data sets were reconstituted (see Eq. \ref{eq:Yresid}) so that
-they were orthogonal to these confounds.
+confounds. The main effects of age, sex, and education explained 11.17\%
+of the variance of the behavioral and brain data, where the main effects
+of sex, race, and ethnicity explained 2.1\% of the variance of the
+genotypic data. The first two components of each analysis are shown in
+Figure \ref{fig:confound_predictors_ex2}. In the brain and behavioral
+data, age explains a substantial amount of variance and effectively
+explains Component 1. In the genotypic analysis, race is the primary
+explanatory effect; more specifically, the first two components are
+explained by those that identify as black or African-American (Component
+1) vs.~those that identify as Asian, Native, Hawaiian, or
+Latino/Hispanic (Component 2). Both data sets were reconstituted (i.e.,
+\({\mathbf Y}_{\epsilon}\) from Eq. \ref{eq:Yresid}) from their
+residuals.
 
-Next we perform two analyses with the same goal: understand the
+Next we performed two analyses with the same goal: understand the
 relationship between genetics and the behavioral and brain markers. In
-the unadjusted analysis, the brain and behavioral data explained
-\ensuremath{-\infty{}}\% of variance in the genotypic data, whereas in
-the adjusted analysis, the brain and behavioral data explained
-\ensuremath{-\infty{}}\% of variance in the genotypic data. The first
-two components of the PLS-CA-R results can be seen in Figure
-\ref{fig:confound_predictors_ex2}.
+the unadjusted analysis, the brain and behavioral data explained 1.6\%
+of variance in the genotypic data, whereas in the adjusted analysis, the
+brain and behavioral data explained 1.54\% of variance in the genotypic
+data. The first two components of the PLS-CA-R results can be seen in
+Figure \ref{fig:confound_predictors_ex2}.
 
 \begin{figure}[!hbtp]
 
@@ -1099,51 +1097,32 @@ In the unadjusted analysis (Figure \ref{fig:confound_predictors_ex2}a
 and c) vs.~the adjusted analysis (Figure
 \ref{fig:confound_predictors_ex2}b and d), we can some similarities and
 differences, especially with respect to the behavioral and brain data.
-AV45 was affected by the residualization, but generally explains a
-substantial amount of variance as it contributes highly to the first two
-components in both analyses. The effects of the structural
+AV45 shows little change after the residualization, and generally
+explains a substantial amount of variance as it contributes highly to
+the first two components in both analyses. The effects of the structural
 data---especially the hippocampus---are dampened after adjustment (see
 Figure \ref{fig:confound_predictors_ex2}a vs b), where the effects of
 FDG and CDRSB are now (relatively) increased (see Figure
 \ref{fig:confound_predictors_ex2}a vs b). On the subject level, the
-differences are not substantial but there are some interesting effects
-(see Figure \ref{fig:lv_compare_ex2}). One important effect is that on a
-spectrum from CON to AD, we can see that the residualization has a
-larger impact on the CON side, where the AD side remains somewhat
-homgeneous (see Figure \ref{fig:lv_compare_ex2}c) for the brain and
-behavioral variables. With respect to the genotypic LV, there is much
-less of an effect (see Figure \ref{fig:lv_compare_ex2}d), wherein the
-observations appear relatively unchanged. However, both pre- (horizontal
-axis; Figure \ref{fig:lv_compare_ex2}d) and post- (vertical axis; Figure
+differences are not substantial, but there are noticeable effects
+especially with the ability to distinguish between groups (see Figure
+\ref{fig:lv_compare_ex2}). One important effect is that on a spectrum
+from CON to AD, we can see that the residualization has a larger impact
+on the CON side, where the AD side remains somewhat homgeneous (see
+Figure \ref{fig:lv_compare_ex2}c) for the brain and behavioral
+variables. With respect to the genotypic LV, there is much less of an
+effect (see Figure \ref{fig:lv_compare_ex2}d), wherein the observations
+appear relatively unchanged. However, both pre- (horizontal axis; Figure
+\ref{fig:lv_compare_ex2}d) and post- (vertical axis; Figure
 \ref{fig:lv_compare_ex2}d) residualization shows that there are
 individuals with unique genotypic patterns that remain unaffected by the
-residualization process (i.e., those at the tails). From this point
-forward we emphasize the results from the adjusted analyses because they
-are more realistic in terms of how analyses are performed throughout the
-literature.
+residualization process (i.e., those at the tails).
 
-\begin{figure}[!hbtp]
-
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1} 
-
-}
-
-\caption{\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.}\label{fig:unnamed-chunk-10}
-\end{figure}
-
-\begin{figure}[!hbtp]
-
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1} 
-
-}
-
-\caption{\label{fig:lv_compare_ex2} Latent variable scores (observations) for the first latent variable. The top figures (A) and (B) show the projection of the latent variable scores from each set: LX are the brain and behavioral markers, where as LY are the genotypes, for the original and residualized, respectively. The bottom figures (C) and (D) show the the original and residualized scores for the first latent variable compared to one another for each set: the brain and behavioral markers (LX) and the genotypes (LY), respectively.}\label{fig:unnamed-chunk-11}
-\end{figure}
-
-Finally, we interpret the results of residualized analyses (limited to
-the first component/LV). For this we refer to Figure
+From this point forward we emphasize the results from the adjusted
+analyses because they are more realistic in terms of how analyses are
+performed throughout the literature. For this we refer to Figure
 \ref{fig:lv_compare_ex2}b---which shows the latent variable scores for
-the observations and the averages of those scores for the groups--- and
+the observations and the averages of those scores for the groups---and
 Figures \ref{fig:original_residualized_ex2}b and
 \ref{fig:original_residualized_ex2}d---which show the component scores
 for the brain and behavioral markers and the genotypes, respectively.
@@ -1163,6 +1142,24 @@ of rs405697, GG genotype of rs157580, and TC+TT genotypes of rs7412
 effects (i.e., decreased AV4, increased FDG, and decreased ADAS13
 scores).
 
+\begin{figure}[!hbtp]
+
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1} 
+
+}
+
+\caption{\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+\begin{figure}[!hbtp]
+
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1} 
+
+}
+
+\caption{\label{fig:lv_compare_ex2} Latent variable scores (observations) for the first latent variable. The top figures (A) and (B) show the projection of the latent variable scores from each set: LX are the brain and behavioral markers, where as LY are the genotypes, for the original and residualized, respectively. The bottom figures (C) and (D) show the the original and residualized scores for the first latent variable compared to one another for each set: the brain and behavioral markers (LX) and the genotypes (LY), respectively.}\label{fig:unnamed-chunk-11}
+\end{figure}
+
 \hypertarget{suvr-and-genotypes}{%
 \subsection{SUVR and genotypes}\label{suvr-and-genotypes}}
 
@@ -1175,14 +1172,15 @@ something more akin to the typical analysis pipeline with similar
 objectives. The goal of this example is to predict genotypes from
 \(\beta-\)amyloid burden (``AV45 uptake'') across regions of the cortex.
 Because not all subjects have complete AV45 and genotypic data, the
-sample for this example is smaller: \(N=\) . Ethnicity, race, and sex
-(all categorical) explains 0\% of the variance in the genotypic data
-where age (numeric), education (ordinal), and sex (categorical) explains
-0\% of the variance in the in the AV45 uptake data. Overall, AV45 brain
-data explains 0\% of the variance in the genotypic data. With the
-adjusted data we can now perform our intended analyses. Although this
-analysis produced 0 latent variables, we focus on just the first (\% of
-genotypic variance explained by AV45 brain data).
+sample for this example is slightly smaller: \(N=\) 778. Ethnicity,
+race, and sex (all categorical) explains 2.07\% of the variance in the
+genotypic data where age (numeric), education (ordinal), and sex
+(categorical) explains 2.22\% of the variance in the in the AV45 uptake
+data. Overall, AV45 brain data explains 9.08\% of the variance in the
+genotypic data. With the adjusted data we can now perform our intended
+analyses. Although this analysis produced 67 components (latent
+variables), we focus on just the first (0.57\% of genotypic variance
+explained by AV45 brain data).
 
 \begin{figure}[!hbtp]
 
@@ -1195,7 +1193,7 @@ genotypic variance explained by AV45 brain data).
 
 The first latent variable in Figure \ref{fig:brain_genotypes_ex2}a is
 associated with only the horizontal axes (Component 1) in Figure
-\ref{fig:brain_genotypes_ex2}b and c.~The horizontal axis for in Fig.
+\ref{fig:brain_genotypes_ex2}b and c.~The horizontal axis in Fig.
 \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in
 Fig. \ref{fig:brain_genotypes_ex2}b whereas the vertical axis in Fig.
 \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in
@@ -1240,42 +1238,42 @@ spectrum of severity.
 Many modern studies, like ADNI, aim to measure individuals at a variety
 of scales: genetics and genomics, brain structure and function, many
 aspects of cognition and behavior, batteries of clinical measures, and
-almost anything in between any and all of these levels. These data are
-extremely complex: they are heterogeneous and more often ``wide'' than
-``big'' (many more variables than subjects). However many approaches to
-handle such multivariate heterogeneous data often requires compromises
-or sacrifices (e.g., the presumption of single numeric model for
-categorical data such as the additive model for SNPs; Z-scores of
-ordinal values); in effect, all data are presumed to be interval scale
-and some of the distributional properties of various data and their
-respective types are ignored. Because of the many features and
-flexibility of PLS-CA-R---e.g., best fit to predictors, orthogonal
-latent variables, accommodation for virtually any data type---we are
-able to identify distinct variables and levels (e.g., genotypes) that
-define or contribute to control (CON) vs.~disease (AD) effects (e.g.,
-Fig. \ref{fig:contributions_ex1}) or reveal particular patterns anchored
-by the polar control and disease effects (CON \(\rightarrow\) SMC
-\(\rightarrow\) EMCI \(\rightarrow\) LMCI \(\rightarrow\) AD; see, e.g.,
-Fig. \ref{fig:brain_genotypes_ex2}).
+almost anything in between all of these levels. These data are extremely
+complex: they are heterogeneous and more often than not ``wide'' (many
+more variables than subjects). But many currently strategies and
+approaches to handle such multivariate heterogeneous data often requires
+compromises or sacrifices (e.g., the presumption of single numeric model
+for categorical data such as the additive model for SNPs; Z-scores of
+ordinal values); in effect, many strategies and approaches presume that
+data are interval scale, thus some of the distributional properties of
+various data and their respective types are ignored. Because of the many
+features and flexibility of PLS-CA-R---e.g., best fit to predictors,
+orthogonal latent variables, accommodation for virtually any data
+type---we are able to identify distinct variables and levels (e.g.,
+genotypes) that define or contribute to control (CON) vs.~disease (AD)
+effects (e.g., Fig. \ref{fig:contributions_ex1}) or reveal particular
+patterns anchored by the polar control and disease effects (CON
+\(\rightarrow\) SMC \(\rightarrow\) EMCI \(\rightarrow\) LMCI
+\(\rightarrow\) AD; see, e.g., Fig. \ref{fig:brain_genotypes_ex2}).
 
 While we focused on particular ways of coding and transforming data,
 there are many alternatives that could be used with PLS-CA-R. For
 example, we used a disjunctive approach for SNPs because they are
-categorical (``trichotomous''), which matches the genotypic model.
-However, through various disjunctive schemes, or other forms of Escofier
-or fuzzy coding, we could have used any genetic model: if all SNPs were
-coded as the major vs.~the minor allele (`AA' vs.~\{`Aa+aa'\}), this
-would be the dominant model, or we could have assumed the additive model
----i.e., 0, 1, 2 for `AA', `Aa', and `aa', respectively---and
-transformed the data with the ordinal approach (but not the continuous
+categorical, which matches the genotypic model. However, through various
+disjunctive schemes, or other forms of Escofier or fuzzy coding, we
+could have used any genetic model: if all SNPs were coded as the major
+vs.~the minor allele (`AA' vs.~\{`Aa+aa'\}), this would be the dominant
+model, or we could have assumed the additive model ---i.e., 0, 1, 2 for
+`AA', `Aa', and `aa', respectively---and transformed the data with the
+ordinal approach (but we strongly emphasize \emph{not} the continuous
 approach). We previously provided a comprehensive guide on how transform
-various SNP genetic models for use in CA elsewhere \citep[see Appendix
-of][]{beaton_partial_2016}. Furthermore, we only highlighted one of many
-possible methods to transform ordinal data. The term ``fuzzy coding''
-applies more generally to the recoding of ordinal, ranked, preference,
-and even continuous data across a number of schemes, all of which
-conform to the same properties as disjunctive data. The many ``fuzzy''
-and ``double'' coding schemes are generally found in
+various SNP genetic models for use in PLS-CA and CA elsewhere \citep[see
+Appendix of][]{beaton_partial_2016}. Furthermore, we only highlighted
+one of many possible methods to transform ordinal data. The term ``fuzzy
+coding'' applies more generally to the recoding of ordinal, ranked,
+preference, and even continuous data across a number of schemes, all of
+which conform to the same properties as disjunctive data. The many
+``fuzzy'' and ``double'' coding schemes are generally found in
 \citet{escofier_traitement_1979}, \citet{lebart_multivariate_1984}, or
 \citet{greenacrefuzzy}. However, for ordinal data---especially with
 fewer than or equal to 10 levels---we actually recommend to treat
