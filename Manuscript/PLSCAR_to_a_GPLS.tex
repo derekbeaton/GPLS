@@ -274,17 +274,17 @@ GPLSSVD}\label{the-svd-gsvd-ca-and-gplssvd}}
 
 \label{section:GSVDCA}
 
-Assume we have a matrix \({\mathbf X}\) with \(I\) rows and \(J\), where
-\({\mathbf X}\) is preprocessed in some way as
+Assume we have a matrix \({\mathbf X}\) with \(I\) rows and \(J\)
+columns, where \({\mathbf X}\) is preprocessed in some way as
 \({\mathbf Z}_{\mathbf X}\). The singular value decomposition (SVD)
-decomposes as
+decomposes \({\mathbf Z}_{\mathbf X}\) as
 \({\mathbf Z}_{\mathbf X} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\)
 where
 \({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
 where \({\mathbf Z}_{\mathbf X}\) is of rank \(A\) and
-\({\boldsymbol \Delta}\) is a \(A \times A\) diagonal matrix of singular
-values, and \({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\) is a
-\(A \times A\) diagonal matrix of eigenvalues. \({\mathbf U}\) and
+\({\boldsymbol \Delta}\) is an \(A \times A\) diagonal matrix of
+singular values, and \({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\)
+is a \(A \times A\) diagonal matrix of eigenvalues. \({\mathbf U}\) and
 \({\mathbf V}\) are referred to as the left and right singular vectors,
 respectively. From the SVD we can compute component (a.k.a. factor)
 scores as \({\mathbf F}_{I} = {\mathbf U}{\boldsymbol \Delta}\) and
@@ -341,9 +341,10 @@ First we define the \emph{observed} matrix
 \({\mathbf O}_{\mathbf X} = {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}\).
 Next we compute the marginal probabilities from the observed matrix as
 \({\mathbf m}_{\mathbf X} = {\mathbf O}_{\mathbf X}{\mathbf 1} = \text{ and } {\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\).
-We then define the \emph{expected} matrix as
+We then define the \emph{expected} (under the assumption of
+independence, i.e., \(\chi^2\)) matrix as
 \({\mathbf E}_{\mathbf X} = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T}\).
-We then compute the \emph{deviation} matrix as
+We then compute the \emph{deviation} (from independence) matrix as
 \({\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}\).
 Finally, we perform CA as
 \(\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1} \mathrm{)}\)
@@ -662,7 +663,7 @@ instead of computing the variance per component or latent variable, we
 can instead compute the amount of variance explained by each component
 in \(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
 eigenvalues of each of the respective matrices per iteration. The trace
-for each is computed via CA (via the GSVD). Before the first iteration
+for each is computed via CA (with the GSVD). Before the first iteration
 of PLS-CA-R we can obtain the the full variance (sum of the eigenvalues)
 of each matrix from
 \(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}\)
@@ -702,7 +703,7 @@ and ordinal data can be handled with relative ease and in a
 ``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
 where complete disjunctive would be a ``crisp coding''
 \citep{greenacrefuzzy}. We explain exactly to handle various data types
-as Section \label{section:appex} progresses, which reflects more ``real
+as Section \ref{section:appex} progresses, which reflects more ``real
 world'' problems: complex, mixed data types, and multi-source data.
 
 \hypertarget{applications-examples}{%
@@ -718,17 +719,17 @@ as a residualization procedure). We present three sets of analyses to
 illustrate multiple uses of PLS-CA-R. First we introduce PLS-CA-R
 through a typical and relatively straightforward example: predict
 genotypes (categorical) from groups (categorical) where we can highlight
-multiple features of PLS-CA-R, with links back to OLS and polygenic risk
-scores. Next we present analyses with the goal to predict genotypes from
-a small set of behavioral and brain variables. This second example
-serves multiple purposes: (1) how to recode and analyze mixed data
-(categorical, ordinal, and continuous), (2) how to use PLS-CA-R as an
-analysis technique, and (3) how to use PLS-CA-R as residualization
-technique (i.e., adjust for confounds) prior to subsequent analyses.
-Finally, we present a larger analysis with the goal to predict genotypes
-from cortical uptake of AV45 (i.e., a radiotracer) PET scan for
-beta-amyloid (``A\(\beta\)'') deposition. This final example also makes
-use of residualization as illustrated in the second example.
+multiple features of PLS-CA-R. Next we present analyses with the goal to
+predict genotypes from a small set of behavioral and brain variables.
+This second example serves multiple purposes: (1) how to recode and
+analyze mixed data (categorical, ordinal, and continuous), (2) how to
+use PLS-CA-R as an analysis technique, and (3) how to use PLS-CA-R as
+residualization technique (i.e., adjust for confounds) prior to
+subsequent analyses. Finally, we present a larger analysis with the goal
+to predict genotypes from cortical uptake of AV45 (i.e., a radiotracer)
+PET scan for beta-amyloid (``A\(\beta\)'') deposition. This final
+example also makes use of residualization as illustrated in the second
+example.
 
 \hypertarget{adni-data}{%
 \subsection{ADNI Data}\label{adni-data}}
@@ -1042,8 +1043,8 @@ between impaired and unimpaired. There are many properties of PLS-CA-R
 by way of CA that allow for easy inclusion of mixed data types. In
 particular, continuous and ordinal data types can be coded into what is
 called thermometer \citep{beaton2018generalization}, fuzzy, or
-``bipolar'' coding (because it has two poles) \citep{greenacrefuzzy},
-and idea was initially propsosed by Escofier for continuous data
+``bipolar'' coding (because it has two poles) \citep{greenacrefuzzy}; an
+idea initially propsosed by Escofier for continuous data
 \citep{escofier_traitement_1979}. The ``Escofier transform'' allows
 continuous data to be analyzed by CA and produces the exact same results
 as PCA \citep{escofier_traitement_1979}. The same principles can be
@@ -1133,10 +1134,10 @@ residualization process (i.e., those at the tails).
 
 From this point forward we emphasize the results from the adjusted
 analyses because they are more realistic in terms of how analyses are
-performed throughout the literature. For this we refer to Figure
-\ref{fig:lv_compare_ex2}b---which shows the latent variable scores for
-the observations and the averages of those scores for the groups---and
-Figures \ref{fig:original_residualized_ex2}b and
+performed. For this we refer to Figure \ref{fig:lv_compare_ex2}b---which
+shows the latent variable scores for the observations and the averages
+of those scores for the groups---and Figures
+\ref{fig:original_residualized_ex2}b and
 \ref{fig:original_residualized_ex2}d---which show the component scores
 for the brain and behavioral markers and the genotypes, respectively.
 The first latent variable (Fig. \ref{fig:lv_compare_ex2}b) shows a
@@ -1184,6 +1185,17 @@ confounds (and thus require residualization). This example serves as
 something more akin to the typical analysis pipeline with similar
 objectives. The goal of this example is to predict genotypes from
 \(\beta-\)amyloid burden (``AV45 uptake'') across regions of the cortex.
+In this case, we also assume that the distribution of AV45 uptake across
+cortical regions approximately follows that of \(\chi^2\) in that we
+compute the deviations from independence (produced from the product
+between the row and column probabilities). However we want to note that
+this is only one possible way to handle such data. It is possible to
+treat these data as row-wise proportions (i.e., percentage of total
+uptake per region within each subject) or even as continuous data;
+though these data are strictly non-negative. Ultimately, it is up to the
+analyst to decide how to treat such data and how it fits into the
+analysis framework.
+
 Because not all subjects have complete AV45 and genotypic data, the
 sample for this example is slightly smaller: \(N=\) 778. Ethnicity,
 race, and sex (all categorical) explains 2.07\% of the variance in the
@@ -1253,21 +1265,24 @@ of scales: genetics and genomics, brain structure and function, many
 aspects of cognition and behavior, batteries of clinical measures, and
 almost anything in between all of these levels. These data are extremely
 complex: they are heterogeneous and more often than not ``wide'' (many
-more variables than subjects). But many currently strategies and
+more variables than subjects). But many current strategies and
 approaches to handle such multivariate heterogeneous data often requires
 compromises or sacrifices (e.g., the presumption of single numeric model
 for categorical data such as the additive model for SNPs; Z-scores of
-ordinal values); in effect, many strategies and approaches presume that
-data are interval scale, thus some of the distributional properties of
-various data and their respective types are ignored. Because of the many
-features and flexibility of PLS-CA-R---e.g., best fit to predictors,
-orthogonal latent variables, accommodation for virtually any data
-type---we are able to identify distinct variables and levels (e.g.,
-genotypes) that define or contribute to control (CON) vs.~disease (AD)
-effects (e.g., Fig. \ref{fig:contributions_ex1}) or reveal particular
-patterns anchored by the polar control and disease effects (CON
-\(\rightarrow\) SMC \(\rightarrow\) EMCI \(\rightarrow\) LMCI
-\(\rightarrow\) AD; see, e.g., Fig. \ref{fig:brain_genotypes_ex2}).
+ordinal values; or ``dichotomania''
+(\url{https://www.fharrell.com/post/errmed/\#catg}): the binning of
+continuous values into categories). Many of those strategies and
+approaches presume that data are interval scale, or completely
+misrepresent data, and therefore the properties of those data types are
+Effectively ignored. Because of the many features and flexibility of
+PLS-CA-R---e.g., best fit to predictors, orthogonal latent variables,
+accommodation for virtually any data type---we are able to identify
+distinct variables and levels (e.g., genotypes) that define or
+contribute to control (CON) vs.~disease (AD) effects (e.g., Fig.
+\ref{fig:contributions_ex1}) or reveal particular patterns anchored by
+the polar control and disease effects (CON \(\rightarrow\) SMC
+\(\rightarrow\) EMCI \(\rightarrow\) LMCI \(\rightarrow\) AD; see, e.g.,
+Fig. \ref{fig:brain_genotypes_ex2}).
 
 While we focused on particular ways of coding and transforming data,
 there are many alternatives that could be used with PLS-CA-R. For
@@ -1289,11 +1304,11 @@ which conform to the same properties as disjunctive data. The many
 ``fuzzy'' and ``double'' coding schemes are generally found in
 \citet{escofier_traitement_1979}, \citet{lebart_multivariate_1984}, or
 \citet{greenacrefuzzy}. However, for ordinal data---especially with
-fewer than or equal to 10 levels---we actually recommend to treat
-ordinal data as categorical data. When ordinal data are treated as
-categorial (and disjunctively coded), greater detail about the levels
-emerges and in most cases reveal non-linear patterns of the ordinal
-levels.
+fewer than or equal to 10 levels, and without excessively rare
+(\(\leq 1\)\%) occurences---we recommend to treat ordinal values as
+categorical levels. When ordinal data are treated as categorial (and
+disjunctively coded), greater detail about the levels emerges and in
+most cases reveal non-linear patterns of the ordinal levels.
 
 Though we have presented PLS-CA-R as a generalization of PLS-R that
 accomodates virutally any data type (by way of CA), the way we
@@ -1621,14 +1636,16 @@ Finally, we have two concluding remarks on ridge-like regularization.
 The first point is that the more simplified Takane/Allen hybrid approach
 to ridge-like regularization also applies much more generally to
 virtually any technique for the SVD or GPLSSVD. For any approach, we
-only require some inflation factor (\(\lambda\)) for the constraints.
-The second point is that while we have presented ridge-like
-regularization with a single \(\lambda\) it is entirely possible to use
-different \(\lambda\)s for each set of constraints. Though it is
-possible, we do not necessarily recommend this approach, as it would
-require a complex grid search over all the various \(\lambda\)
-parameters; though it is possible to set some of the \(\lambda\)s to 0
-and only use two instead of four possible \(lambda\) values.
+only require some inflation factor (\(\lambda\)) for the constraints so
+long as those constraints are diagonal matrices. The second point is
+that while we have presented ridge-like regularization with a single
+\(\lambda\) it is entirely possible to use different \(\lambda\)s for
+each set of constraints. Though it is possible, we do not necessarily
+recommend this approach, as it would require a complex grid search over
+all the various \(\lambda\) parameters; or one could minimize the number
+of parameters to search and set some of the \(\lambda\)s to 0 and, for
+example, use only one or two \(\lambda\) values instead of four possible
+\(\lambda\) values.
 
 \hypertarget{conclusions}{%
 \subsection{Conclusions}\label{conclusions}}
