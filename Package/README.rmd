@@ -7,8 +7,9 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction.
 
-Hi. This README hasn't been made yet. I promise it will be full of awesome things about an awesome development in the realm of partial least squares/canonical correlation/reduced rank regression.
+This repository is for our work on generalized partial least squares. The preprint can be found here: [Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. bioRxiv, 598888.](https://www.biorxiv.org/content/10.1101/598888v2).
 
-See [Beaton, D., ADNI, Saporta, G., Abdi, H. (2019). A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data. bioRxiv, 598888.](https://www.biorxiv.org/content/10.1101/598888v1.abstract) for now.
+The preprint was generated through RMarkdown with the `rticles` package, and is fully reproducible *for us* at least! You can reproduce it so long as you have access to ADNI data. Details forthcoming on data preparation and requirements. See the [Manuscript](/Manuscript/) directory for the manuscript's content and supplements (RMarkdown, PDF, other R files, etc...). 
+The GPLS package lives in the [Package](/Package/) directory. It is documented and has a dependency on the GSVD package. Vignettes are forthcoming. See the [Package](/Package/) directory for installation instructions.
+

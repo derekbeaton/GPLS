@@ -1,0 +1,36 @@
+---
+title: "Introduction to GPLS"
+author: "Derek Beaton"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+Generalized partial least squares (GPLS) is a new framework we have introduced. The GPLS framework provides 
+
+- unification of "two table" multivariate techniques, generally partial least squares, canonical correlation, and reduced rank regression (a.k.a. redundancy analysis)
+- flexibility to generalize those methods to different data types, such as continuous, categorical, ordinal, or mixtures of those types
+- harmonization of these methods through the singular value decomposition (SVD), and the newly introduced "GPLSSVD" (an analog to the generalized SVD). 
+
+
+# Vignettes in the GPLS package
+
+In the GPLS package we provide a small set of vignettes that comprehensively covers the breadth of techniques and the depth of generalizations. Those vignettes are:
+
+- "Classic canonical methods": which covers several variants of partial least squares, canonical correltaion analysis, and reduced rank regression (a.k.a. redundancy analysis)
+- "Recoding and transforming data": which focuses on specific utilities designed to transform data types into analyzable matrices (e.g., categorical to complete disjunctive data; ordinal to "fuzzy" coding)
+- "Analyzing categorical data": which focuses on a PLS method initially designed for categorical data called partial least squares called "partial least squares correspondence analysis" (PLSCA)
+- "Analyzing mixtures of data": which ties together the "recoding" and "analyzing categorical data" vignettes
+- "Exploring optimizations and ridge regularization": which provides a few examples of how to dive more deeply into the core of GPLS by using different weights (constraints) to produce different optimizations, and how those weights naturally lead to ridge-like regulariztion.
