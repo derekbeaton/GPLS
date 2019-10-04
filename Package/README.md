@@ -7,6 +7,6 @@ Install as follows:
 
 ``` r
 require(devtools)
-devtools::install_github("https://github.com/derekbeaton/gsvd")
-devtools::install_github("https://github.com/derekbeaton/gpls",subdir = "Package")
+devtools::install_github("derekbeaton/gsvd")
+devtools::install_github("derekbeaton/gpls",subdir = "Package")
 ```
