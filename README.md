@@ -12,8 +12,12 @@ The preprint was generated through RMarkdown with the `rticles` package,
 and is fully reproducible *for us* at least\! You can reproduce it so
 long as you have access to ADNI data. Details forthcoming on data
 preparation and requirements. See the [Manuscript](/Manuscript/)
-directory for the manuscript’s content and supplements (RMarkdown, PDF,
-other R files, etc…). The GPLS package lives in the [Package](/Package/)
-directory. It is documented and has a dependency on the GSVD package.
-Vignettes are forthcoming. See the [Package](/Package/) directory for
-installation instructions.
+directory for the manuscript’s content and supplements (RMarkdown, PDF).
+
+Other materials can be found in the [Code](/Code/) directory. The
+[IO](/IO/) (input/output) directory is currently empty.
+
+The GPLS package lives in the [Package](/Package/) directory. It is
+documented and has a dependency on the GSVD package. Vignettes are
+forthcoming. See the [Package](/Package/) directory for installation
+instructions.
