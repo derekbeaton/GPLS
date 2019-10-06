@@ -33,4 +33,4 @@ In the GPLS package we provide a small set of vignettes that comprehensively cov
 - "Recoding and transforming data": which focuses on specific utilities designed to transform data types into analyzable matrices (e.g., categorical to complete disjunctive data; ordinal to "fuzzy" coding)
 - "Analyzing categorical data": which focuses on a PLS method initially designed for categorical data called partial least squares called "partial least squares correspondence analysis" (PLSCA)
 - "Analyzing mixtures of data": which ties together the "recoding" and "analyzing categorical data" vignettes
-- "Exploring optimizations and ridge regularization": which provides a few examples of how to dive more deeply into the core of GPLS by using different weights (constraints) to produce different optimizations, and how those weights naturally lead to ridge-like regulariztion.
+- "Exploring optimizations and ridge regularization": which provides a few examples of how to dive more deeply into the core GPLS algorithms (via `GSVD::gplssvd()`) by using different weights (constraints) to produce different optimizations, and how those weights naturally lead to ridge-like regularization

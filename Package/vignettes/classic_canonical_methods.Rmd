@@ -17,22 +17,31 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Test level
+In this vignette we cover the three "classical canonical" optimizations: partial least squares, canonical correlation, and reduced rank regression (a.k.a. redundancy analysis). From there we cover each of the three optimizations for variations of "two-table" analyses. Also for each of these optimiztions we show these optimizations through each of the "generalized PLS" algorithms: correlation, regression, and canonical. Finally we show a "bonus" set of analyses that are the discriminant forms of these methods.
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+For all examples assume that ${\mathbf X}$ and ${\mathbf Y}$ are some data matrices, and that ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ are the column-wise centered and scaled versions. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+## Three optimizations
+<!-- need to recheck these and perhaps simplify the explanation -->
+The three approaches optimize latent variables under the following analogies, the: 
 
-## Vignette Info
+* partial least squares optimization is covariance: ${\mathbf x}^{T}{\mathbf y}$ 
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+* canonical correlation optimization is correlation: $({\mathbf x}^{T}{\mathbf x})^{-\frac{1}{2}}({\mathbf x}^{T}{\mathbf y})({\mathbf y}^{T}{\mathbf y})^{-\frac{1}{2}}$ 
 
-# Test another level
+* reduced rank regression optimization is regression: $({\mathbf x}^{T}{\mathbf x})^{-\frac{1}{2}}({\mathbf x}^{T}{\mathbf y})$  
 
-And yet
 
-## Another
+## Partial least squares
 
-We do it again
+
+## Canonical correlation
+
+
+## Reduced rank regression 
+
+
+## Comparisons between the three
+
+
+## Discriminant analyses
