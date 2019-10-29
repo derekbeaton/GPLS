@@ -173,7 +173,7 @@ thermometer_coding <- function (DATA, mins, maxs)
     colnames(DATA) <- as.character(1:ncol(DATA))
   }
 
-  dat.col.names <- c(paste0(colnames(DATA), "+"), paste0(colnames(DATA), "-"))
+  dat.col.names <- c(paste0(colnames(DATA), "-"), paste0(colnames(DATA), "+"))
 
   ## these need a lot of checks:
     ### and these need to be cleaned up substantially...
