@@ -35,6 +35,9 @@
 \usepackage{algorithm2e}
 \usepackage{caption}
 \usepackage{tabularx}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\newcommand{\var}{\mathrm{Var}}
 
 \begin{document}
 
@@ -64,7 +67,7 @@ http://adni.loni.ucla.edu/wpcontent/uploads/how\_to\_apply/ADNI\_Acknowledgement
     ADNI\\
      and \\     Gilbert Saporta \\
     Conservatoire National des Arts et Metiers\\
-     and \\     Herve Abdi \\
+     and \\     Hervé Abdi \\
     Behavioral and Brain Sciences, The University of Texas at Dallas\\
       }
   \maketitle
@@ -85,25 +88,20 @@ data}
 
 \bigskip
 \begin{abstract}
-The present and future of large scale studies of human brain and
-behavior---in typical and disease populations---is ``mutli-omics'',
-``deep-phenotyping'', or other types of multi-source and multi-domain
-data collection initiatives. These massive studies rely on highly
-interdisciplinary teams that collect extremely diverse types of data
-across numerous systems and scales of measurement (e.g., genetics, brain
-structure, behavior, and demographics). Such large, complex, and
-heterogeneous data requires relatively simple methods that allow for
-flexibility in analyses without the loss of the inherent properties of
-various data types. Here we introduce a method designed specifically to
-address these problems: partial least squares-correspondence
-analysis-regression (PLS-CA-R). PLS-CA-R generalizes PLS regression for
-use with virtually any data type (e.g., continuous, ordinal,
-categorical, non-negative values). Though the primary emphasis here is
-on a PLS-regression approach generalized for data types, we also show
-that PLS-CA-R leads to additional generalizations of many routine
-``two-table'' multivariate techniques and their respective algorithms,
-such as various PLS approaches, canonical correlation analysis, and
-redundancy analysis (a.k.a. reduced rank regression).
+Current large scale studies of brain and behavior typically involve
+multiple populations, diverse types of data (e.g., genetics, brain
+structure, behavior, demographics, or ``mutli-omics,'' and
+``deep-phenotyping'') measured on various scales of measurement. To
+analyze these heterogeneous data sets we need simple but flexible
+methods able to integrate the inherent properties of these complex data
+sets. Here we introduce partial least squares-correspondence
+analysis-regression (PLS-CA-R) a method designed to address these
+constraints. PLS-CA-R generalizes PLS regression to most data types
+(e.g., continuous, ordinal, categorical, non-negative values). We also
+show that PLS-CA-R generalizes many ``two-table'' multivariate
+techniques and their respective algorithms, such as various PLS
+approaches, canonical correlation analysis, and redundancy analysis
+(a.k.a. reduced rank regression).
 \end{abstract}
 
 \noindent%
@@ -121,117 +119,94 @@ redundancy analysis (a.k.a. reduced rank regression).
 Today's large scale and multi-site studies, such as the UK BioBank
 (\url{https://www.ukbiobank.ac.uk/}) and the Rotterdam study
 (\url{http://www.erasmus-epidemiology.nl/}), collect population level
-data across numerous types and modalities, including but not limited to
-genetics, neurological, and various behavioral, clinical, and laboratory
-measures. Similarly, other types of large scale studies---typically
-those that emphasize diseases and disorders---collect more ``depth'' of
-data for each participant: many measures and modalities on smaller
-samples. Some such studies include the Ontario Neurodegenerative Disease
-Research Initiative (ONDRI) \citep{farhan_ontario_2016} which includes
-genetics, multiple types of magnetic resonance brain imaging
+data across numerous types and modalities, (e.g., genetics,
+neurological, behavioral, clinical, and laboratory measures). Other
+types of large scale studies---typically those that emphasize diseases
+and disorders---involve a relatively small of participants but collect a
+very large number of measures on diverse modalities. Some such studies
+include the Ontario Neurodegenerative Disease Research Initiative
+(ONDRI) \citep{farhan_ontario_2016} which includes genetics, multiple
+types of magnetic resonance brain imaging
 \citep{duchesne_canadian_2019}, a wide array of behavioral, cognitive,
 clinical, and laboratory batteries, as well as many modalities
-``between'' those, such as ocular imaging, gait \& balance
-\citep{montero-odasso_motor_2017-1}, eye tracking, and neuropathology.
+``between'' these types, such as ocular imaging, gait, and balance
+\citep{montero-odasso_motor_2017-1}, eye tracking, and neuro-pathology.
 Though large samples (e.g., UK BioBank) and depth of data (e.g., ONDRI)
 are necessary to understand typical and disordered samples and
-populations, few statistical and machine learning approaches exist that
-easily accomodate such large (whether ``big'' or ``wide''), complex, and
-heterogeneous data sets that also respect the inherent properties of
-such data, while also accomodating numerous issues such as numerous
-predictors and responses, latent effects, high collinearity, and rank
-deficiency.
+populations, few statistical or machine learning approaches exist 1)
+that can accommodate such large (whether ``big'' or ``wide''), complex,
+and heterogeneous data sets and 2) that also respect the inherent
+properties of such data.
 
-In many cases, the mixture of data types results in the sacrifices of
-information and inference, due in part because of transformations or
-assumptions that may be inappropriate or incorrect. For example, to
+In many cases, the analysis of a mixture of data types loses information
+in part because the data need to be transformed to fit the analytical
+methods; but this analysis also loses inferential power because the
+standard assumptions may be inappropriate or incorrect. For example, to
 analyze categorical and continuous data together, a typical---but
-inappropriate---strategy is to recode the continous data into categories
-such as dichotomization, trichotomization, or other (often arbitrary)
-binning strategies. Furthermore, ordinal and Likert scale data---such as
-responses on many cognitive, behavioral, clinical, and survey
-instruments---are often incorrectly treated as metric or continuous
-values \citep{burkner_ordinal_nodate}. And when it comes to genetic
-data, such as single nucleotide polymorphims (SNPs), there is almost
-exclusive use of the additive model based on the minor homozygote: 0 for
-the most major homozygote, 1 for the heterozygote, and 2 for the minor
-homozygote. The additive model holds as nearly exclusive even though
-other models (e.g., dominant, recessive) or more general models (i.e.,
-genotypic) exist and perform better \citep{lettre2007genetic}.
-Furthermore, \{0, 1, 2\} recoding of genotypes (1) presumes additive and
-linear effects based on the minor homozygote and (2) are often treated
-as metric/continuous values (as opposed to categorical or ordinal), even
+inappropriate---strategy is to recode the continuous data into
+categories such as dichotomization, trichotomization, or other (often
+arbitrary) binning strategies. Furthermore, ordinal and Likert scale
+data---such as responses on many cognitive, behavioral, clinical, and
+survey instruments---are often incorrectly treated as metric or
+continuous values \citep{burkner_ordinal_nodate}. When it comes to
+genetic data, such as single nucleotide polymorphims (SNPs), the data
+are almost always recoded by counting the number of the minor homozygote
+to give: 0 for the major homozygote (two copies of the most frequent of
+the two alleles), 1 for the heterozygote, and 2 for the minor
+homozygote. This \{0, 1, 2\} recoding of genotypes (1) assumes additive
+linear effects based on the minor homozygote and (2) is often treated as
+metric/continuous values (as opposed to categorical or ordinal), even
 when known effects of risk are neither linear nor additive, such as
 haplotypic effects \citep{vormfelde_value_2007} nor exclusively based on
 the minor homozygotes, such as ApoE in Alzheimer's Disease
-\citep{genin_apoe_2011}.
+\citep{genin_apoe_2011}. Interestingly other, less restrictive, models
+(e.g., dominant, recessive, genotypic) perform better
+\citep{lettre2007genetic} than the additive model, but these are rarely
+used.
 
 Here we introduce partial least squares-correspondence
-analysis-regression (PLS-CA-R): a regression modeling and latent
-variable approach better suited for the complex data sets of today's
-studies. We first show PLS-CA-R as a generalization of PLS regression
+analysis-regression (PLS-CA-R): a latent variable regression modeling
+approach suited for the analysis of complex data sets. We first show
+that PLS-CA-R generalizes PLS regression
 \citep{wold_soft_1975, wold_collinearity_1984, tenenhaus_regression_1998, abdi_partial_2010-1},
 CA
 \citep{greenacre_theory_1984, greenacre_correspondence_2010-1, lebart_multivariate_1984},
-and PLS-CA \citep{beaton_partial_2016}---the last of which is the
-``correlation'' companion to, and basis of, the proposed PLS-CA-R
-method. We then illustrate PLS-CA-R as a data-type general PLS
-regression method. PLS-CA-R combines the features of CA to allow for
-flexibility of data types with the features of PLS-R as a regression
-method designed to replace OLS when we cannot meet the assumptions or
-requirements of ordinary least squares (OLS). Both PLS-R and CA---and
-thus PLS-CA-R---are latent variable approaches by way of components via
-the generlized singular value decomposition (GSVD). We show multiple
-variants of PLS-CA-R, that address a variety of approaches and data
-types, on data from the Alzheimer's Disease Neuroimaging Initiative
-(ADNI). Data for these problems span diagnosis (mutually exclusive
-categories), SNPs (genotypes are categorical), multiple behavioral and
-clinical instruments (that could be ordinal, categorical, or
-continuous), and several neuroimaging measures and indices (generally
-either continous or non-negative). PLS-CA-R came about because it is
-clearly necessary: we need a method to accomodate these data types in a
-predictive or fitting framework, capitalize on the ability to regress
-(residualize) confounds out of mixed and likely collinear data, reveal
-latent variables, and most importantly, do all of these things simply
-and within a well-established framework.
+and PLS-CA \citep{beaton_partial_2016}---which is the ``correlation''
+companion and basis of PLS-CA-R. We then show that PLS-CA-R is a
+data-type general PLS regression method based on the generalized
+singular value decomposition (GSVD) that combines the features of CA (to
+accommodate multiple data types) with the features of PLS-R (as a
+regression method generalizing ordinary least squares regression when
+its assumptions are not met).
 
-After we formalize and illustrate PLS-CA-R, we then show that the core
-of PLS-CA-R also works as a much more generalized framework, and we then
-go into detail on how PLS-CA-R provides the basis of more generalized
-PLS framework spans: multiple data types, various optmizations (e.g.,
-covariance as in PLS or correlation as in canonical correlation),
-various transformations for alternate metrics, and ridge-like
-regularization. Furthermore this framework spans multiple PLS
-algorithms. We place particular emphasis on three of the most commonly
-used PLS algorithms: (1) PLS ``correlation'' decomposition
-\citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996}---also
-known as PLSSVD \citep{tenenhaus_regression_1998} or Tucker's
-Interbattery Factor Analysis \citep{tucker_inter-battery_1958}, (2) PLS
-``canonical'' decompostion \citep{tenenhaus_regression_1998}, and (3)
-PLS ``regression''
-\citep{wold_soft_1975, wold_collinearity_1984, wold_pls-regression_2001}.
-PLS correlation is a symmetric method where neither data table plays a
-privileged (or predictive) role, and is performed with a single pass of
-the singular value decomposition (SVD). PLS canonical is also symmetric,
-but makes use of the SVD iteratively and deflates both data tables in
-each iteration. PLS regression is an asymmetric method where one data
-table is privileged (``predictors'') and also makes use of the SVD
-iteratively with deflation of both data tables. We discuss the
-particularities of these algorithms later in the paper.
+We illustrate the multiple uses of PLS-CA-R, with data from the
+Alzheimer's Disease Neuroimaging Initiative (ADNI). These data include:
+diagnosis data (mutually exclusive categories), SNPs (genotypes are
+categorical), multiple behavioral or clinical instruments (that could be
+ordinal, categorical, or continuous), and several neuroimaging measures
+and indices (generally either continuous or non-negative). PLS-CA-R can
+1) accommodate these different data types in a predictive or fitting
+framework, 2) regress (i.e., residualize) confounds out of mixed and
+collinear data, and 3) reveal latent variables within a well-established
+framework.
 
-This paper is orgnized as follows. In Section \ref{section:PLSCAR} we
-introduce sufficient background for, and then formalize, PLS-CA-R. Next,
-in Section \ref{section:appex}, we illustrate PLS-CA-R on the TADPOLE
-challenge (\url{https://tadpole.grand-challenge.org/}) and additional
-genetics data from ADNI across three examples: a simple discriminant
-example with entirely categorical data, a mixed data example that
-requires residualiation (i.e., adusting for confounds), and the finally
-a larger example of multiple genetic markers and whole brain tracer
-uptake (non-negative values). Finally in Section \ref{section:Disc} we
-discuss PLS-CA-R, but then provide further details on how PLS-CA-R
-naturally leads to a much broader generalized PLS framework that spans
-multiple optimizations, algorithms, metrics, and ridge-like
-regularization.
+Finally, we show that PLS-CA-R can be generalized 1) to handle multiple
+data types, 2) various optimization schemes(e.g., covariance as in PLS
+or correlation as in canonical correlation), 3) various transformations
+for alternate metrics, 4) ridge-like regularization and 5) multiple PLS
+algorithms.
+
+This paper is organized as follows. In Section \ref{section:PLSCAR} we
+introduce PLS-CA-R. Next, in Section \ref{section:appex}, we illustrate
+PLS-CA-R on the TADPOLE challenge
+(\url{https://tadpole.grand-challenge.org/}) and additional genetics
+data from ADNI across three examples: 1) a simple discriminant example
+with categorical data, 2) a mixed data example that requires
+residualization (i.e., adjusting for confounds), and 3) a larger example
+of multiple genetic markers and whole brain tracer uptake (non-negative
+values). Finally in Section \ref{section:Disc} we discuss PLS-CA-R, and
+show how PLS-CA-R generalizes the PLS framework to multiple optimization
+problems, algorithms, metrics, and ridge-like regularization.
 
 \hypertarget{partial-least-squares-correspondence-analysis-regression}{%
 \section{Partial least squares-correspondence
@@ -247,26 +222,50 @@ including mixed types (e.g., categorical, ordinal, continuous,
 contingency). We use a mixture of nomenclature associated with
 \(\chi^2\)-analyses, CA, and PLS-R.
 
-Notation is as follows. Bold uppercase letters denotes matrices (e.g.,
-\(\mathbf{X}\)), bold lowercase letters denote vectors (e.g.,
-\(\bf{x}\)), and italic lowercase letters denote specific elements
-(e.g., \(x\)). Upper case italic letters denote cardinality, size, or
-length (e.g., \(I\)) where a lower case italic denotes a specific index
-(e.g., \(i\)). A generic element of \(\mathbf{X}\) would be denoted as
-\(x_{i,j}\). Common letters of varying type faces, for example
-\({\bf X}\), \(\bf{x}\), \(x_{i,j}\), come from the same data struture.
-A preprocessed or transformed version of a matrix \({\mathbf X}\) will
-be denoted as \({\mathbf Z}_{\mathbf X}\). Vectors are assumed to be
-column vectors unless otherwise specified. Two matrices side-by-side
-denotes standard matrix multiplication (e.g., \(\bf{X}\bf{Y}\)), where
-\(\odot\) denotes element-wise (Hadamard) multiplication where
-\(\oslash\) denotes element-wise (Hadamard) division. The matrix
-\({\bf I}\) denotes the identity matrix. Superscript \(^{T}\) denotes
-the transpose operation, superscript \(^{-1}\) denotes standard matrix
-inversion, and superscript \(^{+}\) denotes the Moore-Penrose
-pseudo-inverse. The diagonal operation, \(\mathrm{diag\{\}}\),
+\hypertarget{pls-algorithms}{%
+\subsection{PLS algorithms}\label{pls-algorithms}}
+
+There exist three commonly used PLS algorithms: (1) PLS ``correlation''
+decomposition
+\citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996}---also
+known as PLSSVD \citep{tenenhaus_regression_1998} or Tucker's
+Interbattery Factor Analysis \citep{tucker_inter-battery_1958}, (2) PLS
+``canonical'' decompostion \citep{tenenhaus_regression_1998}, and (3)
+PLS ``regression''
+\citep{wold_soft_1975, wold_collinearity_1984, wold_pls-regression_2001}.
+PLS correlation decomposition is a symmetric method where neither data
+table plays a privileged (or predictive) role, and is performed with a
+single pass of the singular value decomposition (SVD). PLS canonical
+decomposition is also symmetric, but makes use of the SVD iteratively
+and deflates both data tables in each iteration. PLS regression
+decomposition is an asymmetric method where one data table is privileged
+(``predictors'') and also makes use of the SVD iteratively with
+deflation of both data tables.
+
+\hypertarget{notation}{%
+\subsection{Notation}\label{notation}}
+
+Bold uppercase letters denote matrices (e.g., \(\mathbf{X}\)), bold
+lowercase letters denote vectors (e.g., \(\bf{x}\)), and italic
+lowercase letters denote specific elements (e.g., \(x\)). Upper case
+italic letters (e.g., \(I\)) denote cardinality, size, or length where a
+lower case italic (e.g., \(i\)) denotes a specific value of an index. A
+generic element of matrix \(\mathbf{X}\) would be denoted \(x_{i,j}\).
+Common letters of varying type faces, for example \({\bf X}\),
+\(\bf{x}\), \(x_{i,j}\), come from the same data structure. A
+preprocessed or transformed version of a matrix \({\mathbf X}\) is
+denoted \({\mathbf Z}_{\mathbf X}\). Vectors are assumed to be column
+vectors unless otherwise specified. Two matrices side-by-side denotes
+standard matrix multiplication (e.g., \(\bf{X}\bf{Y}\)). The operator
+\(\odot\) denotes element-wise (Hadamard) multiplication and \(\oslash\)
+denotes element-wise (Hadamard) division. The matrix \({\bf I}\) denotes
+the identity matrix, \(\mathbf{1}\) and \(\mathbf{0}\) denote
+respectivvely a vector or marix of 1's or 0. Superscript \(^{T}\)
+denotes the transpose operation, superscript \(^{-1}\) denotes standard
+matrix inversion, and superscript \(^{+}\) denotes the Moore-Penrose
+pseudo-inverse. The diagonal operator, denoted \(\mathrm{diag\{\}}\),
 transforms a vector into a diagonal matrix, or extracts the diagonal of
-a matrix and produces a vector.
+a matrix to produce a vector.
 
 \hypertarget{the-svd-gsvd-ca-and-gplssvd}{%
 \subsection{The SVD, GSVD, CA, and
@@ -274,128 +273,143 @@ GPLSSVD}\label{the-svd-gsvd-ca-and-gplssvd}}
 
 \label{section:GSVDCA}
 
-Assume we have a matrix \({\mathbf X}\) with \(I\) rows and \(J\)
-columns, where \({\mathbf X}\) is preprocessed in some way as
+Let \({\mathbf X}\) be a data matrix with \(I\) rows and \(J\) columns,
+\({\mathbf X}\) is preprocessed in some way to give
 \({\mathbf Z}_{\mathbf X}\). The singular value decomposition (SVD)
-decomposes \({\mathbf Z}_{\mathbf X}\) as
-\({\mathbf Z}_{\mathbf X} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\)
-where
-\({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
-where \({\mathbf Z}_{\mathbf X}\) is of rank \(A\) and
-\({\boldsymbol \Delta}\) is an \(A \times A\) diagonal matrix of
-singular values, and \({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\)
-is a \(A \times A\) diagonal matrix of eigenvalues. \({\mathbf U}\) and
-\({\mathbf V}\) are referred to as the left and right singular vectors,
-respectively. From the SVD we can compute component (a.k.a. factor)
-scores as \({\mathbf F}_{I} = {\mathbf U}{\boldsymbol \Delta}\) and
-\({\mathbf F}_{J} = {\mathbf V}{\boldsymbol \Delta}\) for the \(I\) rows
-and \(J\) columns of \({\mathbf X}\), respectively.
+decomposes \({\mathbf Z}_{\mathbf X}\) as \begin{equation}\label{eq:svd}
+{\mathbf Z}_{\mathbf X} = 
+{\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}
+\textrm{ with } {\mathbf U}^{T}{\mathbf U} 
+= {\mathbf I} = {\mathbf V}^{T}{\mathbf V},
+\end{equation} where \({\mathbf Z}_{\mathbf X}\) is of rank \(A\) (with
+\(A \leq \min(I,J)\)) and \({\boldsymbol \Delta}\) is the \(A \times A\)
+diagonal matrix of the singular values, and
+\({\boldsymbol \Lambda} = {\boldsymbol \Delta}^2\) is the \(A \times A\)
+diagonal matrix of the eigenvalues. Matrices \({\mathbf U}\) and
+\({\mathbf V}\) store (respectively) the left and right singular vectors
+of \({\mathbf Z}\). Component (a.k.a. factor) scores for the \(I\) rows
+and \(J\) columns of \({\mathbf Z}_{\mathbf X}\) are computed as
+\({\mathbf F}_{I} = {\mathbf U}{\boldsymbol \Delta}\)
+\({\mathbf F}_{J} = {\mathbf V}{\boldsymbol \Delta}\).
 
-The GSVD generalizes the SVD wherein the GSVD decomposes
-\({\mathbf Z}_{\mathbf X}\) as
-\({\mathbf Z}_{\mathbf X} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}\)
-under the constraints of
-\({\mathbf P}^{T}{\mathbf M}_{{\mathbf X}}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{{\mathbf X}}{\mathbf Q}\),
-where \({\mathbf Z}_{\mathbf X}\) is of rank \(A\) and
-\({\boldsymbol \Delta}\) is a \(A \times A\) diagonal matrix of singular
-values. With the GSVD, \({\mathbf P}\) and \({\mathbf Q}\) are referred
-to as the \emph{generalized} singular vectors. Practically, the GSVD is
-performed through the SVD as
-\(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{{\mathbf X}}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{{\mathbf X}}^{\frac{1}{2}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\),
-where the generalized singular vectors are computed from the singular
-vectors as
-\({\mathbf P} = {\mathbf M}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
-and
-\({\mathbf Q} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf V}\).
-From the weights, generalized singular vectors, and singular values we
-can obtain component (a.k.a. factor) scores as
-\({\mathbf F}_{I} = {\mathbf M}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
-and
-\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf Q}{\boldsymbol \Delta}\)
-for the \(I\) rows and \(J\) columns of \({\mathbf X}\), respectively.
-For simplicity and brevity we will refer to the use of the GSVD through
-``triplet notation'' \citep{holmes_multivariate_2008} but in the form of
+The \emph{generalized} singular value decomposition (GSVD) generalizes
+the SVD by integrating constraints (expressed by positive definite
+matrices) also called \emph{metric} (because these matrices define a
+metric in a generalized Euclidean space) imposed on the rows and columns
+of the matrix to be decomposed. Specifically, if
+\({\mathbf M}_{{\mathbf X}}\) (respectively
+\({\mathbf W}_{{\mathbf X}}\)) is an \(I\times I\) (respectively
+\(J\times J\)) positive definite matrix, the GSVD decomposes
+\({\mathbf Z}_{\mathbf X}\) as \begin{equation}\label{eq:gsvd}
+{\mathbf Z}_{\mathbf X} = {\mathbf P} 
+{\boldsymbol \Delta} {\mathbf Q}^{T} 
+\textrm{ with }
+{\mathbf P}^{T}{\mathbf M}_{{\mathbf X}}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{{\mathbf X}}{\mathbf Q}
+\end{equation} where \({\mathbf Z}_{\mathbf X}\) is of rank \(A\) and
+\({\boldsymbol \Delta}\) is the \(A \times A\) diagonal matrix of the
+(generalized) singular values and \({\mathbf P}\) and \({\mathbf Q}\)
+are the \emph{generalized} singular vectors. We refer to a more
+convenient expression of the GSVD with ``triplet notation''
+\citep[\citet{holmes_multivariate_2008},\citet{dray2014}]{escoufier2006}
+but in the form of
 \(\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{{\mathbf X}} \mathrm{)}\),
 which is akin to how the multiplication steps work \citep[see
-also][]{beaton2018generalization}. The standard SVD is the GSVD but with
-identity matrices as the weights:
+also][]{beaton2018generalization}. Note that the standard SVD is the
+GSVD but with identity matrices as the weights:
 \(\mathrm{GSVD(} {\mathbf I}, {\mathbf X}, {\mathbf I} \mathrm{)}\)
 \citep[see also][]{takane_relationships_2003}, and thus if
 \({\mathbf Z}_{\mathbf X}\) were a column-wise centered and/or
 normalized version of \({\mathbf X}\) then
 \(\mathrm{GSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I} \mathrm{)}\)
-is principal components analysis (PCA).
+implements principal components analysis
+\citep[PCA,][\citet{abdi2007svd}]{saporta2011}.
 
 Correspondence analysis (CA) is a technique akin to PCA but initially
 designed for contingency and nominal data, and operates under the
 assumption of indepdence (i.e., akin to \(\chi^2\)). See
 \citet{greenacre_theory_1984}, \citet{greenacre_correspondence_2010-1},
-and \citet{lebart_multivariate_1984} for detailed English explanations
-of CA and see \citet{escofier-cordier_analyse_1965} and
-\citet{benzecri_analyse_1973} for the origins of CA. Assume the matrix
-\({\mathbf X}\) is some \(I \times J\) matrix comprised of non-negative
-data, generally counts (co-occurences between rows and columns) or
-categorical data transformed into disjunctive format (see, e.g., ``SEX''
-in Table \ref{table:disj}). CA is performed with the GSVD as follows.
-First we define the \emph{observed} matrix
-\({\mathbf O}_{\mathbf X} = {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}\).
-Next we compute the marginal probabilities from the observed matrix as
-\({\mathbf m}_{\mathbf X} = {\mathbf O}_{\mathbf X}{\mathbf 1} = \text{ and } {\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}\).
-We then define the \emph{expected} (under the assumption of
+and \citet{lebart_multivariate_1984} for detailed explanations of CA,
+and then see \citet{escofier-cordier_analyse_1965} and
+\citet{benzecri_analyse_1973} for the origins and early developments of
+CA. Assume the matrix \({\mathbf X}\) is some \(I \times J\) matrix
+comprised of non-negative data (e.g., counts or categorical data
+expressed in disjunctive format as, e.g., ``SEX'' in Table
+\ref{table:disj}).
+
+CA is performed with the GSVD as follows. First the \emph{observed}
+probability matrix is computed as
+\({\mathbf O}_{\mathbf X} = {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}\)
+The marginal probabilities from the observed matrix ar then computed as
+\begin{equation}
+{\mathbf m}_{\mathbf X} = {\mathbf O}_{\mathbf X}{\mathbf 1} 
+\text{ and } 
+{\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}.
+\end{equation} The \emph{expected} (under the assumption of
 independence, i.e., \(\chi^2\)) matrix as
 \({\mathbf E}_{\mathbf X} = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T}\).
-We then compute the \emph{deviation} (from independence) matrix as
-\({\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}\).
-Finally, we perform CA as
-\(\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1} \mathrm{)}\)
-with the weights of
-\({\mathbf M}_{\mathbf X} = \mathrm{diag\{} {\mathbf m}_{\mathbf X} \mathrm{\}} \text{ and } {\mathbf W}_{\mathbf X} = \mathrm{diag\{} {\mathbf w}_{\mathbf X} \mathrm{\}}\).
+The \emph{deviation} from independence matrix is then defined as
+\begin{equation}
+{\mathbf Z}_{\mathbf X} 
+= {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}.
+\end{equation} Finally, CA is obtained from
+\begin{equation}\label{eq:CAasGSVD}
+\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, 
+{\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1} \mathrm{)}
+\textrm{ with }
+{\mathbf M}_{\mathbf X} 
+=  \mathrm{diag\{} {\mathbf m}_{\mathbf X} 
+\mathrm{\}} \text{ and } {\mathbf W}_{\mathbf X} 
+= \mathrm{diag\{} {\mathbf w}_{\mathbf X} \mathrm{\}}.
+\end{equation}
+
+\hypertarget{from-the-triplet-to-the-sextuplet}{%
+\subsection{From the triplet to the
+sextuplet}\label{from-the-triplet-to-the-sextuplet}}
 
 We now introduce an extension of the GSVD and its triplet concept for
 PLS, called the ``GPLSSVD sextuplet'' to decompose the the relationship
-between two matrices each with \(I\) rows: \({\mathbf X}\) with \(J\)
-columns and \({\mathbf Y}\) with \(K\) columns, where
-\({\mathbf Z}_{\mathbf X}\) and \({\mathbf Z}_{\mathbf Y}\) are
-preprocessed versions of \({\mathbf X}\) and \({\mathbf Y}\),
-respectively. The ``GPLSSVD sextuplet'' takes the form of
+between two matrices each with the same \(I\) observations (along the
+rows): \({\mathbf X}\) with \(J\) columns and \({\mathbf Y}\) with \(K\)
+columns, where \({\mathbf Z}_{\mathbf X}\) and
+\({\mathbf Z}_{\mathbf Y}\) are preprocessed versions of \({\mathbf X}\)
+and \({\mathbf Y}\), respectively. The ``GPLSSVD sextuplet'' takes the
+form of
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}\).
-Like with the GSVD let us refer to
-\(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
-and
-\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
-The GPLSSVD makes use of the SVD wherein
-\(\widetilde{\mathbf Z}_{\mathbf R} = \widetilde{{\mathbf Z}}_{\mathbf X}^{T}\widetilde{{\mathbf Z}}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
-The GPLSSVD generalized singular vectors and component scores are
-computed as
-\({\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
-and
-\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
-for the \(J\) columns of \({\mathbf X}\), and
-\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\)
-and
-\({\mathbf F}_{K} = {\mathbf W}_{{\mathbf Y}}{\mathbf Q}{\boldsymbol \Delta}\)
-for the \(K\) columns of \({\mathbf Y}\). Like with the SVD
-\({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
-and like with the GSVD
-\({\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}\).
-The GPLSSVD also produces scores for the \(I\) rows of each
-matrix---usually called latent variables---as
-\({\mathbf L}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf U}\)
-and
-\({\mathbf L}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}\)
-where
-\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\).
-By its definition, the GPLSSVD maximization of the latent
-variables---i.e.,
-\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\)---is
-the PLS correlation decomposition
+The
+\(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}\)
+decomposes the matrix
+\({\mathbf Z}_{\mathbf R} = {\mathbf Z}_{\mathbf X} {\mathbf W}_{\mathbf X}^{\frac{1}{2}} {\mathbf M}_{\mathbf Y}^{\frac{1}{2}} {\mathbf Z}_{\mathbf Y}\)
+as
+
+\begin{equation}
+{\mathbf Z}_{\mathbf R} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}
+\textrm{ with }
+{\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P} = {\mathbf I} =
+{\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}.
+\end{equation}
+
+From this decomposition, the GPLSSVD creates latent variables as
+
+\begin{equation}
+{\mathbf L}_{\mathbf X} 
+= {\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}{\mathbf P} 
+\textrm{ and } 
+{\mathbf L}_{\mathbf Y} = 
+{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}{\mathbf Q}
+\textrm{ where }
+{\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} 
+= {\boldsymbol \Delta}. 
+\end{equation}
+
+When \({\mathbf X}\) and \({\mathbf Y}\) are column-wise centered
+normalized and when all constraint matrices are equal to the identity
+matrix---i.e.,
+\(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}\)---the
+GPLSSVD implements the ``PLS correlation'' decomposition
 \citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996},
-also known as PLSSVD \citep{tenenhaus_regression_1998} and originally as
+also known as PLSSVD \citep{tenenhaus_regression_1998}, co-inertia
+analyses \citep[\citet{dray2014}]{doledec1994}, and originally as
 Tucker's interbattery factor analysis \citep{tucker_inter-battery_1958}.
-Specifically, if \({\mathbf X}\) and \({\mathbf Y}\) were each
-column-wise centered and/or normalized, then
-\(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}\)
-is PLS correlation (a.k.a. PLSSVD or Tucker's approach).
 
 Finally, we also introduce a small modification of the ``triplet'' and
 ``sextuplet'' notations as a ``quadruplet'' and a ``septuplet'' that
@@ -528,8 +542,8 @@ We then repeat the iterative procedure with these deflated
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}\).
 The computations outlined above are performed for \(C\) iterations
 where: (1) \(C\) is some pre-specified number of intended latent
-variables where \(C < A\) where where \(A\) is the rank of
-\(\widetilde{\mathbf Z}_{\mathbf X}\), (2) \(C=A\), or (3) when
+variables where \(C \leq A\) where \(A\) is the rank of
+\(\widetilde{\mathbf Z}_{\mathbf X}\) or (2) when
 \({\mathbf Z}_{\mathbf X} = {\mathbf 0}\) or
 \({\mathbf Z}_{\mathbf Y} = {\mathbf 0}\) where \({\mathbf 0}\) is a
 null matrix. Upon the stopping condition we would have \(C\) components,
@@ -612,7 +626,7 @@ This connection to OLS shows how to residualize (i.e., ``regress out''
 or ``correct'') for known confounding effects, akin to how residuals are
 computed in OLS. We do so with the original \({\mathbf Z}_{\mathbf Y}\)
 as \({\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}\).
-PLS-CA-R produces a both predicted and residualized version of
+PLS-CA-R produces both a predicted and a residualized version of
 \({\mathbf Y}\). Recall that
 \(\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}\).
 We compute a reconstituted form of \({\mathbf Y}\) as \begin{equation}
@@ -631,11 +645,12 @@ correspondence analysis
 \citetext{\citealp{escofier1983analyse}; \citealp{escofier1984analyse}; \citealp[for
 more details and background see also][]{beaton2018generalization}}. With
 GCA we could use any reasonable model with alternates to
-\({\mathbf E}_{\mathbf Y}\) that could be obtained, for examples, from
+\({\mathbf E}_{\mathbf Y}\) that could be obtained, for examples: from
 known priors, a theoretical model, out of sample data, or even
-population estimates. The same procedures can be applied to obtain a
-reconstituted \({\mathbf X}\). Finally, CA can then be applied directly
-to either \(\widehat{\mathbf Y}\) or \({\mathbf Y}_{\epsilon}\).
+population estimates. CA can then be applied directly to either
+\(\widehat{\mathbf Y}\) or \({\mathbf Y}_{\epsilon}\). The same
+reconstitution procedures can be applied fitted and residualized
+versions of \({\mathbf X}\) as well.
 
 \hypertarget{concluding-remarks}{%
 \subsection{Concluding remarks}\label{concluding-remarks}}
@@ -662,10 +677,9 @@ correspondence analysis literature
 instead of computing the variance per component or latent variable, we
 can instead compute the amount of variance explained by each component
 in \(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
-eigenvalues of each of the respective matrices per iteration. The trace
-for each is computed via CA (with the GSVD). Before the first iteration
-of PLS-CA-R we can obtain the the full variance (sum of the eigenvalues)
-of each matrix from
+eigenvalues of each of the respective matrices per iteration via CA
+(with the GSVD). Before the first iteration of PLS-CA-R we obtain the
+the full variance (sum of the eigenvalues) of each matrix from
 \(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}\)
 and
 \(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}\),
@@ -688,8 +702,8 @@ is true in weighted OLS). Likewise, alternate column weights (i.e.,
 \({\mathbf W}_{\mathbf X}\) or \({\mathbf W}_{\mathbf Y}\)) may deviate
 from the assumptions of \(\chi^2\) and may no longer reflect
 independence, or is an alternate metric altogether. There are some
-well-established alternates that we mention further in later sections,
-and through the concept of generalized correspondence analysis
+well-established alternates that we mention further in later sections.
+Through the concept of generalized correspondence analysis
 \citep{escofier1983analyse, escofier1984analyse} almost any weights or
 model could be used. However, those changes should be informed by sound
 statistical and theoretical assumptions.
@@ -702,9 +716,10 @@ data types without loss of information. Specifically, both continuous
 and ordinal data can be handled with relative ease and in a
 ``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
 where complete disjunctive would be a ``crisp coding''
-\citep{greenacrefuzzy}. We explain exactly to handle various data types
-as Section \ref{section:appex} progresses, which reflects more ``real
-world'' problems: complex, mixed data types, and multi-source data.
+\citep{greenacrefuzzy}. We explain exactly how to handle various data
+types as Section \ref{section:appex} progresses, which reflects more
+``real world'' problems: complex, mixed data types, and multi-source
+data.
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
@@ -884,20 +899,20 @@ contributed by genotypes or group (i.e., levels of variables) or
 variance contributed by entire variables (in this example: SNPs). First
 we compute the contributions to the variance of the genotypes as the sum
 of the squared loadings for each item:
-\([({\bf V} \odot {\bf V}){\bf 1}] \times C^{-1}\), where \({\bf 1}\) is
-a conformable vector of ones. Total contribution values exist between 0
-and 1 and describe the proportional variance each genotype contributes.
-These contributions to components can be computed as
-\({\bf v}_{c} \odot {\bf v}_{c}\). Because the contributions are
-additive we can compute the contributions for a SNP through all of its
-all. A simple criterion to identify genotypes or SNPs that contribute to
-the model is to identify which genotype or SNP contributes more variance
-than expected, which is one divided by the total number of original
-variables (i.e., SNPs). In this case that would be \(1/ 134 = 0.0075\).
-This criterion can be applied on the whole or component-wise. We show
-the genotypes and SNPs with above exepcted variance for the whole model
-(i.e., high contributing variables a regression framework) in Figure
-\ref{fig:leverages_ex1}.
+\([(\widetilde{\bf V} \odot \widetilde{\bf V}){\bf 1}] \times C^{-1}\),
+where \({\bf 1}\) is a conformable vector of ones. Total contribution
+values exist between 0 and 1 and describe the proportional variance each
+genotype contributes. These contributions to components can be computed
+as \(\widetilde{\bf v}_{c} \odot \widetilde{\bf v}_{c}\). Because the
+contributions are additive we can compute the contributions for a SNP
+through all of its all. A simple criterion to identify genotypes or SNPs
+that contribute to the model is to identify which genotype or SNP
+contributes more variance than expected, which is one divided by the
+total number of original variables (i.e., SNPs). In this case that would
+be \(1/ 134 = 0.0075\). This criterion can be applied on the whole or
+component-wise. We show the genotypes and SNPs with above exepcted
+variance for the whole model (i.e., high contributing variables a
+regression framework) in Figure \ref{fig:leverages_ex1}.
 
 \begin{figure}[!hbtp]
 
@@ -1032,31 +1047,31 @@ assumed confounds.
 Here, the predictors encompass a variety of data types: all of the brain
 markers (volumetric MRI estimates, functional PET estimates) and the
 ADAS13 appear as generally continuous data, whereas the MoCA and
-especially the CDRSB are generally ordinal because they have limited
-values constrained by a minimum and maximum score: the CDRSB exists
-between 0 and 9 generally by steps of 1, and the MoCA exists between 0
-and 30, though values below 20 are exceedingly rare. Furthermore, the
-assumed differences between each level are not considered the same, for
-example, MoCA scores of 29 and 30 are regarded as preserved and normal
-(high) levels of cognition, where as 26 and 27 is the (clinical) line
-between impaired and unimpaired. There are many properties of PLS-CA-R
-by way of CA that allow for easy inclusion of mixed data types. In
-particular, continuous and ordinal data types can be coded into what is
-called thermometer \citep{beaton2018generalization}, fuzzy, or
-``bipolar'' coding (because it has two poles) \citep{greenacrefuzzy}; an
-idea initially propsosed by Escofier for continuous data
-\citep{escofier_traitement_1979}. The ``Escofier transform'' allows
-continuous data to be analyzed by CA and produces the exact same results
-as PCA \citep{escofier_traitement_1979}. The same principles can be
-applied to ordinal data as well \citep{beaton2018generalization}.
-Continuous and ordinal data can be transformed into a
-``pseudo-disjunctive'' format that behaves exactly like complete
-disjunctive data (see Table \ref{table:disj}) but preserves the values
-(as opposed to binning, or dichotomizing). Here, we refer to the
-transform for continuous data as the ``Escofier transform'' or
-``Escofier coding'' \citep{beaton_partial_2016} and the transform for
+especially the CDRSB are generally ordinal in part because they have
+limited values constrained by a minimum and maximum score: the CDRSB
+exists between 0 and 9 generally by steps of 1, and the MoCA exists
+between 0 and 30, though values below 20 are exceedingly rare.
+Furthermore, the assumed differences between each level are not
+considered the same, for example, MoCA scores of 29 and 30 are regarded
+as highly preserved and normal levels of cognition, where as 26 and 27
+is the (clinical) line between impaired and unimpaired. There are many
+properties of PLS-CA-R by way of CA that allow for easy inclusion of
+mixed data types. In particular, continuous and ordinal data types can
+be coded into what is called thermometer
+\citep{beaton2018generalization}, fuzzy, or ``bipolar'' coding (because
+it has two poles) \citep{greenacrefuzzy}; an idea initially propsosed by
+Escofier for continuous data \citep{escofier_traitement_1979}. The
+``Escofier transform'' allows continuous data to be analyzed by CA and
+produces the exact same results as PCA \citep{escofier_traitement_1979}.
+The same principles can be applied to ordinal data as well
+\citep{beaton2018generalization}. Continuous and ordinal data can be
+transformed into a ``pseudo-disjunctive'' format that behaves exactly
+like complete disjunctive data (see Table \ref{table:disj}) but
+preserves the values (as opposed to binning, or dichotomizing). Here, we
+refer to the transform for continuous data as the ``Escofier transform''
+or ``Escofier coding'' \citep{beaton_partial_2016} and the transform for
 ordinal data as the ``thermometer transform'' or ``thermometer coding''.
-Because continuous, ordinal, and categorical data can all be trasnformed
+Because continuous, ordinal, and categorical data can all be transformed
 into a disjunctive-like format, they can all be analyzed with PLS-CA-R.
 
 While the overall objective of this example is to understand the
@@ -1264,25 +1279,24 @@ Many modern studies, like ADNI, aim to measure individuals at a variety
 of scales: genetics and genomics, brain structure and function, many
 aspects of cognition and behavior, batteries of clinical measures, and
 almost anything in between all of these levels. These data are extremely
-complex: they are heterogeneous and more often than not ``wide'' (many
-more variables than subjects). But many current strategies and
-approaches to handle such multivariate heterogeneous data often requires
-compromises or sacrifices (e.g., the presumption of single numeric model
-for categorical data such as the additive model for SNPs; Z-scores of
-ordinal values; or ``dichotomania''
+complex: they are heterogeneous and more often ``wide'' (many more
+variables than subjects) than ``big'' (more subjects than variables).
+But many current strategies and approaches to handle such multivariate
+heterogeneous data often requires compromises or sacrifices (e.g., the
+presumption of single numeric model for categorical data such as the
+additive model for SNPs; Z-scores of ordinal values; or ``dichotomania''
 (\url{https://www.fharrell.com/post/errmed/\#catg}): the binning of
 continuous values into categories). Many of those strategies and
-approaches presume that data are interval scale, or completely
-misrepresent data, and therefore the properties of those data types are
-Effectively ignored. Because of the many features and flexibility of
-PLS-CA-R---e.g., best fit to predictors, orthogonal latent variables,
-accommodation for virtually any data type---we are able to identify
-distinct variables and levels (e.g., genotypes) that define or
-contribute to control (CON) vs.~disease (AD) effects (e.g., Fig.
-\ref{fig:contributions_ex1}) or reveal particular patterns anchored by
-the polar control and disease effects (CON \(\rightarrow\) SMC
-\(\rightarrow\) EMCI \(\rightarrow\) LMCI \(\rightarrow\) AD; see, e.g.,
-Fig. \ref{fig:brain_genotypes_ex2}).
+approaches presume that all data are interval scale, and therefore the
+properties of those data types are effectively ignored. Because of the
+many features and flexibility of PLS-CA-R---e.g., best fit to
+predictors, orthogonal latent variables, accommodation for virtually any
+data type---we are able to identify distinct variables and levels (e.g.,
+genotypes) that define or contribute to control (CON) vs.~disease (AD)
+effects (e.g., Fig. \ref{fig:contributions_ex1}) or reveal particular
+patterns anchored by the polar control and disease effects (CON
+\(\rightarrow\) SMC \(\rightarrow\) EMCI \(\rightarrow\) LMCI
+\(\rightarrow\) AD; see, e.g., Fig. \ref{fig:brain_genotypes_ex2}).
 
 While we focused on particular ways of coding and transforming data,
 there are many alternatives that could be used with PLS-CA-R. For
@@ -1294,14 +1308,14 @@ vs.~the minor allele (`AA' vs.~\{`Aa+aa'\}), this would be the dominant
 model, or we could have assumed the additive model ---i.e., 0, 1, 2 for
 `AA', `Aa', and `aa', respectively---and transformed the data with the
 ordinal approach (but we strongly emphasize \emph{not} the continuous
-approach). We previously provided a comprehensive guide on how transform
-various SNP genetic models for use in PLS-CA and CA elsewhere \citep[see
-Appendix of][]{beaton_partial_2016}. Furthermore, we only highlighted
-one of many possible methods to transform ordinal data. The term ``fuzzy
-coding'' applies more generally to the recoding of ordinal, ranked,
-preference, and even continuous data across a number of schemes, all of
-which conform to the same properties as disjunctive data. The many
-``fuzzy'' and ``double'' coding schemes are generally found in
+approach). We previously provided a comprehensive guide on how to
+transform various SNP genetic models for use in PLS-CA and CA elsewhere
+\citep[see Appendix of][]{beaton_partial_2016}. Furthermore, we only
+highlighted one of many possible methods to transform ordinal data. The
+term ``fuzzy coding'' applies more generally to the recoding of ordinal,
+ranked, preference, and even continuous data across a number of schemes,
+all of which conform to the same properties as disjunctive data. The
+many ``fuzzy'' and ``double'' coding schemes are generally found in
 \citet{escofier_traitement_1979}, \citet{lebart_multivariate_1984}, or
 \citet{greenacrefuzzy}. However, for ordinal data---especially with
 fewer than or equal to 10 levels, and without excessively rare
@@ -1314,9 +1328,10 @@ Though we have presented PLS-CA-R as a generalization of PLS-R that
 accomodates virutally any data type (by way of CA), the way we
 formalized PLS-CA-R---in Section \ref{section:plscar_form} and describe
 its algorithm in Algorithm \ref{algo:plscar}---leads to further variants
-and broader generalizations, that span various PLS, CA, and related
-approaches, several typical PLS algorithms, a variety of optimizations
-(e.g., canonical correlation), and ridge-like regularization.
+and broader generalizations; generalizations that span various PLS, CA,
+and related approaches, several typical PLS algorithms, a variety of
+optimizations (e.g., canonical correlation), and ridge-like
+regularization.
 
 \hypertarget{gpls-algorithms}{%
 \subsection{GPLS algorithms}\label{gpls-algorithms}}
@@ -1350,9 +1365,10 @@ privileged. We present the GPLS-COR, GPLS-REG, and then GPLS-CAN
 algorithms with their respective optimizations. We do so in the
 previously mentioned order because GPLS-COR is used as the basis of all
 three algorithms and GPLS-CAN shares features and concepts with both
-GPLS-COR and GPLS-REG. For all of these we rely on the basis of PLS-CA-R
-we established in Section \ref{section:plscar_form}---specifically for
-various mixed data types under the \(\chi^2\) model (as used in CA).
+GPLS-COR and GPLS-REG. For all of these we rely on the formlization of
+PLS-CA-R we established in Section
+\ref{section:plscar_form}---specifically for various mixed data types
+under the \(\chi^2\) model (as used in CA).
 
 The GPLS-COR decomposition is the simplest GPLS technique. It requires
 only a single pass of the SVD---or in our case the GPLSSVD. There are no
@@ -1496,13 +1512,13 @@ and
 generalizations}\label{gpls-optimizations-and-further-generalizations}}
 
 From the GPLS perspective, we can better unify the wide variety of
-approaches with similar goals but variations of metric, transformations,
-and optimizations that often appear under a wide variety of names (e.g.,
-PLS, CCA, interbattery factor analysis, co-inertia analysis, canonical
-variates, PLS-CA, and so on; see \citet{abdi2017canonical}). The way we
-defined the GPLS algorithms---in particular with the constraints applied
-to the rows and columns of each data matrix---leads to numerous further
-generalizations.
+approaches with similar goals but variations of metrics,
+transformations, and optimizations that often appear under a wide
+variety of names (e.g., PLS, CCA, interbattery factor analysis,
+co-inertia analysis, canonical variates, PLS-CA, and so on; see
+\citet{abdi2017canonical}). The way we defined the GPLS algorithms---in
+particular with the constraints applied to the rows and columns of each
+data matrix---leads to numerous further generalizations.
 
 For simplicity, let us first focus on Algorithm \ref{algo:plsc}, and
 assume that \({\mathbf X}\) and \({\mathbf Y}\) are continuous data,
@@ -1556,7 +1572,7 @@ assumptions and the preprocessing we established in Section
 The first approach is based on Takane's regularized multiple CA
 \citep{takane_regularized_2006} and regularized nonsymmetric CA
 \citep{takane_regularized_2009-1}. To do so, it is convenient to
-slightly reformulate PLS-CA-R, but still require \({\mathbf X}\),
+slightly reformulate PLS-CA-R, but we still require \({\mathbf X}\),
 \({\mathbf Y}\), \({\mathbf O}_{\mathbf X}\),
 \({\mathbf O}_{\mathbf Y}\), \({\mathbf E}_{\mathbf X}\), and
 \({\mathbf E}_{\mathbf Y}\) as defined in Section
@@ -1583,14 +1599,14 @@ The only differences between this Takane-ian reformulation and what we
 originally established is that the generalized singular vectors
 (\({\mathbf P}\) and \({\mathbf Q}\)) and the component scores
 (\({\mathbf F}_{\mathbf J}\) and \({\mathbf F}_{\mathbf K}\)) differ by
-constant scaling factors (which come from the sums of \({\mathbf X}\)
-and \({\mathbf Y}\)).
+constant scaling factors (which are the sums of \({\mathbf X}\) and
+\({\mathbf Y}\) for their respective scores).
 
-We can regularize PLS-CA-R in the same way as Takane's RMCA. To do so we
-require (1) a ridge parameter which we refer to as \(\lambda\) and (2)
-variants of \({\mathbf D}_{{\mathbf X},I}\),
-\({\mathbf D}_{{\mathbf X},J}\), \({\mathbf D}_{{\mathbf Y},I}\), and
-\({\mathbf D}_{{\mathbf Y},K}\) that we refer to as
+We can regularize PLS-CA-R in the same way as Takane's RMCA. We require
+(1) a ridge parameter which we refer to as \(\lambda\) and (2) variants
+of \({\mathbf D}_{{\mathbf X},I}\), \({\mathbf D}_{{\mathbf X},J}\),
+\({\mathbf D}_{{\mathbf Y},I}\), and \({\mathbf D}_{{\mathbf Y},K}\)
+that we refer to as
 \({\mathbb D}_{{\mathbf X},I} = {\mathbf D}_{{\mathbf X},I} + [\lambda \times ({\mathbf Z}_{\mathbf X}{\mathbf Z}_{\mathbf X}^{T})^{+}]\),
 \({\mathbb D}_{{\mathbf Y},I} = {\mathbf D}_{{\mathbf Y},I} + [\lambda \times ({\mathbf Z}_{\mathbf Y}{\mathbf Z}_{\mathbf Y}^{T})^{+}]\),
 \({\mathbb D}_{{\mathbf X},J} = {\mathbf D}_{{\mathbf X},J} + [\lambda \times {\mathbf Z}_{\mathbf X}^{T}({\mathbf Z}_{\mathbf X}{\mathbf Z}_{\mathbf X}^{T})^{+}{\mathbf Z}_{\mathbf X}]\),
@@ -1610,12 +1626,12 @@ As per Takane's recommendation \citep{takane_regularized_2006},
 from 1 to 20 provide sufficient regularization, especially as
 \(\lambda\) increases.
 
-However, the Takane-ian approach may not be feasible when \(I\), \(J\),
+But the Takane-ian approach may not be feasible when \(I\), \(J\),
 and/or \(K\) are particularly large because the various crossproduct and
 projection matrices require a large amount of memory and/or
 computational expense. So we now introduce a ``truncated'' version of
-the Takane regularization which is far more computationally efficient,
-and analogous to the regularization procedure of Allen
+the Takane regularization which is more computationally efficient, and
+analogous to the regularization procedure of Allen
 \citep{allen_sparse_2013, allen_generalized_2014}. We re-define
 \({\mathbb D}_{{\mathbf X},I} = {\mathbf D}_{{\mathbf X},I} + (\lambda \times {\mathbf I})\)
 and
@@ -1636,16 +1652,16 @@ Finally, we have two concluding remarks on ridge-like regularization.
 The first point is that the more simplified Takane/Allen hybrid approach
 to ridge-like regularization also applies much more generally to
 virtually any technique for the SVD or GPLSSVD. For any approach, we
-only require some inflation factor (\(\lambda\)) for the constraints so
-long as those constraints are diagonal matrices. The second point is
-that while we have presented ridge-like regularization with a single
-\(\lambda\) it is entirely possible to use different \(\lambda\)s for
-each set of constraints. Though it is possible, we do not necessarily
-recommend this approach, as it would require a complex grid search over
-all the various \(\lambda\) parameters; or one could minimize the number
-of parameters to search and set some of the \(\lambda\)s to 0 and, for
-example, use only one or two \(\lambda\) values instead of four possible
-\(\lambda\) values.
+only require some inflation factor (\(\lambda\)) for the constraints
+alon the diagonals. The second point is that while we have presented
+ridge-like regularization with a single \(\lambda\) it is entirely
+possible to use different \(\lambda\)s for each set of constraints. But
+even though it is possible, we do not recommend this approach, as it
+would require a complex grid search over all the various \(\lambda\)
+parameters. Alternatively, if multiple \(\lambda\)s were used, one could
+minimize the number of parameters to search and set some of the
+\(\lambda\)s to 0 and, for example, use only one or two \(\lambda\)
+values instead of four possible \(\lambda\) values.
 
 \hypertarget{conclusions}{%
 \subsection{Conclusions}\label{conclusions}}

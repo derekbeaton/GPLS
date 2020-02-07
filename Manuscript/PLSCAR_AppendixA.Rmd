@@ -1,0 +1,60 @@
+---
+  title: "Appendix for: A generalization of partial least squares regression and correspondence analysis"
+
+# to produce blinded version set to 1
+blinded: 0
+
+authors: 
+  - name: Derek Beaton
+# thanks: Acknowledgements?
+affiliation: Rotman Research Institute, Baycrest Health Sciences
+
+- name: ADNI
+affiliation: ADNI
+thanks: Data used in preparation of this article were obtained from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database (http://adni.loni.usc.edu/). As such, the investigators within the ADNI contributed to the design and implementation of ADNI and/or provided data but did not  participate in  analysis  or  writing  of  this  report. A  complete  listing  of  ADNI  investigators can be found at http\://adni.loni.ucla.edu/wpcontent/uploads/how\_to\_apply/ADNI\_Acknowledgement\_List.pdf
+  
+- name: Gilbert Saporta
+  affiliation: Conservatoire National des Arts et Metiers
+  
+- name: Hervé Abdi
+  affiliation: Behavioral and Brain Sciences, The University of Texas at Dallas
+   
+output: rticles::asa_article
+header-includes: 
+  - \usepackage{float}
+  - \usepackage{bbold}
+  - \usepackage{subfig}
+  - \usepackage{graphicx}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[T1]{fontenc}
+  - \usepackage{booktabs}
+  - \usepackage{algorithm2e}
+  - \usepackage{caption}
+  - \usepackage{tabularx}
+    \usepackage{verbatim}
+    \usepackage{xcolor}
+  - \newcommand{\var}{\mathrm{Var}}
+---
+
+```{r paper_setup, echo=F, include=F}
+library(knitr)
+library(kableExtra)
+```
+
+
+# Appendix A
+
+Practically, the GSVD is performed through the SVD as $\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{{\mathbf X}}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{{\mathbf X}}^{\frac{1}{2}} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}$, where the generalized singular vectors are computed from the singular vectors as ${\mathbf P} = {\mathbf M}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}$ and ${\mathbf Q} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. 
+
+
+
+
+
+Similarly to the GSVD, let us refer to $\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}$ and $\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}$. 
+
+The GPLSSVD makes use of the SVD wherein $\widetilde{\mathbf Z}_{\mathbf R} = \widetilde{{\mathbf Z}}_{\mathbf X}^{T}\widetilde{{\mathbf Z}}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}$. The GPLSSVD generalized singular vectors and component scores are computed as ${\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}$ and ${\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}$ for the $J$ columns of ${\mathbf X}$, and ${\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}$ and ${\mathbf F}_{K} = {\mathbf W}_{{\mathbf Y}}{\mathbf Q}{\boldsymbol \Delta}$ for the $K$ columns of ${\mathbf Y}$. Like with the SVD ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$, and like with the GSVD ${\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}$. 
+
+The GPLSSVD also produces scores for the $I$ rows of each matrix---usually called latent variables---as ${\mathbf L}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf U}$ and ${\mathbf L}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}$ where ${\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}$. By its definition, this GPLSSVD maximization of the latent variables---i.e., ${\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}$---is the "PLS correlation" decomposition.
+
+
+Specifically, if ${\mathbf X}$ and ${\mathbf Y}$ were each column-wise centered and/or normalized, then $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}$ is PLS correlation (a.k.a. PLSSVD or Tucker's approach). 
