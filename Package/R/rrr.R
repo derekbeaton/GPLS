@@ -73,6 +73,7 @@ rrr <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 
   ## I should send back "Betas" here per http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s
     ### and  I should consider including those into CCA and PLSC
+    ### and also for the other side, and also consider the rebuilding procedure here as is done in gpls_can and gpls_reg
   rrr_res$beta_matrix <- (rrr_res$p %*% diag(rrr_res$d))
 
   rrr_res
