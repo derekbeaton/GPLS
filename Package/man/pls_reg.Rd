@@ -22,7 +22,7 @@ pls_reg(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
 
 \item{components}{The number of components to return. If < 1 then the maximum components will be returned. Default = 0.}
 
-\item{tol}{default is .Machine$double.eps. A parameter to pass through to \code{\link[GSVD]{gplssvd}}; eliminates effectively zero, negative, or imaginary singular values (thus components).}
+\item{tol}{default is .Machine$double.eps. A parameter to pass through to \code{\link[GSVD]{gplssvd}}; eliminates singular values that are effectively zero (and thus drops null components).}
 }
 \value{
 A list of outputs based on \code{\link{gpls_reg}}
