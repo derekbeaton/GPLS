@@ -66,7 +66,7 @@ rrr <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 
   ## a bit of a trick
   rrr_res <- gpls_cor(
-    X = MASS::ginv(X), Y = Y,
+    X = t(MASS::ginv(X)), Y = Y,
     XRW=crossprod(X),
     components = components, tol = tol
   )

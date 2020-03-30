@@ -1,7 +1,7 @@
 Package: GPLS
 Type: Package
 Title: Generalized partial least squares: generalized for data types and generalization of algorithms plus optimizations
-Version: 0.1.0.9000
+Version: 0.2.0.9000
 Authors@R: person("Derek","Beaton",role=c("aut","cre"),email="exposition.software@gmail.com")
 Maintainer: Derek Beaton <exposition.software@gmail.com>
 Description: A small package dedicated to multiple generalizations of partial least squares. 

@@ -52,14 +52,14 @@
 #'  ## partial least squares "correlation decomposition"
 #'  ### but with the optimization per latent variable of CCA
 #'  #### this is cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
-#'  gplscor_cca_optimization <- gpls_cor( MASS::ginv(X), MASS::ginv(Y),
+#'  gplscor_cca_optimization <- gpls_cor( t(MASS::ginv(X)), t(MASS::ginv(Y)),
 #'       XRW = crossprod(X), YRW = crossprod(Y))
 #'
 #'  ## partial least squares "correlation decomposition"
 #'  ### but with the optimization per latent variable of RRR/RDA
 #'  #### this is rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F) or
 #'  #### rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
-#'  gplscor_rrr_optimization <- gpls_cor( MASS::ginv(X), Y, XRW = crossprod(X))
+#'  gplscor_rrr_optimization <- gpls_cor( t(MASS::ginv(X)), Y, XRW = crossprod(X))
 #'
 #'
 #'  rm(X)

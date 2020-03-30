@@ -61,7 +61,7 @@
 #'  ### but with the optimization per latent variable of CCA
 #'  #### because of optimization, this ends up identical to
 #'  #### cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
-#'  gplscan_cca_optimization <- gpls_can( MASS::ginv(X), MASS::ginv(Y),
+#'  gplscan_cca_optimization <- gpls_can( t(MASS::ginv(X)), t(MASS::ginv(Y)),
 #'       XRW = crossprod(X), YRW = crossprod(Y))
 #'
 #'  ## "partial least squares regression"
@@ -70,7 +70,7 @@
 #'  #### rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
 #'  #### or rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
 #'  ##### the only difference between common items is $ly
-#'  gplscan_rrr_optimization <- gpls_can( MASS::ginv(X), Y, XRW = crossprod(X))
+#'  gplscan_rrr_optimization <- gpls_can( t(MASS::ginv(X)), Y, XRW = crossprod(X))
 #'
 #'  rm(X)
 #'  rm(Y)

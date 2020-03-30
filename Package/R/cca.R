@@ -73,7 +73,7 @@ cca <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 
   ## a bit of a trick
   gpls_cor(
-    X = MASS::ginv(X), Y = MASS::ginv(Y),
+    X = t(MASS::ginv(X)), Y = t(MASS::ginv(Y)),
     XRW=crossprod(X), YRW=crossprod(Y),
     components = components, tol = tol
   )

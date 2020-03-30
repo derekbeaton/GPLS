@@ -14,7 +14,7 @@ shadowtext <- function(x, y=NULL, labels, col='white', bg='black',
 }
 
 svd.line <- function(X,...){
-  svd.res <- tolerance.svd(X)
+  svd.res <- tolerance_svd(X)
   v1 <- svd.res$d[1] * svd.res$v[,1]
 	v2 <- svd.res$d[2] * svd.res$v[,2]
 	segments(-v1[1],-v1[2],v1[1],v1[2],...)
