@@ -59,7 +59,7 @@
 #'  ### but with the optimization per latent variable of CCA
 #'  #### because of optimization, this ends up identical to
 #'  #### cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
-#'  gplsreg_cca_optimization <- gpls_reg( X %^% (-1), Y %^% (-1),
+#'  gplsreg_cca_optimization <- gpls_reg( MASS::ginv(X), MASS::ginv(Y),
 #'       XRW = crossprod(X), YRW = crossprod(Y))
 #'
 #'  ## partial least squares "regression decomposition"
@@ -67,7 +67,7 @@
 #'  #### because of optimization, this ends up identical to
 #'  #### rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
 #'  #### or rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
-#'  gplsreg_rrr_optimization <- gpls_reg( X %^% (-1), Y, XRW = crossprod(X))
+#'  gplsreg_rrr_optimization <- gpls_reg( MASS::ginv(X), Y, XRW = crossprod(X))
 #'
 #'  rm(X)
 #'  rm(Y)
@@ -88,6 +88,8 @@
 #'  }
 #'
 #' @keywords multivariate, diagonalization, partial least squares
+#' @importFrom MASS ginv
+#' @importFrom GSVD invsqrt_psd_matrix sqrt_psd_matrix
 
 gpls_reg <- function(X, Y,
                      XLW = diag(nrow(X)), YLW = diag(nrow(Y)),
@@ -144,12 +146,12 @@ gpls_reg <- function(X, Y,
 
     tx[,i] <- lx[,i] / sqrt(sum(lx[,i]^2))
     betas[i] <- t(ly[,i]) %*% tx[,i]
-    u_hat[,i] <- t(tx[,i]) %*% ((XLW %^% (1/2)) %*% X_deflate %*% (XRW %^% (1/2)))
+    u_hat[,i] <- t(tx[,i]) %*% ( GSVD::sqrt_psd_matrix(XLW) %*% X_deflate %*% GSVD::sqrt_psd_matrix(XRW) )
 
 
-    X_reconstructeds[,,i] <- (XLW %^% (-1/2)) %*% (tx[,i] %o% u_hat[,i]) %*% (XRW %^% (-1/2))
+    X_reconstructeds[,,i] <- GSVD::invsqrt_psd_matrix(XLW) %*% (tx[,i] %o% u_hat[,i]) %*% GSVD::invsqrt_psd_matrix(XRW)
       X_reconstructeds[abs(X_reconstructeds) < tol] <- 0
-    Y_reconstructeds[,,i] <- (YLW %^% (-1/2)) %*% ((tx[,i] * betas[i]) %o% v[,i]) %*% (YRW %^% (-1/2))
+    Y_reconstructeds[,,i] <- GSVD::invsqrt_psd_matrix(YLW) %*% ((tx[,i] * betas[i]) %o% v[,i]) %*% GSVD::invsqrt_psd_matrix(YRW)
       Y_reconstructeds[abs(Y_reconstructeds) < tol] <- 0
 
 
@@ -162,8 +164,8 @@ gpls_reg <- function(X, Y,
     Y_deflate <- Y_residuals[,,i]
 
 
-    r2_x_cumulative[i] <- (X_trace-sum( ( (XLW %^% (1/2)) %*%  X_deflate %*% (XRW %^% (1/2)) ) ^2)) / X_trace
-    r2_y_cumulative[i] <- (Y_trace-sum( ( (YLW %^% (1/2)) %*%  Y_deflate %*% (YRW %^% (1/2)) ) ^2)) / Y_trace
+    r2_x_cumulative[i] <- (X_trace-sum( ( GSVD::sqrt_psd_matrix(XLW) %*%  X_deflate %*% GSVD::sqrt_psd_matrix(XRW) ) ^2)) / X_trace
+    r2_y_cumulative[i] <- (Y_trace-sum( ( GSVD::sqrt_psd_matrix(YLW) %*%  Y_deflate %*% GSVD::sqrt_psd_matrix(YRW) ) ^2)) / Y_trace
 
 
     if( (sum(Y_deflate^2) < tol) & (i < components) ){
@@ -210,7 +212,7 @@ gpls_reg <- function(X, Y,
   }
 
 
-  Y_reconstructed <- (YLW %^% (-1/2)) %*% (tx %*% diag(betas) %*% t(v)) %*% (YRW %^% (-1/2))
+  Y_reconstructed <- GSVD::invsqrt_psd_matrix(YLW) %*% (tx %*% diag(betas) %*% t(v)) %*% GSVD::invsqrt_psd_matrix(YRW)
     Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
   Y_residual <- Y - Y_reconstructed
 

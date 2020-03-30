@@ -12,10 +12,11 @@ Description: A small package dedicated to multiple generalizations of partial le
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: GSVD,
-  base,
+Depends: GSVD
+Imports: base,
   stats,
-  graphics
+  graphics,
+  MASS
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,

@@ -56,6 +56,7 @@
 #'  }
 #'
 #' @keywords multivariate, diagonalization, reduced rank regression, redundancy analysis
+#' @importFrom MASS ginv
 
 
 rrr <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y = TRUE, components = 0, tol = .Machine$double.eps){
@@ -65,12 +66,13 @@ rrr <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 
   ## a bit of a trick
   rrr_res <- gpls_cor(
-    X = X %^% (-1), Y = Y,
+    X = MASS::ginv(X), Y = Y,
     XRW=crossprod(X),
     components = components, tol = tol
   )
 
   ## I should send back "Betas" here per http://ftp.uni-bayreuth.de/math/statlib/S/rrr.s
+    ### and  I should consider including those into CCA and PLSC
   rrr_res$beta_matrix <- (rrr_res$p %*% diag(rrr_res$d))
 
   rrr_res

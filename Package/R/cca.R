@@ -63,6 +63,7 @@
 #'
 #'
 #' @keywords multivariate, diagonalization, canonical correlation
+#' @importFrom MASS ginv
 
 cca <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y = TRUE, components = 0, tol = .Machine$double.eps){
 
@@ -72,7 +73,7 @@ cca <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scale_Y 
 
   ## a bit of a trick
   gpls_cor(
-    X = X %^% (-1), Y = Y %^% (-1),
+    X = MASS::ginv(X), Y = MASS::ginv(Y),
     XRW=crossprod(X), YRW=crossprod(Y),
     components = components, tol = tol
   )

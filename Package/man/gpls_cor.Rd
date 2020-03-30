@@ -61,14 +61,14 @@ GPLSCOR allows for the use of left (row) and right (column) weights for each dat
  ## partial least squares "correlation decomposition"
  ### but with the optimization per latent variable of CCA
  #### this is cca(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
- gplscor_cca_optimization <- gpls_cor( X \%^\% (-1), Y \%^\% (-1),
+ gplscor_cca_optimization <- gpls_cor( MASS::ginv(X), MASS::ginv(Y),
       XRW = crossprod(X), YRW = crossprod(Y))
 
  ## partial least squares "correlation decomposition"
  ### but with the optimization per latent variable of RRR/RDA
  #### this is rrr(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F) or
  #### rda(X, Y, center_X = F, center_Y = F, scale_X = F, scale_Y = F)
- gplscor_rrr_optimization <- gpls_cor( X \%^\% (-1), Y, XRW = crossprod(X))
+ gplscor_rrr_optimization <- gpls_cor( MASS::ginv(X), Y, XRW = crossprod(X))
 
 
  rm(X)
