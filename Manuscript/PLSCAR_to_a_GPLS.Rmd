@@ -197,7 +197,14 @@ out of mixed and collinear data,
 and 3) reveal latent variables
 within a well-established framework. 
 
-Finally, we show that PLS-CA-R can be generalized 1) to handle multiple data types, 2) various optimization schemes(e.g., covariance as in PLS or correlation as in canonical correlation), 3) various transformations for alternate metrics, 4) ridge-like regularization and 5) multiple PLS algorithms. 
+Finally, 
+we show that PLS-CA-R can be generalized 1) 
+to handle multiple data types, 2) 
+various optimization schemes(e.g., covariance as in PLS or correlation 
+as in canonical correlation), 
+3) 
+various transformations for alternate metrics, 
+and 4) ridge-like regularization and 5) multiple PLS algorithms. 
 
 This paper is organized as follows. 
 In Section \ref{section:PLSCAR} we introduce PLS-CA-R. 
@@ -216,14 +223,37 @@ show how PLS-CA-R generalizes the PLS framework
 to multiple optimization problems, algorithms, metrics, 
 and ridge-like regularization. 
 
+
 # Partial least squares-correspondence analysis-regression
 \label{section:PLSCAR}
 
-Here we present the generalization of partial least square-regression (PLS-R) to multiple correspondence analysis (MCA) and correspondence analysis (CA)-like problems that generally apply to categorical (nominal) data. Via CA, we can also generalize to other data types including mixed types (e.g., categorical, ordinal, continuous, contingency). We use a mixture of nomenclature associated with $\chi^2$-analyses, CA, and PLS-R.
+Here we present the generalization of partial 
+least square-regression (PLS-R) 
+to multiple correspondence analysis (MCA) 
+and correspondence analysis (CA)-like problems 
+that generally apply to categorical (nominal) data. 
+Via CA, we can also generalize to other data types 
+including mixed types 
+(e.g., categorical, ordinal, continuous, contingency). 
+We use a mixture of nomenclature associated 
+with $\chi^2$-analyses, CA, and PLS-R.
 
 ## PLS algorithms
 
-There exist three commonly used PLS algorithms: (1) PLS "correlation" decomposition [@krishnan_partial_2011; @bookstein1994partial; @mcintosh_spatial_1996]---also known as PLSSVD [@tenenhaus_regression_1998] or Tucker's Interbattery Factor Analysis [@tucker_inter-battery_1958], (2) PLS "canonical" decompostion [@tenenhaus_regression_1998], and (3) PLS "regression" [@wold_soft_1975; @wold_collinearity_1984; @wold_pls-regression_2001]. PLS correlation decomposition is a symmetric method where neither data table plays a privileged (or predictive) role, and is performed with a single pass of the singular value decomposition (SVD). PLS canonical decomposition is also symmetric, but makes use of the SVD iteratively and deflates both data tables in each iteration. PLS regression decomposition is an asymmetric method where one data table is privileged ("predictors") and also makes use of the SVD iteratively with deflation of both data tables. 
+There exist three commonly used PLS algorithms: (1) PLS "correlation"
+decomposition [@krishnan\_partial\_2011; @bookstein1994partial;
+@mcintosh\_spatial\_1996]---also known as PLSSVD
+[@tenenhaus\_regression\_1998] or Tucker's Interbattery Factor Analysis
+[@tucker\_inter-battery\_1958], (2) PLS "canonical" decompostion
+[@tenenhaus\_regression\_1998], and (3) PLS "regression" [@wold\_soft\_1975;
+@wold\_collinearity\_1984; @wold\_pls-regression\_2001]. PLS correlation
+decomposition is a symmetric method where neither data table plays a privileged
+(or predictive) role, and is performed with a single pass of the singular value
+decomposition (SVD). PLS canonical decomposition is also symmetric, but makes
+use of the SVD iteratively and deflates both data tables in each iteration. PLS
+regression decomposition is an asymmetric method where one data table is
+privileged ("predictors") and also makes use of the SVD iteratively with
+deflation of both data tables.
 
 ## Notation
 
@@ -697,8 +727,8 @@ Though PLS-R was initally developed as a regression approach---especially to han
   svd.line(cbind(ols.res$lx[,2],ols.res$ly[,2]),col=prettyGraphs::add.alpha("black",.6),lwd=2)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(ols.res$fi %*% diag(1/ols.res$d),col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
-  ours::component.plot(ols.res$fi,col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
+  # ours::component_plot(ols.res$fi %*% diag(1/ols.res$d),col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
+  ours::component_plot(ols.res$fi,col=grp.cols,pos=c(3,1,3,2,1),cex=2,text.cex = 1)
   ## here I should provide color coding for items above expected for the whole model and just for either of the visualized two.
   # fj.a.copy <- ols.res$fj %*% diag(1/ols.res$d)
   fj.a.copy <- ols.res$fj
@@ -706,8 +736,8 @@ Though PLS-R was initally developed as a regression approach---especially to han
   rownames(fj.a.copy) <- ifelse(genotype.contributions_12[,1],rownames(fj.a.copy),"")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  #ep.ours::component.plot(fj.a.copy,display_names = T,pch=21,col=prettyGraphs::add.alpha("black",.6),bg=fj.cols, cex=fj.cex, text.cex = .5)
-  ours::component.plot(fj.a.copy,display_names = T,pch=20,col=fj.cols, cex=fj.cex, text.cex = .5)
+  #ep.ours::component_plot(fj.a.copy,display_names = T,pch=21,col=prettyGraphs::add.alpha("black",.6),bg=fj.cols, cex=fj.cex, text.cex = .5)
+  ours::component_plot(fj.a.copy,display_names = T,pch=20,col=fj.cols, cex=fj.cex, text.cex = .5)
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -739,16 +769,16 @@ Though PLS-R was initally developed as a regression approach---especially to han
   
   par.opts <- par(mfrow=c(2,2))
   
-  ours::component.plot(disc1.scores, col=grp.cols,xlim = disc1.lims,ylim=disc1.lims,main="Groups",pos=c(2,1,3,4,2),cex=2,text.cex = 1)
+  ours::component_plot(disc1.scores, col=grp.cols,xlim = disc1.lims,ylim=disc1.lims,main="Groups",pos=c(2,1,3,4,2),cex=2,text.cex = 1)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(ind.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Actual",xlab="LY1",ylab="LY2")
+  ours::component_plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(ind.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Actual",xlab="LY1",ylab="LY2")
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(assigned.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Assigned",xlab="LY1",ylab="LY2")
+  ours::component_plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(assigned.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Assigned",xlab="LY1",ylab="LY2")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  ours::component.plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(correct.incorrect.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Correct vs. Incorrect",xlab="LY1",ylab="LY2")
+  ours::component_plot(disc1.ly, display_names = F,col=prettyGraphs::add.alpha(correct.incorrect.cols,.5),xlim = disc1.lims,ylim=disc1.lims,main="Correct vs. Incorrect",xlab="LY1",ylab="LY2")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -843,20 +873,20 @@ Next we performed two analyses with the same goal: understand the relationship b
  
   par.opts <- par(mfrow=c(2,2))
 
-  # ours::component.plot(regress.beh.brain.pls$fi %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
-ours::component.plot(regress.beh.brain.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
+  # ours::component_plot(regress.beh.brain.pls$fi %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
+ours::component_plot(regress.beh.brain.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T, col=beh.brain.confounds.colors)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(regress.beh.brain.pls$fj %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
-  ours::component.plot(regress.beh.brain.pls$fj,cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
+  # ours::component_plot(regress.beh.brain.pls$fj %*% diag(1/regress.beh.brain.pls$d),cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
+  ours::component_plot(regress.beh.brain.pls$fj,cex=2,text.cex = .75,pch=20,display_names = T, col=mixed.X.colors)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(regress.genes.pls$fi %*% diag(1/regress.genes.pls$d),cex=2,text.cex = .75,pch=20,display_names = T)
-  ours::component.plot(regress.genes.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T)
+  # ours::component_plot(regress.genes.pls$fi %*% diag(1/regress.genes.pls$d),cex=2,text.cex = .75,pch=20,display_names = T)
+  ours::component_plot(regress.genes.pls$fi,cex=2,text.cex = .75,pch=20,display_names = T)
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(regress.genes.pls$fj %*% diag(1/regress.genes.pls$d),cex=1,text.cex = .5,pch=20,display_names = T)
-  ours::component.plot(regress.genes.pls$fj,cex=1,text.cex = .5,pch=20,display_names = T)
+  # ours::component_plot(regress.genes.pls$fj %*% diag(1/regress.genes.pls$d),cex=1,text.cex = .5,pch=20,display_names = T)
+  ours::component_plot(regress.genes.pls$fj,cex=1,text.cex = .5,pch=20,display_names = T)
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -872,22 +902,22 @@ From this point forward we emphasize the results from the adjusted analyses beca
 ```{r echo=F,results="asis",fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.",fig.pos = "!hbtp"}
 
   par.opts <- par(mfrow=c(2,2))
-  # ours::component.plot(plsrca.res$fi %*% diag(1/plsrca.res$d),cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
-ours::component.plot(plsrca.res$fi,cex=2,pch=20, display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
+  # ours::component_plot(plsrca.res$fi %*% diag(1/plsrca.res$d),cex=2,pch=20,display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
+ours::component_plot(plsrca.res$fi,cex=2,pch=20, display_names = F,main="Original Predictors\n(brain & behavior)", col=mixed.X.colors)
   thigmophobe.labels(plsrca.res$fi[,1], plsrca.res$fi[,2],labels = rownames(plsrca.res$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(A)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(plsrca.res_regressed$fi %*% diag(1/plsrca.res_regressed$d),cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
-  ours::component.plot(plsrca.res_regressed$fi,cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
+  # ours::component_plot(plsrca.res_regressed$fi %*% diag(1/plsrca.res_regressed$d),cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
+  ours::component_plot(plsrca.res_regressed$fi,cex=2,pch=20,display_names = F,main="Residualized Predictors\n(brain & behavior)",col=mixed.X.colors)
   thigmophobe.labels(plsrca.res_regressed$fi[,1],plsrca.res_regressed$fi[,2],labels = rownames(plsrca.res_regressed$fi), col=mixed.X.colors, cex=.75)
   mtext(paste0("(B)"), side = 3, adj = -.25,line=1.5,cex=1.5)
     
-  # ours::component.plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
-  ours::component.plot(plsrca.res$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
+  # ours::component_plot(plsrca.res$fj %*% diag(1/plsrca.res$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
+  ours::component_plot(plsrca.res$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Original Responses\n(genotypes)")
   mtext(paste0("(C)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
-  # ours::component.plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regressed$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
-  ours::component.plot(plsrca.res_regressed$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  # ours::component_plot(plsrca.res_regressed$fj %*% diag(1/plsrca.res_regressed$d),display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
+  ours::component_plot(plsrca.res_regressed$fj,display_names = T,pch=20,cex=1, text.cex = .5,main="Residualized Responses\n(genotypes)")
   mtext(paste0("(D)"), side = 3, adj = -.25,line=1.5,cex=1.5)
   
   par(par.opts)
@@ -986,13 +1016,13 @@ Because not all subjects have complete AV45 and genotypic data, the sample for t
   legend("topleft",legend=c("CN","SMC","EMCI","LMCI","AD"),pch=18,col=grp.cols[c("CN","SMC","EMCI","LMCI","AD")],text.col = grp.cols[c("CN","SMC","EMCI","LMCI","AD")], cex=.75)
   mtext(paste0("(A)"), side = 3, adj = 0,line=0.75,cex=1.5)
 
-  # ours::component.plot(big.plsrca.res$fi %*% diag(1/big.plsrca.res$d),cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
-  ours::component.plot(big.plsrca.res$fi,cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
+  # ours::component_plot(big.plsrca.res$fi %*% diag(1/big.plsrca.res$d),cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
+  ours::component_plot(big.plsrca.res$fi,cex=1,text.cex = .5,pch=20,display_names = F,col=big.fi.cols,main="Predictors\n(Regional AV45)")
   thigmophobe.labels(big.plsrca.res$fi[big.fi.show,1], big.plsrca.res$fi[big.fi.show,2], labels=rownames(big.plsrca.res$fi)[big.fi.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(B)"), side = 3, adj = 0,line=0.75,cex=1.5)
   
-  # ours::component.plot(big.plsrca.res$fj %*% diag(1/big.plsrca.res$d),display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
-  ours::component.plot(big.plsrca.res$fj,display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
+  # ours::component_plot(big.plsrca.res$fj %*% diag(1/big.plsrca.res$d),display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
+  ours::component_plot(big.plsrca.res$fj,display_names = F,pch=20,cex=1, text.cex = .5, col=big.fj.cols, main="Responses\n(Genotypes)")
   thigmophobe.labels(big.plsrca.res$fj[big.fj.show,1], big.plsrca.res$fj[big.fj.show,2], labels=rownames(big.plsrca.res$fj)[big.fj.show],col="mediumorchid4",cex=.5)
   mtext(paste0("(C)"), side = 3, adj = 0,line=0.75,cex=1.5)
   

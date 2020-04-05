@@ -25,6 +25,7 @@
 
 
 
+
 \usepackage{float}
 \usepackage{bbold}
 \usepackage{subfig}
@@ -193,8 +194,8 @@ framework.
 Finally, we show that PLS-CA-R can be generalized 1) to handle multiple
 data types, 2) various optimization schemes(e.g., covariance as in PLS
 or correlation as in canonical correlation), 3) various transformations
-for alternate metrics, 4) ridge-like regularization and 5) multiple PLS
-algorithms.
+for alternate metrics, and 4) ridge-like regularization and 5) multiple
+PLS algorithms.
 
 This paper is organized as follows. In Section \ref{section:PLSCAR} we
 introduce PLS-CA-R. Next, in Section \ref{section:appex}, we illustrate
@@ -227,12 +228,12 @@ contingency). We use a mixture of nomenclature associated with
 
 There exist three commonly used PLS algorithms: (1) PLS ``correlation''
 decomposition
-\citep{krishnan_partial_2011, bookstein1994partial, mcintosh_spatial_1996}---also
-known as PLSSVD \citep{tenenhaus_regression_1998} or Tucker's
-Interbattery Factor Analysis \citep{tucker_inter-battery_1958}, (2) PLS
-``canonical'' decompostion \citep{tenenhaus_regression_1998}, and (3)
-PLS ``regression''
-\citep{wold_soft_1975, wold_collinearity_1984, wold_pls-regression_2001}.
+\citetext{\citealp[partial\_2011]{krishnan}; \citealp{bookstein1994partial}; \citealp[spatial\_1996]{mcintosh}}---also
+known as PLSSVD \citep[regression\_1998]{tenenhaus} or Tucker's
+Interbattery Factor Analysis \citep[inter-battery\_1958]{tucker}, (2)
+PLS ``canonical'' decompostion \citep[regression\_1998]{tenenhaus}, and
+(3) PLS ``regression''
+\citetext{\citealp[soft\_1975]{wold}; \citealp[collinearity\_1984]{wold}; \citealp[pls-regression\_2001]{wold}}.
 PLS correlation decomposition is a symmetric method where neither data
 table plays a privileged (or predictive) role, and is performed with a
 single pass of the singular value decomposition (SVD). PLS canonical
@@ -428,7 +429,7 @@ latent variables.
 
 \caption{\label{tab:unnamed-chunk-1}\label{table:disj} An example of disjunctive (SEX) and pseudo-disjunctive (AGE, EDU) coding through the fuzzy or Escofier transforms. For disjunctive an pseudo-disunctive data, each variable has a row-wise sum of 1 across its respective columns, and thus the row sums across the table are the number of original variables.}
 \centering
-\begin{tabular}{llrrrrrrrr}
+\begin{tabular}[t]{llrrrrrrrr}
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Original coding} & \multicolumn{6}{c}{Disjunctive and pseudo-disjunctive coding} \\
 \cmidrule(l{2pt}r{2pt}){2-4} \cmidrule(l{2pt}r{2pt}){5-10}
@@ -814,7 +815,7 @@ data in further detail when we introduce these data.
 
 \caption{\label{tab:unnamed-chunk-2}\label{table:snps_models_disj} An example of a SNP with its genotypes for respective individuals and disjunctive coding for three types of genetic models: genotypic (three levels), dominant (two levels: major homozygote vs. presence of minor allele), and recessive (two levels: presence of major allele vs. minor homozygote).}
 \centering
-\begin{tabular}{lllllllll}
+\begin{tabular}[t]{lllllllll}
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{1}{c}{SNP} & \multicolumn{3}{c}{Genotypic} & \multicolumn{2}{c}{Dominant} & \multicolumn{2}{c}{Recessive} \\
 \cmidrule(l{2pt}r{2pt}){2-2} \cmidrule(l{2pt}r{2pt}){3-5} \cmidrule(l{2pt}r{2pt}){6-7} \cmidrule(l{2pt}r{2pt}){8-9}
@@ -855,7 +856,7 @@ structures'' \citep{abdi_partial_2010-1}.
 
 \caption{\label{tab:sample_descriptives}\label{table:desctab} Descriptives and demographics for the sample.}
 \centering
-\begin{tabular}{lllll}
+\begin{tabular}[t]{lllll}
 \toprule
   & N & AGE mean (sd) & EDU mean (sd) & Males (Females)\\
 \midrule
@@ -882,7 +883,7 @@ shows that groups explain only a small amount of genotypic variance:
 
 \caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0.65\% of the genotypes.}
 \centering
-\begin{tabular}{lrr}
+\begin{tabular}[t]{lrr}
 \toprule
   & X (groups) R-squared cumulative & Y (genotypes) R-squared cumulative\\
 \midrule
@@ -1008,7 +1009,7 @@ problem (i.e., here a single predictor with multiple responses).
 
 \caption{\label{tab:unnamed-chunk-7}\label{table:assign_ex1} The \textit{a priori} (rows) vs. assigned (columns) accuracies for the discriminant analysis.}
 \centering
-\begin{tabular}{lrrrrr}
+\begin{tabular}[t]{lrrrrr}
 \toprule
   & CN & SMC & EMCI & LMCI & AD\\
 \midrule
