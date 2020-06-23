@@ -58,3 +58,135 @@ The GPLSSVD also produces scores for the $I$ rows of each matrix---usually calle
 
 
 Specifically, if ${\mathbf X}$ and ${\mathbf Y}$ were each column-wise centered and/or normalized, then $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}$ is PLS correlation (a.k.a. PLSSVD or Tucker's approach). 
+
+
+
+
+
+
+
+
+Though we have presented PLS-CA-R as a generalization of PLS-R that accomodates virutally any data type (by way of CA), the way we formalized PLS-CA-R---in Section \ref{section:plscar_form} and describe its algorithm in Algorithm \ref{algo:plscar}---leads to further variants and broader generalizations; generalizations that span various PLS, CA, and related approaches, several typical PLS algorithms, a variety of optimizations (e.g., canonical correlation), and ridge-like regularization.
+
+
+## GPLS algorithms
+
+In general there exist three primary PLS algorithms: PLS correlation decomposition [@bookstein1994partial; @ketterlinus1989partial] generally more known in neuroimaging [@mcintosh_spatial_1996; @mcintosh_partial_2004; @krishnan_partial_2011] which has numerous alternate names such as PLS-SVD and Tucker's interbattery factor analysis [@tucker_inter-battery_1958] amongst others [see also @beaton_partial_2016], PLS regression decomposition (cf. Section \ref{section:plscar_form} and also Algorithm \ref{algo:plscar}) and the PLS canonical decomposition [@tenenhaus_regression_1998; @wegelin2000survey], which is a symmetric method with iterative deflation (i.e., it has features of both PLS-C and PLS-R). Given the way in which we formalize PLS-CA-R---as a generalized PLS-R---here we show how PLS-CA-R provides the basis of generalizations of these three algorithms, as well as further optimizations, similar to @borga_unified_1992, @indahl2009canonical, and @de2019pls but we do so in a more comprehensive way that incorporates more methods than other unification strategies, and we also do so in a way that accomodates multiple data types. We refer to the three techniques under the umbrella of generalized partial least squares (GPLS) as GPLS-COR, GPLS-REG, and GPLS-CAN, for the "correlation", "regression", and "canonical" decompositions respectively. GPLS-COR and GPLS-CAN are symmetric decomposition approaches where neither ${\mathbf Z}_{{\mathbf X}}$ nor ${\mathbf Z}_{{\mathbf Y}}$ are privileged. GPLS-REG is an asymmetric decomposition approach where ${\mathbf Z}_{{\mathbf X}}$ is privileged. We present the GPLS-COR, GPLS-REG, and then GPLS-CAN algorithms with their respective optimizations. We do so in the previously mentioned order because GPLS-COR is used as the basis of all three algorithms and GPLS-CAN shares features and concepts with both GPLS-COR and GPLS-REG. For all of these we rely on the formlization of PLS-CA-R we established in Section \ref{section:plscar_form}---specifically for various mixed data types under the $\chi^2$ model (as used in CA).
+
+
+The GPLS-COR decomposition is the simplest GPLS technique. It requires only a single pass of the SVD---or in our case the GPLSSVD. There are no explicit iterative steps in GPLS-COR. GPLS-COR takes as input the two preprocessed matrices---${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$---and their respective row and column weights: ${\mathbf M}_{\mathbf X}$ and ${\mathbf W}_{\mathbf X}$ for ${\mathbf Z}_{\mathbf X}$, and ${\mathbf M}_{\mathbf Y}$ and ${\mathbf W}_{\mathbf Y}$ for ${\mathbf Z}_{\mathbf Y}$, where $C$ is the desired number of components to return. GPLS-COR is shown in Algorithm \ref{algo:plsc}.
+
+\RestyleAlgo{boxed}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Generalized PLS-correlation between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{${\mathbf M}_{\mathbf{X}}$, ${\mathbf Z}_{{\mathbf X}}$, ${\mathbf W}_{\mathbf{X}}$, ${\mathbf M}_{\mathbf{Y}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{\mathbf{Y}}$, $C$}
+\Output{${\mathbf U}$, ${\mathbf V}$, ${\mathbf P}$, ${\mathbf Q}$, ${\mathbf F}_{J}$, ${\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$, ${\boldsymbol \Delta}$}
+\BlankLine
+  $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf{X}}, {\mathbf Z}_{{\mathbf X}}, {\mathbf W}_{\mathbf{X}}, {\mathbf M}_{\mathbf{Y}}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf W}_{\mathbf{Y}}, C \mathrm{)}$ \\
+\caption{Generalized PLS-correlation algorithm. GPLS-COR is the GPLSSVD and provides the basis of other GPLS techniques. Furthermore, GPLS-COR easily allows for a variety of optmizations for examples canonical correlation, reduced rank regression (redundancy analysis), and even ridge-like regularization.}
+\label{algo:plsc}
+\end{algorithm}
+
+GPLS-COR maximizes the relationship between ${\mathbf L}_{\mathbf X}$ and ${\mathbf L}_{\mathbf Y}$ with the orthogonality constraint ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c'} = 0$ when $c \neq c'$ where ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c} = \delta_{c}$ and thus ${\mathbf L}_{\mathbf X}^{T}{\mathbf L}_{\mathbf Y} = {\mathbf U}^{T}\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}^{T} = {\mathbf U}^{T}\widetilde{\mathbf Z}_{\mathbf R}{\mathbf V}^{T} = {\mathbf U}^{T}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}^{T}{\mathbf V}^{T} = {\boldsymbol \Delta}$. We can show this with the generalized vectors and weight as ${\mathbf L}_{\mathbf X}^{T}{\mathbf L}_{\mathbf Y} = {\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf Z}_{\mathbf X}^{T}{\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}{\mathbf Q}^{T} = {\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P}{\boldsymbol \Delta}{\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q} = {\boldsymbol \Delta}$. Furthermore, GPLS-COR (via GPLSSVD) provides all of the other outputs as previously described in Section \ref{section:GSVDCA}. GPLS-COR---which is the GPLSSVD---provides the basis for the other two algorithms: both GPLS-REG and GPLS-CAN make use of GPLS-COR (i.e., the GPLSSVD) with rank 1 solutions iteratively.
+
+The GPLS-REG decomposition builds off of the GPLS-COR algorithm, but does so by way of the GPLSSVD septuplet iteratively for $C$ iterations, with only a rank 1 solution is provided for each use of the GPLSSVD. Then the two data matrices---${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$---are deflated for each step asymmetrically, with a privileged ${\mathbf Z}_{\mathbf X}$. GPLS-REG is shown in Algorithm \ref{algo:plscar}.
+
+
+\RestyleAlgo{boxed}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Generalized PLS-regression between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{${\mathbf M}_{\mathbf{X}}$, ${\mathbf Z}_{{\mathbf X}}$, ${\mathbf W}_{\mathbf{X}}$, ${\mathbf M}_{\mathbf{Y}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{\mathbf{Y}}$, $C$}
+\Output{$\widetilde{\mathbf U}$, $\widetilde{\mathbf V}$, $\widetilde{\mathbf P}$, $\widetilde{\mathbf Q}$, $\widetilde{\mathbf F}_{J}$, $\widetilde{\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$, $\widetilde{\boldsymbol \Delta}$, ${\mathbf T}_{{\mathbf X}}$, $\widehat{\mathbf U}$, ${\mathbf B}$}
+\BlankLine
+\For{$c=1, \dots, C$}{
+
+  $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf{X}}, {\mathbf Z}_{{\mathbf X}}, {\mathbf W}_{\mathbf{X}}, {\mathbf M}_{\mathbf{Y}}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf W}_{\mathbf{Y}}, 1 \mathrm{)}$ \\
+  ${\mathbf t}_{\mathbf X} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
+  $b \leftarrow {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}$\\
+  $\widehat{\mathbf u} \leftarrow ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}{\mathbf t}_{\mathbf X}$\\
+  ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{-\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{-\frac{1}{2}}]$\\
+  ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf{v}}^{T}){\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}]$
+}
+\caption{Generalized PLS-regression algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. PLS-CA-R is a specific instance of GPLS-REG, which we defined in Section \ref{section:plscar_form}.}
+\label{algo:plscar}
+\end{algorithm}
+
+GPLS-REG maximizes the relationship between ${\mathbf L}_{\mathbf X}$ and ${\mathbf L}_{\mathbf Y}$ with the orthogonality constraint ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$ where ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c} = \delta_{c}$ which is also  $\mathrm{diag\{}{\mathbf L}_{\mathbf X}^{T}{\mathbf L}_{\mathbf Y}\mathrm{\}} = \mathrm{diag\{}\widetilde{\boldsymbol \Delta}\mathrm{\}}$.
+
+
+
+The GPLS-CAN decomposition builds off of the GPLS-COR algorithm, but does so by way of the GPLSSVD septuplet iteratively for $C$ iterations, with only a rank 1 solution is provided for each use of the GPLSSVD. Then the two data matrices---${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$---are deflated for each step symmetrically. GPLS-CAN is shown in Algorithm \ref{algo:plscacan}
+
+\RestyleAlgo{boxed}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Generalized PLS-canonical between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{${\mathbf M}_{\mathbf{X}}$, ${\mathbf Z}_{{\mathbf X}}$, ${\mathbf W}_{\mathbf{X}}$, ${\mathbf M}_{\mathbf{Y}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{\mathbf{Y}}$, $C$}
+\Output{$\widetilde{\mathbf U}$, $\widetilde{\mathbf V}$, $\widetilde{\mathbf P}$, $\widetilde{\mathbf Q}$, $\widetilde{\mathbf F}_{J}$, $\widetilde{\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$, $\widetilde{\boldsymbol \Delta}$, ${\mathbf T}_{{\mathbf X}}$, ${\mathbf T}_{{\mathbf Y}}$, $\widehat{\mathbf U}$, $\widehat{\mathbf V}$}
+\BlankLine
+\For{$c=1, \dots, C$}{
+
+  $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf{X}}, {\mathbf Z}_{{\mathbf X}}, {\mathbf W}_{\mathbf{X}}, {\mathbf M}_{\mathbf{Y}}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf W}_{\mathbf{Y}}, 1 \mathrm{)}$ \\
+  ${\mathbf t}_{\mathbf X} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
+  ${\mathbf t}_{\mathbf Y} \leftarrow {\boldsymbol \ell}_{\mathbf Y} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf Y} \rvert\rvert}^{-1}}$\\
+  $\widehat{\mathbf u} \leftarrow ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}{\mathbf t}_{\mathbf X}$\\
+  $\widehat{\mathbf v} \leftarrow ({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}})^{T}{\mathbf t}_{\mathbf Y}$\\  
+  
+  ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{-\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{-\frac{1}{2}}]$\\
+   ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}({\mathbf t}_{\mathbf Y}\widehat{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}]$
+}
+\caption{Generalized PLS-canonical algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. Note that the deflation in GPLS-CAN differs from GPLS-REG in Algorithm \ref{algo:plscar}.}
+\label{algo:plscacan}
+\end{algorithm}
+
+GPLS-CAN maximizes the relationship between ${\mathbf L}_{\mathbf X}$ and ${\mathbf L}_{\mathbf Y}$ with the orthogonality constraints ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ and ${\boldsymbol \ell}_{{\mathbf Y},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c'} = 0$ when $c \neq c'$ where ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c} = \delta_{c}$ which is also  $\mathrm{diag\{}{\mathbf L}_{\mathbf X}^{T}{\mathbf L}_{\mathbf Y}\mathrm{\}} = \mathrm{diag\{}\widetilde{\boldsymbol \Delta}\mathrm{\}}$.
+
+
+Note that across all three algorithms defined here, that the first component is identical when the same preprocessed data and constraints are provided to the GPLSSVD. In nearly all cases, subsequent components across the three algorithms differ, but also generally they do not differ substantially. The similarities can be traced back to the common maximization of ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c} = \delta_{c}$, where the differences can be traced back to the specific orthogonality optimizations when $c \neq c'$ where: (1) GPLS-COR in Algorithm \ref{algo:plsc} is ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c'} = 0$, (2) GPLS-REG in Algorithm \ref{algo:plscar} is ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$, and (3) GPLS-CAN in Algorithm \ref{algo:plscacan} is both ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ and ${\boldsymbol \ell}_{{\mathbf Y},c}^{T}{\boldsymbol \ell}_{{\mathbf Y},c'} = 0$.
+
+
+## GPLS optimizations and further generalizations
+
+<!-- In general we can think of three separate symmetric/correlational models via the GSVD: PLS, canonical correlation analysis (CCA), and reduced rank regression (RRR; a.k.a. redundancy analysis). PLSC to PLSR is already established. But now we describe how CCA and RRR can also go through this iterative deflation process with a privileged/asymmetric data set. Finally this gives way to a concept that PLS-CA-R provides a fundamental basis of generalized PLS: a technique wherein any weights could be applied and any necessary preprocessing are applied to X and Y, which is iterative [[whatever]]. -->
+
+
+From the GPLS perspective, we can better unify the wide variety of approaches with similar goals but variations of metrics, transformations, and optimizations that often appear under a wide variety of names (e.g., PLS, CCA, interbattery factor analysis, co-inertia analysis, canonical variates, PLS-CA, and so on; see @abdi2017canonical). The way we defined the GPLS algorithms---in particular with the constraints applied to the rows and columns of each data matrix---leads to numerous further generalizations. 
+
+For simplicity, let us first focus on Algorithm \ref{algo:plsc}, and assume that ${\mathbf X}$ and ${\mathbf Y}$ are continuous data, where ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ are column-wise centered and/or scaled versions of ${\mathbf X}$ and ${\mathbf Y}$. Though we have established Algorithm \ref{algo:plsc} as GPLS-COR---and more generally as the GPLSSVD---we can obtain the results of three of the most common "two-table" techniques: PLS correlation (PLSC), canonical correlation analysis (CCA), and redundancy analysis (RDA, a.k.a., reduced rank regression [RRR]). Standard PLSC is performed as $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{{\mathbf X}}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf I}\mathrm{)}$, CCA is performed as $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{{\mathbf X}}, ({\mathbf Z}_{\mathbf X}^{T}{\mathbf Z}_{\mathbf X})^{-1}, {\mathbf I}, {\mathbf Z}_{{\mathbf Y}}, ({\mathbf Z}_{\mathbf Y}^{T}{\mathbf Z}_{\mathbf Y})^{-1}\mathrm{)}$, and RDA---where ${\mathbf X}$ is privileged---is performed as $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{{\mathbf X}}, ({\mathbf Z}_{\mathbf X}^{T}{\mathbf Z}_{\mathbf X})^{-1}, {\mathbf I}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf I}\mathrm{)}$. Furthermore, these three variants---PLSC, CCA, and RDA/RRR---also generalize discriminant analyses under different optimizations so long as ${\mathbf X}$ is a dummy-coded or complete disjunctive matrix to assign each observation (row) to a specific group or category (columns).
+
+<!-- something about how there ar e a ariety of CA transformations and variants and changes in weights/constraints in particular which gives us a whole new way of performing analyses, because we have the 3 algorithms. 
+
+Then note that in some cases, the choice of optimization effectively "overrides" the algorithm because the results will be identical, e.g., RRR & CCA optimizations produce identical results from all three algorithms.
+
+-->
+
+Most importantly, because of the ways we formalized the GPLS algorithms---see also Section \ref{section:plscar_form}---and the variety of ways to suitably transform data (e.g., the various coding schemes we have shown) allow application of PLS-CA-R and GPLS algorithms on a variety of different problems or models such as log or power transformations and alternate choices for weights (see Eq. \ref{eq:weightmats_v1}) or models (see Eq. \ref{eq:models}). That means that the GPLS algorithms further generalize many approaches, especially the numerous variants of CA. Generally in the cases of strictly positive data, there may be a need to preprocess data within the family of power transformations for CA [@greenacre2009power] or alternate distance metrics such as Hellinger distance [@rao1995review; @escofier1978analyse]. Finally, with the choices of weights can change, as they do for Hellinger CA, and for the variations of "non-symmetrical CA" [@d1992non; @kroonenberg1999nonsymmetric; @takane1991relationships], where both types of variants require one set of weights as ${\mathbf I}$ (akin to RDA/RRR-type optimizations with CA/$\chi^2$ models across any of the GPLS algorithms).
+
+
+## Ridge-like regularization
+
+It is also possible to apply ridge-like regularization to PLS-CA regression, correlation, and canonical decompositions. We show two possible strategies for ridge-like regularization under the data/model assumptions and the preprocessing we established in Section \ref{section:plscar_form}.
+
+The first approach is based on Takane's regularized multiple CA [@takane_regularized_2006] and regularized nonsymmetric CA [@takane_regularized_2009-1]. To do so, it is convenient to slightly reformulate PLS-CA-R, but we still require ${\mathbf X}$, ${\mathbf Y}$, ${\mathbf O}_{\mathbf X}$, ${\mathbf O}_{\mathbf Y}$, ${\mathbf E}_{\mathbf X}$, and ${\mathbf E}_{\mathbf Y}$ as defined in Section \ref{section:plscar_form}. First we re-define ${\mathbf Z}_{\mathbf X} = ({\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}) \times (\mathbf{1}^{T}{\mathbf X1})$ and ${\mathbf Z}_{\mathbf Y} = ({\mathbf O}_{\mathbf Y} - {\mathbf E}_{\mathbf Y}) \times (\mathbf{1}^{T}{\mathbf Y1})$; which are the same as in Eq. \ref{eq:plscar_Zs} except scaled by the grand sum of its respective source data matrix. Next we define the following additional matrices: ${\mathbf D}_{{\mathbf X},I} = \mathrm{diag\{ \mathbf{X1} \}}$, and ${\mathbf D}_{{\mathbf Y},I} = \mathrm{diag\{ \mathbf{Y1} \}}$ which are diagonal matrices of the row sums of ${\mathbf X}$ and ${\mathbf Y}$, respectively and ${\mathbf D}_{{\mathbf X},J} = \mathrm{diag\{ \mathbf{1}^{T} \mathbf{X} \}}$, and ${\mathbf D}_{{\mathbf Y},K} = \mathrm{diag\{ \mathbf{1}^{T}\mathbf{Y} \}}$ which are the column sums of ${\mathbf X}$ and ${\mathbf Y}$. Then PLS-CA correlation, regression, and canonical decompositions replace the GPLSSVD step in Algorithms \ref{algo:plsc}, \ref{algo:plscar}, \ref{algo:plscacan} with $\mathrm{GPLSSVD(}{\mathbf D}_{{\mathbf X},I}^{-1},{\mathbf Z}_{\mathbf X}^{T}, {\mathbf D}_{{\mathbf X},J}^{-1}, {\mathbf D}_{{\mathbf Y},I}^{-1},{\mathbf Z}_{\mathbf Y}^{T}, {\mathbf D}_{{\mathbf Y},K}^{-1} \mathrm{)}$. The only differences between this Takane-ian reformulation and what we originally established is that the generalized singular vectors (${\mathbf P}$ and ${\mathbf Q}$) and the component scores (${\mathbf F}_{\mathbf J}$ and ${\mathbf F}_{\mathbf K}$) differ by constant scaling factors (which are the sums of ${\mathbf X}$ and ${\mathbf Y}$ for their respective scores).
+
+
+We can regularize PLS-CA-R in the same way as Takane's RMCA. We require (1) a ridge parameter which we refer to as $\lambda$ and (2) variants of ${\mathbf D}_{{\mathbf X},I}$, ${\mathbf D}_{{\mathbf X},J}$, ${\mathbf D}_{{\mathbf Y},I}$, and ${\mathbf D}_{{\mathbf Y},K}$ that we refer to as ${\mathbb D}_{{\mathbf X},I} = {\mathbf D}_{{\mathbf X},I} + [\lambda \times ({\mathbf Z}_{\mathbf X}{\mathbf Z}_{\mathbf X}^{T})^{+}]$, ${\mathbb D}_{{\mathbf Y},I} = {\mathbf D}_{{\mathbf Y},I} + [\lambda \times ({\mathbf Z}_{\mathbf Y}{\mathbf Z}_{\mathbf Y}^{T})^{+}]$, ${\mathbb D}_{{\mathbf X},J} = {\mathbf D}_{{\mathbf X},J} + [\lambda \times {\mathbf Z}_{\mathbf X}^{T}({\mathbf Z}_{\mathbf X}{\mathbf Z}_{\mathbf X}^{T})^{+}{\mathbf Z}_{\mathbf X}]$, and ${\mathbb D}_{{\mathbf Y},K} = {\mathbf D}_{{\mathbf Y},K} + [\lambda \times {\mathbf Z}_{\mathbf Y}^{T}({\mathbf Z}_{\mathbf Y}{\mathbf Z}_{\mathbf Y}^{T})^{+}{\mathbf Z}_{\mathbf Y}]$. When $\lambda = 0$ then ${\mathbb D}_{{\mathbf X},I} = {\mathbf D}_{{\mathbf X},I}$, ${\mathbb D}_{{\mathbf Y},I} = {\mathbf D}_{{\mathbf Y},I}$, ${\mathbb D}_{{\mathbf X},J} = {\mathbf D}_{{\mathbf X},J}$, ${\mathbb D}_{{\mathbf Y},K} = {\mathbf D}_{{\mathbf Y},K}$. We obtain regularized forms of PLS-CA for the correlation, regression, and canonical decompositions if we simply replace the GPLSSVD step in each algorithm with $\mathrm{GPLSSVD(}{\mathbb D}_{{\mathbf X},I}^{-1},{\mathbf Z}_{\mathbf X}^{T}, {\mathbb D}_{{\mathbf X},J}^{-1}, {\mathbb D}_{{\mathbf Y},I}^{-1},{\mathbf Z}_{\mathbf Y}^{T}, {\mathbb D}_{{\mathbf Y},K}^{-1} \mathrm{)}$. As per Takane's recommendation [@takane_regularized_2006], $\lambda$ could be any positive value, though integers in the range from 1 to 20 provide sufficient regularization, especially as $\lambda$ increases.
+
+
+But the Takane-ian approach may not be feasible when $I$, $J$, and/or $K$ are particularly large because the various crossproduct and projection matrices require a large amount of memory and/or computational expense. So we now introduce a "truncated" version of the Takane regularization which is more computationally efficient, and analogous to the regularization procedure of Allen [@allen_sparse_2013; @allen_generalized_2014]. We re-define ${\mathbb D}_{{\mathbf X},I} = {\mathbf D}_{{\mathbf X},I} + (\lambda \times {\mathbf I})$ and ${\mathbb D}_{{\mathbf Y},I} = {\mathbf D}_{{\mathbf Y},I} + (\lambda \times {\mathbf I})$ and then also ${\mathbb D}_{{\mathbf X},J} = {\mathbf D}_{{\mathbf X},J} + (\lambda \times {\mathbf I})$ and ${\mathbb D}_{{\mathbf Y},K} = {\mathbf D}_{{\mathbf Y},K} + (\lambda \times {\mathbf I})$ where ${\mathbf I}$ are identity matrices ($1$s on the diagonal) of appropriate size. Like in the previous formulation, we replace the values we have in the GPLSSVD step where $\mathrm{GPLSSVD(}{\mathbb D}_{{\mathbf X},I}^{-1},{\mathbf Z}_{\mathbf X}^{T}, {\mathbb D}_{{\mathbf X},J}^{-1}, {\mathbb D}_{{\mathbf Y},I}^{-1},{\mathbf Z}_{\mathbf Y}^{T}, {\mathbb D}_{{\mathbf Y},K}^{-1} \mathrm{)}$; and in this particular case, the constraint matrices are all diagonal matrices, which allows for a lower memory footprint and less computational burden.
+
+
+Finally, we have two concluding remarks on ridge-like regularization. The first point is that the more simplified Takane/Allen hybrid approach to ridge-like regularization also applies much more generally to virtually any technique for the SVD or GPLSSVD. For any approach, we only require some inflation factor ($\lambda$) for the constraints alon the diagonals. The second point is that while we have presented ridge-like regularization with a single $\lambda$ it is entirely possible to use different $\lambda$s for each set of constraints. But even though it is possible, we do not recommend this approach, as it would require a complex grid search over all the various $\lambda$ parameters. Alternatively, if multiple $\lambda$s were used, one could minimize the number of parameters to search and set some of the $\lambda$s to 0 and, for example, use only one or two $\lambda$ values instead of four possible $\lambda$ values.
+
+
+# Fin
+
+While that was the bulk of this work, our secondary goal was to further generalize the PLS-CA approach and to better unify many methods under a simpler framework, specifically by way of the GPLSSVD and our three GPLS algorithms. Thus our generalizations---first established in Section \ref{section:plscar_form}, and expanded upon in Discussion---accomodate: almost any data type, various metrics (e.g., Hellinger distance), various optimizations (e.g., PLS, CCA, or RDA type optmizations), and even two strategies for ridge-like regularization. We have foregone any discussions of inference, stability, and resampling for PLS-CA-R because, as a generalization of PLS-R, many inference and stability approaches still apply---such as feature selection or sparsification [@sutton_sparse_2018], additional regularization or sparsification approaches [@le_floch_significant_2012-1; @guillemot2019constrained; @tenenhaus_variable_2014; @tenenhaus_regularized_2011], cross-validation [@wold_principal_1987; @rodriguez-perez_overoptimism_2018; @kvalheim_number_2019; @abdi_partial_2010-1], permutation [@berry_permutation_2011], various bootstrap [@efron_bootstrap_1979; @chernick_bootstrap_2008] approaches [@abdi_partial_2010-1; @takane_regularized_2009-1] or tests [@mcintosh_partial_2004; @krishnan_partial_2011], and other frameworks such as split-half resampling [@strother_quantitative_2002-1; @kovacevic2013revisiting; @strother2004optimizing]---and are easily adapted for the PLS-CA-R and GPLS frameworks. 
