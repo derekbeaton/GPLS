@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  3 JUL 2020 00:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  3 JUL 2020 00:38
 entering extended mode
-**./PLSCAR_to_a_GPLS.tex
-(PLSCAR_to_a_GPLS.tex
+**./PLSCAR_AppendixA.tex
+(PLSCAR_AppendixA.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-03-06> ("C:\Program Files\MiKTeX 2.9\tex/latex/base\
 article.cls"
@@ -378,8 +378,8 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count286
 \l__pdf_internal_box=\box59
-) (PLSCAR_to_a_GPLS.aux)
-\openout1 = `PLSCAR_to_a_GPLS.aux'.
+) (PLSCAR_AppendixA.aux)
+\openout1 = `PLSCAR_AppendixA.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
 LaTeX Font Info:    ... okay on input line 42.
@@ -429,217 +429,172 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 42.
 LaTeX Info: Redefining \pageref on input line 42.
 LaTeX Info: Redefining \nameref on input line 42.
-(PLSCAR_to_a_GPLS.out) (PLSCAR_to_a_GPLS.out)
+(PLSCAR_AppendixA.out) (PLSCAR_AppendixA.out)
 \@outlinefile=\write4
-\openout4 = `PLSCAR_to_a_GPLS.out'.
+\openout4 = `PLSCAR_AppendixA.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
-4.
+2.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\t1cmtt.fd"
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 ) [1
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
-{C:/Users/Derek/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-Overfull \hbox (13.93872pt too wide) in paragraph at lines 119--140
-\T1/cmr/m/n/12 Today's large scale and multi-site stud-ies, such as the UK BioB
-ank ([]$\T1/cmtt/m/n/12 https : / / www . ukbiobank .
+{C:/Users/Derek/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (25.07498pt too wide) in paragraph at lines 134--149
+[]\T1/cmr/m/n/12 The GPLSSVD makes use of the SVD wherein $[] \OT1/cmr/m/n/12 =
+ [][] = (\OT1/cmr/bx/n/12 M[]Z[]W[]\OT1/cmr/m/n/12 )[](\OT1/cmr/bx/n/12 M[]Z[]W
+[]\OT1/cmr/m/n/12 ) =
+ []
+
+[2]
+
+LaTeX Warning: Reference `section:Disc' on page 3 undefined on input line 226.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 3 undefined on input lin
+e 230.
+
+[3]
+
+LaTeX Warning: Reference `section:plscar_form' on page 4 undefined on input lin
+e 263.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 4 undefined on input lin
+e 287.
+
+[4]
+Underfull \hbox (badness 1859) in paragraph at lines 311--311
+[]\T1/cmr/bx/n/12 Algorithm 1: \T1/cmr/m/n/12 Gen-er-al-ized PLS-correlation al
+-go-rithm. GPLS-COR is the
  []
 
 
-Overfull \hbox (1.97372pt too wide) in paragraph at lines 119--140
-\T1/cmtt/m/n/12 ac . uk/$[]\T1/cmr/m/n/12 ) and the Rot-ter-dam study ([]$\T1/c
-mtt/m/n/12 http : / / www . erasmus -[] epidemiology . nl/$[]\T1/cmr/m/n/12 ), 
-col-lect pop-
+LaTeX Warning: Reference `section:GSVDCA' on page 5 undefined on input line 325
+.
+
+[5]
+
+LaTeX Warning: Reference `section:plscar_form' on page 6 undefined on input lin
+e 356.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 6 undefined on input lin
+e 356.
+
+[6] [7]
+Overfull \hbox (36.82617pt too wide) in paragraph at lines 440--459
+[]\OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \
+OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/c
+mr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 I[]$\T1/cmr/m/n/12 , CCA is p
+er-formed as $[]\OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/c
+mm/m/it/12 ; \OT1/cmr/m/n/12 (\OT1/cmr/bx/n/12 Z[]Z[]\OT1/cmr/m/n/12 )[]\OML/cm
+m/m/it/12 ; \OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cmm/m
+/it/12 ; \OT1/cmr/m/n/12 (\OT1/cmr/bx/n/12 Z[]Z[]\OT1/cmr/m/n/12 )[][]$\T1/cmr/
+m/n/12 ,
  []
 
-[3] [4]
-Overfull \hbox (13.969pt too wide) in paragraph at lines 213--213
-[]\T1/cmr/bx/n/17.28 Partial least squares-correspondence analysis-regression 
+
+LaTeX Warning: Reference `section:plscar_form' on page 8 undefined on input lin
+e 461.
+
+
+LaTeX Warning: Reference `eq:weightmats_v1' on page 8 undefined on input line 4
+66.
+
+
+LaTeX Warning: Reference `eq:models' on page 8 undefined on input line 466.
+
+[8]
+
+LaTeX Warning: Reference `section:plscar_form' on page 9 undefined on input lin
+e 487.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 9 undefined on input lin
+e 496.
+
+
+LaTeX Warning: Reference `eq:plscar_Zs' on page 9 undefined on input line 500.
+
+[9]
+LaTeX Font Info:    Trying to load font information for U+bbold on input line 5
+27.
+("C:\Program Files\MiKTeX 2.9\tex/latex/bbold\ubbold.fd") [10]
+
+LaTeX Warning: Reference `section:plscar_form' on page 11 undefined on input li
+ne 590.
+
+(PLSCAR_AppendixA.bbl [11]
+Underfull \hbox (badness 5475) in paragraph at lines 18--22
+[]\T1/cmr/m/n/12 Allen, G. I. (2013), `Sparse and Func-tional Prin-ci-pal Com-p
+o-nents Anal-y-sis',
  []
 
-[5] [6]
-Overfull \hbox (2.0553pt too wide) in paragraph at lines 328--334
-\T1/cmr/m/n/12 We com-pute CA from $[]\OT1/cmr/bx/n/12 M[]\OML/cmm/m/it/12 ; \O
-T1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 W[][]$ \T1/cmr/m/n/12 wit
-h $\OT1/cmr/bx/n/12 M[] \OT1/cmr/m/n/12 = []\OT1/cmr/bx/n/12 m[][]$ \T1/cmr/m/n
-/12 and $\OT1/cmr/bx/n/12 W[] \OT1/cmr/m/n/12 = []\OT1/cmr/bx/n/12 w[][]$\T1/cm
-r/m/n/12 . 
+[12] [13] [14]
+Overfull \hbox (20.61485pt too wide) in paragraph at lines 239--244
+\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 http://biostatistics.oxfordjournals.org/co
+ntent/early/2014/02/17/biostatistics.kxu001 
  []
 
-[7] [8] [9] [10] [11] [12]
-Overfull \hbox (5.90051pt too wide) in paragraph at lines 670--683
-\T1/cmr/m/n/12 Data used in the prepa-ra-tion of this ar-ti-cle come from the A
-DNI database (adni.loni.usc.edu).
- []
-
-[13] [14]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[15]
-Overfull \hbox (21.18307pt too wide) in paragraph at lines 796--806
- [][] 
- []
-
+[15])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 613.
 [16]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf, id=360, 433.62pt x 
-578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.
-pdf  used on input line 828.
-(pdftex.def)             Requested size: 369.83588pt x 513.98735pt.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 613.
+(PLSCAR_AppendixA.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 613.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 613.
+Package rerunfilecheck Info: File `PLSCAR_AppendixA.out' has not changed.
+(rerunfilecheck)             Checksum: 9066A2098C39A65E64CB55E218EF04C0;527.
 
-LaTeX Warning: Float too large for page by 28.71075pt on input line 833.
+LaTeX Warning: There were undefined references.
 
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf, id=370, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.
-pdf  used on input line 863.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf, id=371, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.
-pdf  used on input line 872.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 877.
-
-[17] [18 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf>] [19 <./
-PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf>] [20 <./PLSCAR_to_a_
-GPLS_files/figure-latex/unnamed-chunk-6-1.pdf>] [21] [22]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf, id=469, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.
-pdf  used on input line 1016.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-[23] [24 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf, id=504, 469.755pt 
-x 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (
-type pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1
-.pdf  used on input line 1073.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf, id=505, 469.755pt 
-x 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (
-type pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1
-.pdf  used on input line 1082.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 1087.
-
-[25] [26 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf>] [27 <.
-/PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf, id=542, 469.755pt 
-x 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (
-type pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1
-.pdf  used on input line 1120.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 1125.
-
-[28] [29 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf>] [30] [
-31] [32] (PLSCAR_to_a_GPLS.bbl [33] [34]
-Underfull \hbox (badness 10000) in paragraph at lines 128--137
-\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 https://www.cambridge.org/core/journals/ca
-nadian-journal-of-neurological-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 128--137
-\T1/cmr/m/it/12 sciences/article/div-classtitlethe-ontario-neurodegenerative-di
-sease-research-initiative-
- []
-
-[35] [36] [37] [38]
-Underfull \hbox (badness 2799) in paragraph at lines 360--365
-\T1/cmr/m/n/12 typephenotype anal-y-sis and on data trans-for-ma-tion in phar-
-ma-co-ge-net-ics and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 360--365
-\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 http://www.nature.com.libproxy.utdallas.ed
-u/nrg/journal/v8/n12/full/nrg1916-
- []
-
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1277.
-[39]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1277.
-(PLSCAR_to_a_GPLS.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1277.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1277.
-
-Package rerunfilecheck Info: File `PLSCAR_to_a_GPLS.out' has not changed.
-(rerunfilecheck)             Checksum: 19D6790D284609E111721EED1F8DB8DE;1022.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1277.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 613.
  ) 
 Here is how much of TeX's memory you used:
- 9869 strings out of 480897
- 152939 string characters out of 2908279
- 454327 words of memory out of 3000000
- 25408 multiletter control sequences out of 15000+200000
- 553220 words of font info for 71 fonts, out of 3000000 for 9000
+ 9693 strings out of 480897
+ 147728 string characters out of 2908279
+ 436685 words of memory out of 3000000
+ 25296 multiletter control sequences out of 15000+200000
+ 553458 words of font info for 73 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 50i,18n,48p,718b,530s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 50i,18n,48p,479b,532s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
-ecbx1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\tcrm1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts
-/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX
+tcrm1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/public/bb
+old/dpi600\bbold12.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Derek\AppData\Local\MiKTeX
 \2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Derek\AppData\Lo
-cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Derek\
-AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Us
-ers\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.
+cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Derek\
+AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Us
+ers\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm0700.
 pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecrm1000.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
-/ec/dpi600\tcrm0700.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
+\ecrm1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
+/ec/dpi600\ecti1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
 r/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\font
 s/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Derek\AppData\Local\MiKTe
 X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\Derek\AppData\L
 ocal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\Derek
 \AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx6.pfb><C:/Program Files/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib1
-0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib8.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb>
-Output written on PLSCAR_to_a_GPLS.pdf (39 pages, 1098328 bytes).
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on PLSCAR_AppendixA.pdf (16 pages, 322959 bytes).
 PDF statistics:
- 1236 PDF objects out of 1440 (max. 8388607)
- 149 named destinations out of 1000 (max. 500000)
- 156 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 790 PDF objects out of 1000 (max. 8388607)
+ 88 named destinations out of 1000 (max. 500000)
+ 65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -66,7 +66,6 @@ header-includes:
   - \usepackage{tabularx}
   - \usepackage{verbatim}
   - \usepackage{xcolor}
-  - \newcommand{\var}{\mathrm{Var}}
 ---
 
 ```{r paper_setup, echo=F, include=F}
@@ -190,21 +189,24 @@ multiple behavioral or clinical instruments
 and several neuroimaging measures and indices 
 (generally either continuous or non-negative). 
 PLS-CA-R
-can 1) accommodate these different data types 
+can 1) accommodate different data types 
 in a predictive or fitting framework, 2) 
-regress (i.e., residualize) covariates 
-out of mixed and collinear data, 
+regress out (i.e., residualize) effects 
+of mixed and collinear data, 
 and 3) reveal latent variables
 within a well-established framework. 
 
-Finally, 
-we show that PLS-CA-R can be generalized 1) 
-to handle multiple data types, 2) 
-various optimization schemes (e.g., covariance as in PLS or correlation 
-as in canonical correlation), 
-3) 
-various transformations for alternate metrics, 
-and 4) ridge-like regularization and 5) multiple PLS algorithms. 
+
+In addition, we provide an appendix that shows
+how PLS-CA-R provides the basis for further generalizations. 
+These include different optimization schemes 
+(e.g., covariance as in PLS or correlation 
+as in canonical correlation), transformations for alternate metrics, 
+ridge-like regularization, and three types of PLS algorithms
+(regression, correlation, and canonical). We also provide an R package 
+and examples at https://github.com/derekbeaton/gpls.
+
+
 
 This paper is organized as follows. 
 In Section \ref{section:PLSCAR} we introduce PLS-CA-R. 
@@ -216,10 +218,11 @@ and additional genetics data from ADNI across three examples:
 2) a mixed data example that requires residualization, 
 and 3) a larger example of multiple genetic markers 
 and whole brain tracer uptake (non-negative values). 
-Finally in Section \ref{section:Disc} we discuss PLS-CA-R, and 
-show how PLS-CA-R generalizes the PLS framework 
-to multiple optimization problems, algorithms, metrics, 
-and ridge-like regularization. 
+Finally in Section \ref{section:Disc} we provide a discussion
+and conclusions. 
+<!-- show how PLS-CA-R generalizes the PLS framework  -->
+<!-- to multiple optimization problems, algorithms, metrics,  -->
+<!-- and ridge-like regularization.  -->
 
 
 # Partial least squares-correspondence analysis-regression
@@ -234,22 +237,9 @@ Via CA, we can also generalize to other data types
 including mixed types 
 (e.g., categorical, ordinal, continuous, contingency). 
 
-## PLS algorithms
-
-There exist three commonly used PLS algorithms: (1) PLS "correlation"
-decomposition [@krishnan_partial_2011; @bookstein1994partial;
-@mcintosh_spatial_1996]---also known as PLSSVD
-[@tenenhaus_regression_1998] or Tucker's Interbattery Factor Analysis
-[@tucker_inter-battery_1958], (2) PLS "canonical" decompostion
-[@tenenhaus_regression_1998], and (3) PLS "regression" [@wold_soft_1975;
-@wold_collinearity_1984; @wold_pls-regression_2001]. PLS correlation
-decomposition is a symmetric method where neither data table plays a privileged
-(or predictive) role, and is performed with a single pass of the singular value
-decomposition (SVD). PLS canonical decomposition is also symmetric, but makes
-use of the SVD iteratively and deflates both data tables in each iteration. PLS
-regression decomposition is an asymmetric method where one data table is
-privileged (i.e., treated as predictors) and also makes use of the SVD iteratively with
-deflation of both data tables.
+PLS "regression" [@wold_soft_1975;
+@wold_collinearity_1984; @wold_pls-regression_2001]. PLS
+regression decomposition is an asymmetric and iterative method. The asymmetry is that one data table is privileged (i.e., treated as predictors). PLSR computes its solution iteratively---via alternating least squares, the SVD, or similar techniques---and makes use of deflation for both data tables.
 
 ## Notation
 
@@ -283,64 +273,49 @@ The diagonal operator, denoted $\mathrm{diag\{\}}$,
 transforms a vector into a diagonal matrix, 
 or extracts the diagonal of a matrix to produce a vector.
 
-## The SVD, GSVD, CA, and GPLSSVD
+## The Generalized SVD and Correspondence Analysis
 
 \label{section:GSVDCA}
 
-Let ${\mathbf X}$ be a data matrix with $I$ rows and $J$ columns,
-${\mathbf X}$ is preprocessed in some way to give 
-${\mathbf Z}_{\mathbf X}$. 
-The
+Given an $I \times J$ matrix ${\mathbf X}$, the
 singular value decomposition (SVD) decomposes 
-${\mathbf Z}_{\mathbf X}$ as
+${\mathbf X}$ as
 \begin{equation}\label{eq:svd}
 {\mathbf Z}_{\mathbf X} = 
 {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}
 \textrm{ with } {\mathbf U}^{T}{\mathbf U} 
 = {\mathbf I} = {\mathbf V}^{T}{\mathbf V},
 \end{equation}
-where ${\mathbf Z}_{\mathbf X}$ is of rank $A$ 
+where ${\mathbf X}$ is of rank $A$ 
 (with $A \leq \min(I,J)$) and 
 ${\boldsymbol \Delta}$ is the $A \times A$ 
 diagonal matrix of the singular values, and 
 ${\boldsymbol \Lambda} = {\boldsymbol \Delta}^2$ 
 is the $A \times A$ diagonal matrix of the eigenvalues. 
-Matrices
-${\mathbf U}$ and ${\mathbf V}$ store (respectively)
-the left and right singular vectors of ${\mathbf Z}$. 
-Component (a.k.a. factor) 
-scores
-for the $I$ rows and $J$ columns of ${\mathbf Z}_{\mathbf X}$
-are computed as
- ${\mathbf F}_{I} = {\mathbf U}{\boldsymbol \Delta}$ 
-${\mathbf F}_{J} = {\mathbf V}{\boldsymbol \Delta}$.
 
 The \emph{generalized} singular value decomposition (GSVD) 
 generalizes the SVD
-by integrating constraints 
-(expressed by positive definite matrices) also called *metric*
-(because these matrices define a metric in a generalized Euclidean space)
-imposed on the rows and columns of the matrix to be decomposed.
-Specifically, if ${\mathbf M}_{{\mathbf X}}$ 
-(respectively 
-${\mathbf W}_{{\mathbf X}}$) 
-is an $I\times I$ (respectively $J\times J$) 
-positive definite matrix,
- the GSVD decomposes 
-${\mathbf Z}_{\mathbf X}$ as 
+by integrating constraints---also called *metrics*
+because these matrices define a metric in a generalized Euclidean space---
+imposed on the rows and columns of the matrix to be decomposed. 
+Specifically, when both an $I\times I$ matrix ${\mathbf M}$ and
+a $J\times J$ matrix ${\mathbf W}$ positive definite matrices,
+the GSVD decomposes 
+${\mathbf X}$ as 
 \begin{equation}\label{eq:gsvd}
-{\mathbf Z}_{\mathbf X} = {\mathbf P} 
-{\boldsymbol \Delta} {\mathbf Q}^{T} 
+{\mathbf X} = {\mathbf P}{\boldsymbol \Delta} {\mathbf Q}^{T} 
 \textrm{ with }
-{\mathbf P}^{T}{\mathbf M}_{{\mathbf X}}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{{\mathbf X}}{\mathbf Q}
+{\mathbf P}^{T}{\mathbf M}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}{\mathbf Q}
 \end{equation}
-where ${\mathbf Z}_{\mathbf X}$ is of rank $A$ 
+where ${\mathbf X}$ is of rank $A$ 
 and ${\boldsymbol \Delta}$ is the $A \times A$ 
-diagonal matrix of the (generalized) singular values
-and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* 
+diagonal matrix of the singular values,
+${\boldsymbol \Lambda} = {\boldsymbol \Delta}^2$ 
+is the $A \times A$ diagonal matrix of the eigenvalues, and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* singular vectors. We compute the typical singular vectors as ${\mathbf U} = {\mathbf M}^{\frac{1}{2}}{\mathbf P}$ and ${\mathbf V} = {\mathbf W}^{\frac{1}{2}}{\mathbf Q}$, where ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. For convenience, the GSVD is presented as a "triplet" with the row metric (weights), data, and column metric (weights) as $\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}$. We present the GSVD triplet here in slightly different way than it is typically presented [see, e.g., @holmes_multivariate_2008]. Our presentation of the GSVD reflects the multiplication steps taken before decomposition (see our Appendix).
 
-Correspondence analysis (CA) is a technique akin to PCA---originally designed for the analysis of contingency tables---and analyzes deviations to independence. See @greenacre_theory_1984, @greenacre_correspondence_2010-1, and @lebart_multivariate_1984 for detailed explanations of CA, and then see @escofier-cordier_analyse_1965 and @benzecri_analyse_1973 for the origins and early developments of CA. CA analyzes an $I \times J$ matrix ${\mathbf X}$ whose entries are all non-negative. CA is performed with the GSVD as follows. 
-First the *observed* probability matrix is computed as
+
+Correspondence analysis (CA) is a technique akin to principal components analysis (PCA)---originally designed for the analysis of contingency tables---and analyzes deviations to independence. See @greenacre_theory_1984, @greenacre_correspondence_2010-1, and @lebart_multivariate_1984 for detailed explanations of CA, and then see @escofier-cordier_analyse_1965 and @benzecri_analyse_1973 for the origins and early developments of CA. CA analyzes an $I \times J$ matrix ${\mathbf X}$ whose entries are all non-negative. CA is performed with the GSVD as follows. 
+First the *observed* probabilities matrix is computed as
 ${\mathbf O}_{\mathbf X} = 
 {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}$ 
 The marginal probabilities from the observed matrix 
@@ -350,54 +325,17 @@ are then computed as
 \text{ and } 
 {\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}.
 \end{equation}
-The *expected* matrix is computed as 
+The *expected* probabilities matrix is computed as 
 ${\mathbf E}_{\mathbf X} 
 = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T}$. 
-The *deviation* 
+The *deviations* 
 from independence matrix is then
 \begin{equation}
 {\mathbf Z}_{\mathbf X} 
 = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X}.
 \end{equation}
-Finally, CA 
-is obtained from 
-\begin{equation}\label{eq:CAasGSVD}
-\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, 
-{\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1} \mathrm{)}
-\textrm{ with }
-{\mathbf M}_{\mathbf X} 
-=  \mathrm{diag\{} {\mathbf m}_{\mathbf X} 
-\mathrm{\}} \text{ and } {\mathbf W}_{\mathbf X} 
-= \mathrm{diag\{} {\mathbf w}_{\mathbf X} \mathrm{\}}.
-\end{equation}
+We compute CA from $\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1} \mathrm{)}$ with ${\mathbf M}_{\mathbf X} = \mathrm{diag\{} {\mathbf m}_{\mathbf X} \mathrm{\}}$ and ${\mathbf W}_{\mathbf X} = \mathrm{diag\{} {\mathbf w}_{\mathbf X} \mathrm{\}}$.
 
-
-## From the triplet to the sextuplet 
-
-We now introduce an extension of the GSVD and its triplet concept for PLS, called the "GPLSSVD sextuplet" to decompose the the relationship between two matrices each with the same $I$ observations (along the rows): ${\mathbf X}$ with $J$ columns and ${\mathbf Y}$ with $K$ columns, where ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ are preprocessed versions of ${\mathbf X}$ and ${\mathbf Y}$, respectively. The "GPLSSVD sextuplet" takes the form of $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}$. The $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}$ decomposes the matrix ${\mathbf Z}_{\mathbf R} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X})^{T}  {\mathbf M}_{\mathbf Y}^{\frac{1}{2}} {\mathbf Z}_{\mathbf Y}$ as
-
-\begin{equation}
-{\mathbf Z}_{\mathbf R} = {\mathbf P} {\boldsymbol \Delta} {\mathbf Q}^{T}
-\textrm{ with }
-{\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P} = {\mathbf I} =
-{\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}.
-\end{equation}
-
-From this decomposition, the GPLSSVD creates latent variables as 
-
-\begin{equation}
-{\mathbf L}_{\mathbf X} 
-= {\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}{\mathbf P} 
-\textrm{ and } 
-{\mathbf L}_{\mathbf Y} = 
-{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}{\mathbf Q}
-\textrm{ where }
-{\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} 
-= {\boldsymbol \Delta}. 
-\end{equation}
-
-
-When ${\mathbf X}$ and ${\mathbf Y}$ are column-wise centered normalized and when all constraint matrices are equal to the identity matrix---i.e., $\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}$---the GPLSSVD implements the "PLS correlation" decomposition [@krishnan_partial_2011; @bookstein1994partial; @mcintosh_spatial_1996], also known as PLSSVD [@tenenhaus_regression_1998], co-inertia [@doledec1994,@dray2014], and originally as Tucker's interbattery factor analysis [@tucker_inter-battery_1958]. Finally, we also introduce a small modification of the "triplet" and "sextuplet" notations as a "quadruplet" and a "septuplet" that indicate the desired rank to be returned by the GSVD or GPLSSVD. For example, if we want only one component from either approach we would indicate the desired rank to return as $\mathrm{GSVD(} {\mathbf M}_{{\mathbf X}}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{{\mathbf X}}, 1 \mathrm{)}$ and $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}, 1 \mathrm{)}$. Both the GSVD and GPLSSVD in these cases would return only one set of singular vectors, generalized singular vectors, and component scores, and one singular value; for GPLSSVD it would return only one pair of latent variables.
 
 
 ```{r echo=F, results="asis", include=T, message=FALSE, warning=FALSE}
@@ -458,27 +396,25 @@ and deviation matrices as
 \label{eq:plscar_Zs}
 \end{equation}
 
-For PLS-CA-R we have row and column weights of ${\mathbf M}_{\mathbf X} = \mathrm{diag\{}{\mathbf m}_{\mathbf X} \mathrm{\}}$, ${\mathbf M}_{\mathbf Y} = \mathrm{diag\{}{\mathbf m}_{\mathbf Y} \mathrm{\}}$, ${\mathbf W}_{\mathbf X} = \mathrm{diag\{}{\mathbf w}_{\mathbf X} \mathrm{\}}$, and ${\mathbf W}_{\mathbf Y} = \mathrm{diag\{}{\mathbf w}_{\mathbf Y} \mathrm{\}}$. PLS-CA-R makes use of the rank 1 GPLSSVD iteratively---$\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}^{-1}, {\mathbf M}_{\mathbf Y}^{-1}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y}^{-1}, 1 \mathrm{)}$---and works as follows. 
-
-First we have the cross-product ${\mathbf Z}_{\mathbf R} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})$, where
+For PLS-CA-R we have row and column weights of ${\mathbf M}_{\mathbf X} = \mathrm{diag\{}{\mathbf m}_{\mathbf X} \mathrm{\}}$, ${\mathbf M}_{\mathbf Y} = \mathrm{diag\{}{\mathbf m}_{\mathbf Y} \mathrm{\}}$, ${\mathbf W}_{\mathbf X} = \mathrm{diag\{}{\mathbf w}_{\mathbf X} \mathrm{\}}$, and ${\mathbf W}_{\mathbf Y} = \mathrm{diag\{}{\mathbf w}_{\mathbf Y} \mathrm{\}}$. PLS-CA-R makes use of the rank 1 SVD solution iteratively and works as cross-product ${\mathbf Z}_{\mathbf R} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})$, where
 \begin{equation}
-{\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}.
+{\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T},
 \label{eq:the_svd_for_plscar}
 \end{equation}
-Because we make use of the rank 1 solution iteratively, we only retain the first vectors and values from Eq. \ref{eq:the_svd_for_plscar}. Thus we distinguish what we retain as $\tilde\delta$, $\widetilde{\mathbf u}$, $\widetilde{\mathbf v}$, $\widetilde{\mathbf p}$, $\widetilde{\mathbf q}$, and $\widetilde{\mathbf f}_{J}$, and $\widetilde{\mathbf f}_{K}$. We then compute the latent variables as
+where ${\bf U}^{T}{\bf U} = {\bf I} = {\bf V}^{T}{\bf V}$. We can obtain the *generalized* singular vectors as ${\mathbf P} = {\mathbf W}_{{\mathbf X}}^{\frac{1}{2}}{\mathbf U}$ and ${\mathbf Q} = {\mathbf W}_{{\mathbf X}}^{\frac{1}{2}}{\mathbf V}$, where ${\bf P}^{T}{\bf W}_{\bf X}^{-1}{\bf P} = {\bf I} = {\bf Q}^{T}{\bf W}_{\bf Y}^{-1}{\bf Q}$. Because we make use of the rank 1 solution iteratively, we only retain the first vectors and values from Eq. \ref{eq:the_svd_for_plscar}. We distinguish the retained vectors and values as $\tilde\delta$, $\widetilde{\mathbf u}$, $\widetilde{\mathbf v}$, $\widetilde{\mathbf p}$, and $\widetilde{\mathbf q}$. At each iteration, we compute the component scores, for the $J$ columns of ${\bf Z}_{\bf X}$ and the $K$ columns of ${\bf Z}_{\bf Y}$, respectively, as $\widetilde{\mathbf f}_{J} = {\bf W}_{\bf X}^{-1}\widetilde{\mathbf p}{\widetilde\delta}$ and $\widetilde{\mathbf f}_{K} = {\bf W}_{\bf Y}^{-1}\widetilde{\mathbf q}{\widetilde\delta}$. We compute the latent variables as
 \begin{equation}
 \begin{aligned}
 {\boldsymbol \ell}_{\mathbf X} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\widetilde{\mathbf u} \text{ and } {\boldsymbol \ell}_{\mathbf Y} = ({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v}.
 \label{eq:lvs}
 \end{aligned}
 \end{equation}
-Next we compute ${\mathbf t}_{\mathbf X} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$, $b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}$, and $\widehat{\mathbf u} = {\mathbf t}_{\mathbf X}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})$. We use ${\mathbf t}_{\mathbf X}$, $b$, and $\widehat{\mathbf u}$ to compute rank 1 "predicted" versions of ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as 
+Next we compute ${\mathbf t}_{\mathbf X} = {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$, $b = {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}$, and $\widehat{\mathbf u} = {\mathbf t}_{\mathbf X}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})$. We use ${\mathbf t}_{\mathbf X}$, $b$, and $\widehat{\mathbf u}$ to compute rank 1 reconstructed versions of ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as 
 
 \begin{equation}
 \widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}} \text{ and } \widehat{\mathbf Z}_{{\mathbf Y},1} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}.
 \label{eq:rank1_preds_plscar}
 \end{equation}
-Finally, we deflate ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}$ and ${\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}$. We then repeat the iterative procedure with these deflated ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$. The computations outlined above are performed for $C$ iterations where: (1) $C$ is some pre-specified number of intended latent variables where $C \leq A$ where $A$ is the rank of $\widetilde{\mathbf Z}_{\mathbf X}$ or (2) when ${\mathbf Z}_{\mathbf X} = {\mathbf 0}$ or ${\mathbf Z}_{\mathbf Y} = {\mathbf 0}$. Upon the stopping condition we would have $C$ components, and would have collected any vectors into corresponding matrices. Those matrices are
+Finally, we deflate ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}$ and ${\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}$. We then repeat the iterative procedure with these deflated ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$. The computations outlined above are performed for $C$ iterations where: (1) $C$ is some pre-specified number of intended latent variables where $C \leq A$ where $A$ is the rank of ${\bf M}_{\bf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\bf W}_{\bf X}^{-\frac{1}{2}}$ or (2) when ${\mathbf Z}_{\mathbf X} = {\mathbf 0}$ or ${\mathbf Z}_{\mathbf Y} = {\mathbf 0}$. Upon the stopping condition we would have $C$ components, and would have collected any vectors into corresponding matrices. Those matrices are
 
 * two $C \times C$ diagonal matrices ${\mathbf B}$ and $\widetilde{\boldsymbol \Delta}$ with each $b$ and $\tilde\delta$ on the diagonal with zeros off-diagonal,
 
@@ -488,7 +424,37 @@ Finally, we deflate ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as $
 
 * the $K \times C$ matrices $\widetilde{\mathbf V}$, $\widetilde{\mathbf Q}$, $\widetilde{\mathbf F}_{K}$.
 
-The algorithm for PLS-CA-R is presented in Algorithm \ref{algo:plscar} in Section \ref{section:Disc}. We present Algorithm \ref{algo:plscar} as a "generalized partial least squares regression" by way of the GPLSSVD sextuplet. We discuss the generalized aspects of the algorithm in more detail in Section \ref{section:Disc}.
+
+Algorithm \ref{algo:plscar} shows the key elements of the PLS-CA-R algorithm, from input to deflation.
+
+\RestyleAlgo{boxed}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{PLS-CA-R between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{${\mathbf M}_{\mathbf{X}}$, ${\mathbf Z}_{{\mathbf X}}$, ${\mathbf W}_{\mathbf{X}}$, ${\mathbf M}_{\mathbf{Y}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{\mathbf{Y}}$, $C$}
+\Output{$\widetilde{\boldsymbol \Delta}$, $\widetilde{\mathbf U}$, $\widetilde{\mathbf V}$, $\widetilde{\mathbf P}$, $\widetilde{\mathbf Q}$, $\widetilde{\mathbf F}_{J}$, $\widetilde{\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$, ${\mathbf T}_{{\mathbf X}}$, $\widehat{\mathbf U}$, ${\mathbf B}$}
+\BlankLine
+\For{$c=1, \dots, C$}{
+
+  ${\mathbf Z}_{\mathbf R} \leftarrow ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})$ \\
+  Compute rank 1 SVD of ${\mathbf Z}_{\mathbf R}$, retain $\widetilde{\bf u}, \widetilde{\bf v}$ and $\widetilde{\delta}$ \\
+  $\widetilde{\bf p} \leftarrow {\mathbf W}_{{\mathbf X}}^{\frac{1}{2}}\widetilde{\mathbf u}$ \\
+  $\widetilde{\bf q} \leftarrow {\mathbf W}_{{\mathbf Y}}^{\frac{1}{2}}\widetilde{\mathbf v}$ \\
+  $\widetilde{\mathbf f}_{J} \leftarrow {\bf W}_{\bf X}^{-1}\widetilde{\mathbf p}{\widetilde\delta}$ \\
+  $\widetilde{\mathbf f}_{K} \leftarrow {\bf W}_{\bf Y}^{-1}\widetilde{\mathbf q}{\widetilde\delta}$ \\
+  ${\boldsymbol \ell}_{\mathbf X} \leftarrow ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\widetilde{\mathbf u}$ \\
+  ${\boldsymbol \ell}_{\mathbf Y} \leftarrow ({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v}$ \\
+  ${\mathbf t}_{\mathbf X} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
+  $b \leftarrow {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}$ \\
+  $\widehat{\mathbf u} \leftarrow {\mathbf t}_{\mathbf X}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})$\\
+  ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}}]$\\
+  ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf{v}}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}]$
+}
+\caption{PLS-CA-R algorithm. The results of a rank 1 solution are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$.}
+\label{algo:plscar}
+\end{algorithm}
 
 
 ## Maximization in PLS-CA-R
@@ -497,15 +463,12 @@ PLS-CA-R maximizes the common information between ${\mathbf Z}_{\mathbf X}$ and 
 
 \begin{equation}
 \begin{aligned}
-\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = 
-({\mathbf M}_{X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{-1}\widetilde{\mathbf p})^{T}({\mathbf M}_{Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-1}\widetilde{\mathbf q}) = \\
-({\mathbf M}_{X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{X}^{-\frac{1}{2}}{\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf p})^{T}({\mathbf M}_{Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf q}) = \\
-( \widetilde{\mathbf Z}_{\mathbf X} {\mathbf W}_{X}^{-\frac{1}{2}}\widetilde{\mathbf p})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}\widetilde{\mathbf q}) = 
-( \widetilde{\mathbf Z}_{\mathbf X} {\mathbf W}_{X}^{-\frac{1}{2}}{\mathbf W}_{X}^{\frac{1}{2}}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf W}_{Y}^{-\frac{1}{2}}{\mathbf W}_{Y}^{\frac{1}{2}}\widetilde{\mathbf v}) = \\ 
-(\widetilde{\mathbf Z}_{\mathbf X}\widetilde{\mathbf u})^{T}(\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v}) = \widetilde{\mathbf u}\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf Y}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v}  = \widetilde\delta,
+\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = \\
+\widetilde{\mathbf u}^{T}({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v} = \\
+\widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v}  = \widetilde\delta,
 \end{aligned}
 \end{equation}
-where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for each $c$ step. PLS-CA-R maximization is subject to the orthogonality constraint that ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$. This orthogonality constraint propagates through to many of the vectors and matrices associated with ${\mathbf Z}_{\mathbf X}$ where ${\mathbf T}_{\mathbf X}^{T}{\mathbf T}_{\mathbf X} = \widetilde{\mathbf P}^{T}{\mathbf W}_{J}^{-1}\widetilde{\mathbf P} = \widetilde{\mathbf U}^{T}\widetilde{\mathbf U} = {\mathbf I}$; these orthogonality constraints do not apply to the various vectors and matrices associated with ${\mathbf Y}$.
+where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for each $c$ step. PLS-CA-R maximization is subject to the orthogonality constraint that ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$. This orthogonality constraint propagates through to many of the vectors and matrices associated with ${\mathbf Z}_{\mathbf X}$ where ${\mathbf T}_{\mathbf X}^{T}{\mathbf T}_{\mathbf X} = \widetilde{\mathbf P}^{T}{\mathbf W}_{\bf X}^{-1}\widetilde{\mathbf P} = \widetilde{\mathbf U}^{T}\widetilde{\mathbf U} = {\mathbf I}$; these orthogonality constraints do not apply to the various vectors and matrices associated with ${\mathbf Y}$.
 
 
 ## Decomposition and reconstitution
@@ -519,12 +482,12 @@ PLS-CA-R is a "double decomposition" where
 \label{eq:doubledecomp}
 \end{aligned}
 \end{equation}
-where $\widetilde{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T}$ and $\widehat{\widetilde{\mathbf Z}}_{\mathbf Y} = {\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}$. PLS-CA-R, like PLS-R, provides the same estimated predicted values as OLS under the conditions that ${\bf Z}_{\bf X}$ is (1) full rank, (2) non-singular, (3) not excessively multicollinear:
+where $\widetilde{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T} = {\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}}$. PLS-CA-R, like PLS-R, provides the same values as OLS where
 \begin{equation}
-\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T {\mathbf Z}_{\mathbf Y},
+\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T {\mathbf Z}_{\mathbf Y}.
 \label{ols_equivalence}
 \end{equation}
-where ${\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T} = \widetilde{\mathbf Z}_{\mathbf X} (\widetilde{\mathbf Z}_{\mathbf X}^{T}\widetilde{\mathbf Z}_{\mathbf X})^{+} \widetilde{\mathbf Z}_{\mathbf X}^T\widetilde{\mathbf Z}_{\mathbf Y}$. This connection to OLS shows how to residualize (i.e., "regress out" or "correct") for covariates, akin to how residuals are computed in OLS. We do so with the original ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}$. PLS-CA-R produces both a predicted and a residualized version of ${\mathbf Y}$. Recall that $\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}$. We compute a reconstituted form of ${\mathbf Y}$ as 
+This connection to OLS shows how to residualize (i.e., "regress out" or "correct for") covariates, akin to how residuals are computed in OLS. We do so with the original ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}$. PLS-CA-R produces both a predicted and a residualized version of ${\mathbf Y}$. Recall that $\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}$. We compute a reconstituted form of ${\mathbf Y}$ as 
 \begin{equation}
 \widehat{\mathbf Y} = (\widehat{{\mathbf Z}}_{\mathbf Y} + {\mathbf E}_{\mathbf Y}) \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}),
 \label{eq:Yhat}
@@ -539,18 +502,16 @@ Typically, ${\mathbf E}_{\mathbf Y}$ is derived the data (as noted in Eq. \ref{e
 
 ## Concluding remarks
 
-Now that we have formalized PLS-CA-R, we want to point out small variations, some caveats, and some additional features We go into more detail in later sections on larger variations and broader generalizations.
+Now that we have formalized PLS-CA-R, we want to point out small variations, some caveats, and some additional features. We also briefly discuss here---but show in the Appendix---how PLS-CA-R provides the basis for numerous variations and broader generalizations.
+
+In PLS-CA-R (and PLS-R) each subsequent $\widetilde{\delta}$ is not guaranteed to be smaller than the previous, with the exception that all $\widetilde \delta$ are smaller than the first. This is a by-product of the iterative process and the deflation step. This problem poses two issues: (1) visualization of component scores and (2) explained variance. For visualization of the component scores---which use $\widetilde \delta$---there is an alternative computation: ${\mathbf F}^{'}_{J} = {\mathbf W}_{J}^{-1}\widetilde{\mathbf P}$ and ${\mathbf F}^{'}_{K} = {\mathbf W}_{K}^{-1}\widetilde{\mathbf Q}$. This alternative is referred to as "asymmetric component scores" in the correspondence analysis literature [@abdi2014correspondence; @greenacre1993biplots]. Additionally, instead of computing the variance per component or latent variable, we can instead compute the amount of variance explained by each component in $\mathbf X$ and $\mathbf Y$. To do so we require the sum of the eigenvalues of each of the respective matrices per iteration via CA (with the GSVD). Before the first iteration of PLS-CA-R we obtain the full variance (i.e., the sum of the eigenvalues) of each matrix from $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}$ and $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}$, which we respectively refer to as ${\phi}_{\bf X}$ and ${\phi}_{\bf Y}$ We can compute the sum of the eigenvalues for each deflated version of ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ through the GSVD just as above, referred to as ${\phi}_{{\bf X},c}$ and ${\phi}_{{\bf Y},c}$. For each $c$ component the proportion of explained variance for each matrix is $\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}$ and $\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}$.
 
 
-In PLS-CA-R (and PLS-R) each subsequent $\widetilde{\delta}$ is not guaranteed to be smaller than the previous, with the exception that all $\widetilde \delta$ are smaller than the first. This is a by-product of the iterative process and the deflation steps that does not occur with just a single pass of the SVD or GSVD (i.e., PLS-correlation decomposition). This problem poses two issues: (1) visualization of component scores and (2) explained variance. For visualization of the component scores---which use $\widetilde \delta$---there is an alternative computation: ${\mathbf F}^{'}_{J} = {\mathbf W}_{J}\widetilde{\mathbf P}$ and ${\mathbf F}^{'}_{K} = {\mathbf W}_{K}\widetilde{\mathbf Q}$. This alternative is referred to as "asymmetric component scores" in the correspondence analysis literature [@abdi2014correspondence; @greenacre1993biplots]. Additionally, instead of computing the variance per component or latent variable, we can instead compute the amount of variance explained by each component in $\mathbf X$ and $\mathbf Y$. To do so we require the sum of the eigenvalues of each of the respective matrices per iteration via CA (with the GSVD). Before the first iteration of PLS-CA-R we obtain the full variance (i.e., the sum of the eigenvalues) of each matrix from $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}$ and $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}$, which we respectively refer to as ${\phi}_{\bf X}$ and ${\phi}_{\bf Y}$ We can compute the sum of the eigenvalues for each deflated version of ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ through the GSVD just as above, referred to as ${\phi}_{{\bf X},c}$ and ${\phi}_{{\bf Y},c}$. For each $c$ component the proportion of explained variance for each matrix is $\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}$ and $\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}$.
+In our formulation, the weights we use are derived from the $\chi^2$ assumption of independence. However nearly any choices of weights could be used, so long as the weight matrices are at least positive semi-definite (which requires the use of a generalized inverse). If alternate row weights (i.e., ${\mathbf M}_{\mathbf X}$ or ${\mathbf M}_{\mathbf Y}$) were chosen, then the fitted values and residuals are no longer guaranteed to be orthogonal (the same condition is true in weighted OLS).  
 
+PLS-CA-R provides an important basis for various extensions. We can use different PLS algorithms in addition to Algorithm \ref{algo:plscar}, for examples, the PLS-SVD and canonical PLS algorithms. Our formulation of PLS-CA-R provides the basis for, and leads to a more generalized approach for other cross-decomposition techniques or optimizations (e.g., canonical correlation, reduced rank regression). This basis also allows for the use of alternate metrics as well as ridge-like regularization. We show how PLS-CA-R leads to these generalizations in the Appendix.
 
-In our formulation, the weights we use are derived from the $\chi^2$ assumption of independence. However nearly any choices of weights could be used, so long as the weight matrices are at least positive semi-definite (which requires the use of a generalized inverse). Alternate row weights (i.e., ${\mathbf M}_{\mathbf X}$ or ${\mathbf M}_{\mathbf Y}$) were chosen, then the fitted values and residuals are no longer guaranteed to be orthogonal (the same condition is true in weighted OLS).  
-
-Finally, though we formalized PLS-CA-R as a method for categorical (nominal) data coded in complete disjunctive format (as seen in Table \ref{table:disj}---see SEX columns---or Table \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various data types without loss of information. Specifically, both continuous and ordinal data can be handled with relative ease and in a "pseudo-disjunctive" format, also referred to as "fuzzy coding" where complete disjunctive would be a "crisp coding" [@greenacrefuzzy]. We explain exactly how to handle various data types as Section \ref{section:appex} progresses, which reflects more "real world" problems: complex, mixed data types, and multi-source data.
-
-
-# BRING ALGO AND OTHER POINTS HERE BUT IN BRIEF. AND TRUNCATE ABOVE. ALSO RENAME
+Though we formalized PLS-CA-R as a method for categorical (nominal) data coded in complete disjunctive format (as seen in Table \ref{table:disj}---see SEX columns---or Table \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various data types without loss of information. Specifically, both continuous and ordinal data can be handled with relative ease and in a "pseudo-disjunctive" format, also referred to as "fuzzy coding" where complete disjunctive would be a "crisp coding" [@greenacrefuzzy]. We explain exactly how to handle various data types as Section \ref{section:appex} progresses, which reflects more "real world" problems: complex, mixed data types, and multi-source data.
 
 # Applications & Examples
 \label{section:appex}
@@ -1032,14 +993,13 @@ Many modern studies, like ADNI, measure individuals with a variety of scales suc
 
 <!--  As a generalization of PLS-R, PLS-CA-R [[Needed transition]]. Because PLS-CA-R is a generalization of PLS-R, many of the standard inferential and stability approaches still apply, [[explain inference here and how the stndard approaches can be used and refer to typical papers]]. --> 
 
-While we focused on particular ways of coding and transforming data, there are many alternatives that could be used with PLS-CA-R. For example, we used a disjunctive approach for SNPs because they are categorical, which matches the genotypic model. However, through various disjunctive schemes, or other forms of Escofier or fuzzy coding, we could have used any genetic model: if all SNPs were coded as the major vs. the minor allele ('AA' vs. {'Aa+aa'}), this would be the dominant model, or we could have assumed the additive model ---i.e., 0, 1, 2 for 'AA', 'Aa', and 'aa', respectively---and transformed the data with the ordinal approach (but we strongly emphasize *not* the continuous approach). We previously provided a comprehensive guide on how to transform various SNP genetic models for use in PLS-CA and CA elsewhere [see Appendix of @beaton_partial_2016]. Furthermore, we only highlighted one of many possible methods to transform ordinal data. The term "fuzzy coding" applies more generally to the recoding of ordinal, ranked, preference, and even continuous data across a number of schemes, all of which conform to the same properties as disjunctive data. The many "fuzzy" and "double" coding schemes are generally found in @escofier_traitement_1979, @lebart_multivariate_1984, or @greenacrefuzzy. However, for ordinal data---especially with fewer than or equal to 10 levels, and without excessively rare ($\leq 1$%) occurences---we recommend to treat ordinal values as categorical levels. When ordinal data are treated as categorial (and disjunctively coded), greater detail about the levels emerges and in most cases reveal non-linear patterns of the ordinal levels.
+While we focused on particular ways of coding and transforming data, there are many alternatives that could be used with PLS-CA-R. For example, we used a disjunctive approach for SNPs because they are categorical, which matches the genotypic model. However, through various disjunctive schemes, or other forms of Escofier or fuzzy coding, we could have used any genetic model: if all SNPs were coded as the major vs. the minor allele ('AA' vs. {'Aa+aa'}), this would be the dominant model, or we could have assumed the additive model ---i.e., 0, 1, 2 for 'AA', 'Aa', and 'aa', respectively---and transformed the data with the ordinal approach (but we strongly emphasize *not* the continuous approach). We previously provided a comprehensive guide on how to transform various SNP genetic models for use in PLS-CA and CA elsewhere [see Appendix of @beaton_partial_2016]. Furthermore, we only highlighted one of many possible methods to transform ordinal data. The term "fuzzy coding" applies more generally to the recoding of ordinal, ranked, preference, and even continuous data. The "fuzzy coding" approach is itself fuzzy, and includes a variety of transformation schemes, all of which conform to the same properties as disjunctive data. The many "fuzzy" and "doubling" coding schemes are generally found in @escofier_traitement_1979, @lebart_multivariate_1984, or @greenacrefuzzy. However, for ordinal data---especially with fewer than or equal to 10 levels, and without excessively rare ($\leq 1$%) occurences---we recommend to treat ordinal values as categorical levels. When ordinal data are treated as categorial (and disjunctively coded), greater detail about the levels emerges and in most cases reveal non-linear patterns of the ordinal levels.
 
 We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types. We designed PLS-CA-R as a mixed-data generalization of PLSR, which provides one strategy to identify latent variables and perform regression when standard assumptions are not met (e.g., HDLSS or high collinearity). PLS-CA-R---and GPLS---addresses the need of many fields that require \textit{data type general} methods across multi-source and multi-domain data sets where we require careful considerations about how we prepare and understand our data [@nguyen2019ten]. We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types all with respect to CA and the $\chi^2$ model. PLS-CA-R provides key features necessary for data analyses as data-rich and data-heavy disciplines and fields rapidly move towards and depend on fundamental techniques in machine and statistical learning (e.g., PLSR, CCA). Finally, with techniques such as mixed-data MFA [@becue-bertaut_multiple_2008], PLS-CA-R provides a much needed basis for development of future methods designed for such complex data sets.
 
+Finally, we want to remind the reader to see the Appendix. In the Appendix, we show (1) how PLS-CA-R generalizes most cross-decomposition techniques, (2) alternate PLS algorithms, (3) suggestions on alternate metrics, and finally (4) a ridge-like regularization approach that applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
 
-[SEE THE APPENDIX FOR A TON OF STUFF.]
-
-# Acknowledgements
+## Acknowledgements
 
 Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative
 (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award
