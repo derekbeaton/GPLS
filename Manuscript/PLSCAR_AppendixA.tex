@@ -94,18 +94,36 @@ A
 \newpage
 \spacingset{1.45} % DON'T change the spacing!
 
-\hypertarget{appendix-a}{%
-\section{Appendix A}\label{appendix-a}}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
 
 This Appendix provides additional details on PLS-CA-R and, in
 particular, a variety of extensions of and generalizations from
 PLS-CA-R. We also provide additional details on some concepts, such as
-the generalized singular value decomposition.
+the generalized singular value decomposition. As established in the main
+text, PLS-CA-R provides a generalization of PLS-R for categorical and
+mixed data. However, PLS-CA-R provides the basis for futher
+generalizations that extend to other optimizations, alternate metrics,
+different PLS algorithms, and even ridge-like regularization. In this
+Appendix we explain those additional generalizations and variations
+based on how we established PLS-CA-R in the main text.
 
-{[}A bit more of an introduction on what we're going to do here\ldots{]}
+First, we explain the relationship between the SVD and GSVD in a more
+detail than in the main text. Following that, we extend the concept of
+the GSVD triplet for PLS with what we call ``the GPLSSVD sextuplet''.
+Second, we show how the GPLSSVD triplet allows us to perform PLS-CA-R,
+as well as other cross-decomposition techniques, more easily. From
+there, we use the GPLSSVD triplet as a way to further simplify the three
+primary PLS algorithms (regression, correlation, canonical). Third we
+provide a short discussion on how the GPLSSVD---which is inspired from
+PLS-CA-R---gives us a more unified way to accomodate different
+optimizations (e.g., partial least squares vs.~canonical correlation)
+and different constraints or metrics. Finally, we present two ways to
+perform a ridge-like regularization with an emphasis on PLS-CA-R, but
+the regularization applies to any technique under the GPLSSVD framework.
 
 \hypertarget{the-svd-gsvd-and-gplssvd}{%
-\subsection{The SVD, GSVD, and GPLSSVD}\label{the-svd-gsvd-and-gplssvd}}
+\section{The SVD, GSVD, and GPLSSVD}\label{the-svd-gsvd-and-gplssvd}}
 
 The SVD of \({\bf X}\) is \begin{equation}
 {\bf X} = {\bf U}{\boldsymbol \Delta}{\bf V}^{T},
@@ -120,49 +138,16 @@ Practically, the GSVD is performed through the SVD as
 where the generalized singular vectors are computed from the singular
 vectors as \({\mathbf P} = {\mathbf M}^{-\frac{1}{2}}{\mathbf U}\) and
 \({\mathbf Q} = {\mathbf W}^{-\frac{1}{2}}{\mathbf V}\). The
-relationship between the SVD and GSVD can be expressed as
-
-\begin{equation}
-\widetilde{\mathbf X} = {\mathbf M}^{\frac{1}{2}}{\mathbf X}{\mathbf W}^{\frac{1}{2}} \Longleftrightarrow {\mathbf X} = {\mathbf M}^{-\frac{1}{2}}\widetilde{\mathbf X}{\mathbf W}^{-\frac{1}{2}}
-\end{equation}
-
-Similarly to the GSVD, let us refer to
-\(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
-and
-\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
-
-The GPLSSVD makes use of the SVD wherein
-\(\widetilde{\mathbf Z}_{\mathbf R} = \widetilde{{\mathbf Z}}_{\mathbf X}^{T}\widetilde{{\mathbf Z}}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
-The GPLSSVD generalized singular vectors and component scores are
-computed as
-\({\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
-and
-\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
-for the \(J\) columns of \({\mathbf X}\), and
-\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\)
-and
-\({\mathbf F}_{K} = {\mathbf W}_{{\mathbf Y}}{\mathbf Q}{\boldsymbol \Delta}\)
-for the \(K\) columns of \({\mathbf Y}\). Like with the SVD
+relationship between the SVD and GSVD can be expressed through what we
+decompose as \begin{equation}
+\widetilde{\mathbf X} = {\mathbf M}^{\frac{1}{2}}{\mathbf X}{\mathbf W}^{\frac{1}{2}} \Longleftrightarrow {\mathbf X} = {\mathbf M}^{-\frac{1}{2}}\widetilde{\mathbf X}{\mathbf W}^{-\frac{1}{2}},
+\end{equation} where
 \({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
 and like with the GSVD
-\({\mathbf P}^{T}{\mathbf W}_{\mathbf X}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}\).
-
-The GPLSSVD also produces scores for the \(I\) rows of each
-matrix---usually called latent variables---as
-\({\mathbf L}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf U}\)
-and
-\({\mathbf L}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}\)
-where
-\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\).
-By its definition, this GPLSSVD maximization of the latent
-variables---i.e.,
-\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\)---is
-the ``PLS correlation'' decomposition.
-
-Specifically, if \({\mathbf X}\) and \({\mathbf Y}\) were each
-column-wise centered and/or normalized, then
-\(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}\)
-is PLS correlation (a.k.a. PLSSVD or Tucker's approach).
+\({\mathbf P}^{T}{\mathbf M}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}{\mathbf Q}\).
+As noted in the main text, the GSVD can be presented in ``triplet
+notation'' as
+\(\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}\).
 
 \hypertarget{from-gsvd-triplet-to-gplssvd-sextuplet}{%
 \subsection{From GSVD triplet to GPLSSVD
@@ -170,14 +155,13 @@ sextuplet}\label{from-gsvd-triplet-to-gplssvd-sextuplet}}
 
 We introduce an extension of the GSVD triplet for PLS, called the
 ``GPLSSVD sextuplet''. The GPLSSVD sextuplet helps us in two ways: (1)
-it simplifies some of the notation and decomposition concepts used here,
-and (2) it provides the basis for generalization of cross-decomposition
-methods (e.g., canonical correlation, reduced rank regression) that we
-expand upon in the Appendix.
+it simplifies some of the notation and decomposition concepts, and (2)
+it provides the basis for generalization of cross-decomposition methods
+(e.g., canonical correlation, reduced rank regression).
 
 The ``GPLSSVD sextuplet'' takes the form of
 \(\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}_{\mathbf X}, {\mathbf M}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}_{\mathbf Y} \mathrm{)}\)
-and decomposes the matrix
+and like the GSVD, decomposes a matrix
 \({\mathbf Z}_{\mathbf R} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X})^{T} {\mathbf M}_{\mathbf Y}^{\frac{1}{2}} {\mathbf Z}_{\mathbf Y}\)
 as
 
@@ -197,6 +181,44 @@ variables as \begin{equation}
 {\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} 
 = {\boldsymbol \Delta}. 
 \end{equation}
+
+Alternatively, we can show the GPLSSVD through the SVD. Let us refer to
+\({\widetilde{\mathbf Z}_{\mathbf X}} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
+and
+\({\widetilde{\mathbf Z}_{\mathbf Y}} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\),
+where
+\(\widetilde{\mathbf Z}_{\mathbf R} = {\widetilde{\mathbf Z}_{\mathbf X}}^{T}{\widetilde{\mathbf Z}_{\mathbf Y}} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}})\).
+We decompose \(\widetilde{\mathbf Z}_{\mathbf R}\) as
+
+\begin{equation}
+\widetilde{\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}
+\textrm{ with }
+{\mathbf U}^{T}{\mathbf U} = {\mathbf I} =
+{\mathbf V}^{T}{\mathbf V}.
+\end{equation} We can also compute the latent variables as
+\begin{equation}
+{\mathbf L}_{\mathbf X} 
+= \widetilde{\mathbf Z}_{\mathbf X}{\mathbf U} 
+\textrm{ and } 
+{\mathbf L}_{\mathbf Y} = 
+\widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}
+\textrm{ where }
+{\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} 
+= {\boldsymbol \Delta}. 
+\end{equation}
+
+Like with the SVD and GSVD, the GPLSSVD has the same orthogonality
+constraints:
+\({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
+or
+\({\mathbf P}^{T}{\mathbf M}_{\mathbf Y}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}\).
+And per usual, the relationship between the singular vectors are
+\({\mathbf U} = {\mathbf W}_{\bf X}^{\frac{1}{2}}{\mathbf P} \Longleftrightarrow {\mathbf P} = {\mathbf M}_{\bf X}^{-\frac{1}{2}}{\mathbf U}\)
+and
+\({\mathbf V} = {\mathbf W}_{\bf Y}^{\frac{1}{2}}{\mathbf Q} \Longleftrightarrow {\mathbf Q} = {\mathbf W}_{\bf Y}^{-\frac{1}{2}}{\mathbf V}\).
+{[}Component scores{]}
+
+{[}Then a bunch of connections{]}
 
 When \({\mathbf X}\) and \({\mathbf Y}\) are column-wise centered
 normalized and when all constraint matrices are equal to the identity
@@ -220,6 +242,47 @@ singular vectors, generalized singular vectors, and component scores,
 and one singular value; for GPLSSVD it would return only one pair of
 latent variables.
 
+Similarly to the GSVD, let us refer to
+\(\widetilde{{\mathbf Z}}_{\mathbf X} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}}\)
+and
+\(\widetilde{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}\).
+
+The GPLSSVD makes use of the SVD wherein
+\(\widetilde{\mathbf Z}_{\mathbf R} = \widetilde{{\mathbf Z}}_{\mathbf X}^{T}\widetilde{{\mathbf Z}}_{\mathbf Y} = ({\mathbf M}_{\mathbf X}^{\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{\frac{1}{2}}) = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T}\).
+The GPLSSVD generalized singular vectors and component scores are
+computed as
+\({\mathbf P} = {\mathbf W}_{{\mathbf X}}^{-\frac{1}{2}}{\mathbf U}\)
+and
+\({\mathbf F}_{J} = {\mathbf W}_{{\mathbf X}}{\mathbf P}{\boldsymbol \Delta}\)
+for the \(J\) columns of \({\mathbf X}\), and
+\({\mathbf Q} = {\mathbf W}_{{\mathbf Y}}^{-\frac{1}{2}}{\mathbf V}\)
+and
+\({\mathbf F}_{K} = {\mathbf W}_{{\mathbf Y}}{\mathbf Q}{\boldsymbol \Delta}\)
+for the \(K\) columns of \({\mathbf Y}\). Like with the SVD
+\({\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}\),
+and like with the GSVD
+\({\mathbf P}^{T}{\mathbf M}_{\mathbf X}{\mathbf P} = {\mathbf I} = {\mathbf Q}^{T}{\mathbf W}_{\mathbf Y}{\mathbf Q}\).
+
+The GPLSSVD also produces scores for the \(I\) rows of each
+matrix---usually called latent variables---as
+\({\mathbf L}_{\mathbf X} = \widetilde{\mathbf Z}_{\mathbf X}{\mathbf U}\)
+and
+\({\mathbf L}_{\mathbf Y} = \widetilde{\mathbf Z}_{\mathbf Y}{\mathbf V}\)
+where
+\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\).
+By its definition, this GPLSSVD maximization of the latent
+variables---i.e.,
+\({\mathbf L}_{\mathbf X}^{T} {\mathbf L}_{\mathbf Y} = {\boldsymbol \Delta}\)---is
+the ``PLS correlation'' decomposition.
+
+Specifically, if \({\mathbf X}\) and \({\mathbf Y}\) were each
+column-wise centered and/or normalized, then
+\(\mathrm{GPLSSVD(} {\mathbf I}, {\mathbf Z}_{\mathbf X}, {\mathbf I}, {\mathbf I}, {\mathbf Z}_{\mathbf Y}, {\mathbf I} \mathrm{)}\)
+is PLS correlation (a.k.a. PLSSVD or Tucker's approach).
+
+\hypertarget{pls-algorithms}{%
+\section{PLS algorithms}\label{pls-algorithms}}
+
 We present Algorithm \ref{algo:plscar} as a ``generalized partial least
 squares regression'' by way of the GPLSSVD sextuplet. We discuss the
 generalized aspects of the algorithm in more detail in Section
@@ -233,9 +296,6 @@ and broader generalizations; generalizations that span various PLS, CA,
 and related approaches, several typical PLS algorithms, a variety of
 optimizations (e.g., canonical correlation), and ridge-like
 regularization.
-
-\hypertarget{pls-algorithms}{%
-\section{PLS algorithms}\label{pls-algorithms}}
 
 PLS correlation decomposition is a symmetric method where neither data
 table plays a privileged (or predictive) role, and is performed with a

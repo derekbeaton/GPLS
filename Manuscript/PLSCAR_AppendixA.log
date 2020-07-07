@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  3 JUL 2020 00:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  6 JUL 2020 23:54
 entering extended mode
 **./PLSCAR_AppendixA.tex
 (PLSCAR_AppendixA.tex
@@ -444,51 +444,50 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
-{C:/Users/Derek/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Overfull \hbox (25.07498pt too wide) in paragraph at lines 134--149
+{C:/Users/Derek/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
+Overfull \hbox (25.07498pt too wide) in paragraph at lines 250--265
 []\T1/cmr/m/n/12 The GPLSSVD makes use of the SVD wherein $[] \OT1/cmr/m/n/12 =
  [][] = (\OT1/cmr/bx/n/12 M[]Z[]W[]\OT1/cmr/m/n/12 )[](\OT1/cmr/bx/n/12 M[]Z[]W
 []\OT1/cmr/m/n/12 ) =
  []
 
-[2]
 
-LaTeX Warning: Reference `section:Disc' on page 3 undefined on input line 226.
-
-
-LaTeX Warning: Reference `section:plscar_form' on page 3 undefined on input lin
-e 230.
-
-[3]
-
-LaTeX Warning: Reference `section:plscar_form' on page 4 undefined on input lin
-e 263.
-
-
-LaTeX Warning: Reference `section:plscar_form' on page 4 undefined on input lin
-e 287.
+LaTeX Warning: Reference `section:Disc' on page 4 undefined on input line 289.
 
 [4]
-Underfull \hbox (badness 1859) in paragraph at lines 311--311
+
+LaTeX Warning: Reference `section:plscar_form' on page 5 undefined on input lin
+e 293.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 5 undefined on input lin
+e 323.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 5 undefined on input lin
+e 347.
+
+[5]
+Underfull \hbox (badness 1859) in paragraph at lines 371--371
 []\T1/cmr/bx/n/12 Algorithm 1: \T1/cmr/m/n/12 Gen-er-al-ized PLS-correlation al
 -go-rithm. GPLS-COR is the
  []
 
 
-LaTeX Warning: Reference `section:GSVDCA' on page 5 undefined on input line 325
+LaTeX Warning: Reference `section:GSVDCA' on page 6 undefined on input line 385
 .
 
-[5]
+[6]
 
-LaTeX Warning: Reference `section:plscar_form' on page 6 undefined on input lin
-e 356.
+LaTeX Warning: Reference `section:plscar_form' on page 7 undefined on input lin
+e 416.
 
 
-LaTeX Warning: Reference `section:plscar_form' on page 6 undefined on input lin
-e 356.
+LaTeX Warning: Reference `section:plscar_form' on page 7 undefined on input lin
+e 416.
 
-[6] [7]
-Overfull \hbox (36.82617pt too wide) in paragraph at lines 440--459
+[7] [8]
+Overfull \hbox (36.82617pt too wide) in paragraph at lines 500--519
 []\OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \
 OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 I\OML/cmm/m/it/12 ; \OT1/c
 mr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 I[]$\T1/cmr/m/n/12 , CCA is p
@@ -500,67 +499,67 @@ m/n/12 ,
  []
 
 
-LaTeX Warning: Reference `section:plscar_form' on page 8 undefined on input lin
-e 461.
-
-
-LaTeX Warning: Reference `eq:weightmats_v1' on page 8 undefined on input line 4
-66.
-
-
-LaTeX Warning: Reference `eq:models' on page 8 undefined on input line 466.
-
-[8]
-
 LaTeX Warning: Reference `section:plscar_form' on page 9 undefined on input lin
-e 487.
+e 521.
 
 
-LaTeX Warning: Reference `section:plscar_form' on page 9 undefined on input lin
-e 496.
+LaTeX Warning: Reference `eq:weightmats_v1' on page 9 undefined on input line 5
+26.
 
 
-LaTeX Warning: Reference `eq:plscar_Zs' on page 9 undefined on input line 500.
+LaTeX Warning: Reference `eq:models' on page 9 undefined on input line 526.
 
 [9]
+
+LaTeX Warning: Reference `section:plscar_form' on page 10 undefined on input li
+ne 547.
+
+
+LaTeX Warning: Reference `section:plscar_form' on page 10 undefined on input li
+ne 556.
+
+
+LaTeX Warning: Reference `eq:plscar_Zs' on page 10 undefined on input line 560.
+
+
 LaTeX Font Info:    Trying to load font information for U+bbold on input line 5
-27.
+87.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/bbold\ubbold.fd") [10]
 
 LaTeX Warning: Reference `section:plscar_form' on page 11 undefined on input li
-ne 590.
+ne 650.
 
-(PLSCAR_AppendixA.bbl [11]
+[11] (PLSCAR_AppendixA.bbl
 Underfull \hbox (badness 5475) in paragraph at lines 18--22
 []\T1/cmr/m/n/12 Allen, G. I. (2013), `Sparse and Func-tional Prin-ci-pal Com-p
 o-nents Anal-y-sis',
  []
 
-[12] [13] [14]
+[12] [13] [14] [15]
 Overfull \hbox (20.61485pt too wide) in paragraph at lines 239--244
 \T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 http://biostatistics.oxfordjournals.org/co
 ntent/early/2014/02/17/biostatistics.kxu001 
  []
 
-[15])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 613.
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 673.
 [16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 613.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 673.
 (PLSCAR_AppendixA.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 613.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 613.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 673.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 673.
 Package rerunfilecheck Info: File `PLSCAR_AppendixA.out' has not changed.
-(rerunfilecheck)             Checksum: 9066A2098C39A65E64CB55E218EF04C0;527.
+(rerunfilecheck)             Checksum: 49FD3C1AC4E8C3A2FC7A613DD461CFF7;515.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 613.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 673.
  ) 
 Here is how much of TeX's memory you used:
- 9693 strings out of 480897
- 147728 string characters out of 2908279
- 436685 words of memory out of 3000000
- 25296 multiletter control sequences out of 15000+200000
+ 9694 strings out of 480897
+ 147731 string characters out of 2908279
+ 433681 words of memory out of 3000000
+ 25295 multiletter control sequences out of 15000+200000
  553458 words of font info for 73 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,18n,48p,479b,532s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -592,9 +591,9 @@ s/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6
 rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program F
 iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on PLSCAR_AppendixA.pdf (16 pages, 322959 bytes).
+Output written on PLSCAR_AppendixA.pdf (16 pages, 326524 bytes).
 PDF statistics:
- 790 PDF objects out of 1000 (max. 8388607)
- 88 named destinations out of 1000 (max. 500000)
+ 795 PDF objects out of 1000 (max. 8388607)
+ 90 named destinations out of 1000 (max. 500000)
  65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

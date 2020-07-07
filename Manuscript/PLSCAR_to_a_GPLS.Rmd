@@ -110,7 +110,7 @@ multiple types of magnetic resonance brain imaging
 [@duchesne_canadian_2019], a wide array of behavioral, 
 cognitive, clinical, and laboratory batteries, 
 as well as many modalities "between" these types, 
-such as ocular imaging, gait, and balance [@montero-odasso_motor_2017-1], 
+such as ocular imaging, gait/balance [@montero-odasso_motor_2017-1], 
 eye tracking, and neuro-pathology. 
 Though large samples (e.g., UK BioBank) 
 and depth of data (e.g., ONDRI) are necessary 
@@ -164,7 +164,7 @@ least squares-correspondence analysis-regression (PLS-CA-R):
 a latent variable regression modeling approach suited 
 for the analysis of complex data sets. 
 We first show that PLS-CA-R  generalizes PLS regression 
-[@wold_soft_1975; @wold_collinearity_1984; @tenenhaus_regression_1998; 
+[@wold1975soft; @wold_collinearity_1984; @tenenhaus_regression_1998; 
 @abdi_partial_2010-1], CA [@greenacre_theory_1984; 
 @greenacre_correspondence_2010-1; @lebart_multivariate_1984], 
 and PLS-CA [@beaton_partial_2016]---which is
@@ -228,19 +228,6 @@ and conclusions.
 # Partial least squares-correspondence analysis-regression
 \label{section:PLSCAR}
 
-Here we present the generalization of partial 
-least square-regression (PLS-R) 
-to multiple correspondence analysis (MCA) 
-and correspondence analysis (CA)-like methods 
-that generally apply to categorical (nominal) data. 
-Via CA, we can also generalize to other data types 
-including mixed types 
-(e.g., categorical, ordinal, continuous, contingency). 
-
-PLS "regression" [@wold_soft_1975;
-@wold_collinearity_1984; @wold_pls-regression_2001]. PLS
-regression decomposition is an asymmetric and iterative method. The asymmetry is that one data table is privileged (i.e., treated as predictors). PLSR computes its solution iteratively---via alternating least squares, the SVD, or similar techniques---and makes use of deflation for both data tables.
-
 ## Notation
 
 Bold uppercase letters denote matrices
@@ -257,7 +244,7 @@ Common letters of varying type faces,
 for example ${\bf X}$, $\bf{x}$, $x_{i,j}$, 
 come from the same data structure. 
 A preprocessed or transformed version of a matrix 
-${\mathbf X}$ is denoted ${\mathbf Z}_{\mathbf X}$. 
+${\mathbf X}$ is denoted ${\mathbf Z}_{\mathbf X}$. The sum of matrix will be denoted with $_{++}$ where, for example, the sum of the matrix ${\bf X}$ is $X_{++}$.
 Vectors are assumed to be column vectors unless otherwise specified. 
 Two matrices side-by-side denotes standard matrix multiplication 
 (e.g., $\bf{X}\bf{Y}$). 
@@ -296,10 +283,9 @@ is the $A \times A$ diagonal matrix of the eigenvalues.
 The \emph{generalized} singular value decomposition (GSVD) 
 generalizes the SVD
 by integrating constraints---also called *metrics*
-because these matrices define a metric in a generalized Euclidean space---
-imposed on the rows and columns of the matrix to be decomposed. 
+because these matrices define a metric in a generalized Euclidean space---imposed on the rows and columns of the matrix to be decomposed. 
 Specifically, when both an $I\times I$ matrix ${\mathbf M}$ and
-a $J\times J$ matrix ${\mathbf W}$ positive definite matrices,
+a $J\times J$ matrix ${\mathbf W}$ are positive definite matrices,
 the GSVD decomposes 
 ${\mathbf X}$ as 
 \begin{equation}\label{eq:gsvd}
@@ -311,21 +297,21 @@ where ${\mathbf X}$ is of rank $A$
 and ${\boldsymbol \Delta}$ is the $A \times A$ 
 diagonal matrix of the singular values,
 ${\boldsymbol \Lambda} = {\boldsymbol \Delta}^2$ 
-is the $A \times A$ diagonal matrix of the eigenvalues, and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* singular vectors. We compute the typical singular vectors as ${\mathbf U} = {\mathbf M}^{\frac{1}{2}}{\mathbf P}$ and ${\mathbf V} = {\mathbf W}^{\frac{1}{2}}{\mathbf Q}$, where ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. For convenience, the GSVD is presented as a "triplet" with the row metric (weights), data, and column metric (weights) as $\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}$. We present the GSVD triplet here in slightly different way than it is typically presented [see, e.g., @holmes_multivariate_2008]. Our presentation of the GSVD reflects the multiplication steps taken before decomposition (see our Appendix).
+is the $A \times A$ diagonal matrix of the eigenvalues, and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* singular vectors. We compute singular vectors as ${\mathbf U} = {\mathbf M}^{\frac{1}{2}}{\mathbf P}$ and ${\mathbf V} = {\mathbf W}^{\frac{1}{2}}{\mathbf Q}$, where ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. For convenience, the GSVD is presented as a "triplet" with the row metric (weights), data, and column metric (weights) as $\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}$. We present the GSVD triplet here in slightly different way than it is typically presented [see, e.g., @holmes_multivariate_2008]. Our presentation of the GSVD reflects the multiplication steps taken before decomposition (see our Appendix).
 
 
 Correspondence analysis (CA) is a technique akin to principal components analysis (PCA)---originally designed for the analysis of contingency tables---and analyzes deviations to independence. See @greenacre_theory_1984, @greenacre_correspondence_2010-1, and @lebart_multivariate_1984 for detailed explanations of CA, and then see @escofier-cordier_analyse_1965 and @benzecri_analyse_1973 for the origins and early developments of CA. CA analyzes an $I \times J$ matrix ${\mathbf X}$ whose entries are all non-negative. CA is performed with the GSVD as follows. 
-First the *observed* probabilities matrix is computed as
+First the *observed* frequencies matrix is computed as
 ${\mathbf O}_{\mathbf X} = 
-{\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}$ 
-The marginal probabilities from the observed matrix 
+{\mathbf X} \times X_{++}^{-1}$. 
+The marginal frequencies from the observed matrix 
 are then computed as 
 \begin{equation}
 {\mathbf m}_{\mathbf X} = {\mathbf O}_{\mathbf X}{\mathbf 1} 
 \text{ and } 
 {\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T}.
 \end{equation}
-The *expected* probabilities matrix is computed as 
+The *expected* frequencies matrix is computed as 
 ${\mathbf E}_{\mathbf X} 
 = {\mathbf m}_{\mathbf X}{\mathbf w}_{\mathbf X}^{T}$. 
 The *deviations* 
@@ -366,23 +352,29 @@ We compute CA from $\mathrm{GSVD(} {\mathbf M}_{\mathbf X}^{-1}, {\mathbf Z}_{\m
 ## PLS-CA-R
 \label{section:plscar_form}
 
+PLS regression [@wold1975soft;
+@wold_collinearity_1984; @wold_pls-regression_2001] decomposition is an asymmetric and iterative algorithm to find latent variables (a.k.a. components) from a set of predictors from ${\bf X}$ that best explain responses ${\bf Y}$. PLS-R is asymmetric one data table is privileged (i.e., treated as predictors). PLS-R methods simultaneously decompose ${\bf X}$ and ${\bf Y}$, generally, through an iterative algorithm. For each iteration, we identify the maximum covariance between ${\bf X}$ and ${\bf Y}$, and then deflate each matrix. 
+
+Here we present the PLS-CA-R approach which generalizes PLS-R for multiple correspondence analysis (MCA) and correspondence analysis (CA)-like methods 
+that generally apply to categorical (nominal) data. Our formulation of PLS-CA-R provides the basis for generalizations to various data types (e.g., categorical, ordinal, continuous, contingency), as well as different techniques, optimizations, and algorithms (see the Appendix for more details).
+
 For simplicity assume in the following formulation that ${\mathbf X}$ and ${\mathbf Y}$ are both complete disjunctive tables as seen in Table \ref{table:disj} (see SEX columns) or Table \ref{table:snps_models_disj}. This formulation also applies generally to non-negative data (see later sections). We define observed matrices for ${\mathbf X}$ and ${\mathbf Y}$ as
 
 \begin{equation}
 \begin{aligned}
-{\mathbf O}_{\mathbf X} = {\mathbf X} \times ({\mathbf 1}^{T}{\mathbf X} {\mathbf 1})^{-1}, \\
-{\mathbf O}_{\mathbf Y} = {\mathbf Y} \times ({\mathbf 1}^{T}{\mathbf Y} {\mathbf 1})^{-1}
+{\mathbf O}_{\mathbf X} = {\mathbf X} \times X_{++}^{-1}, \\
+{\mathbf O}_{\mathbf Y} = {\mathbf Y} \times Y_{++}^{-1}
 \label{eq:observedXY}
 \end{aligned}
 \end{equation}
-Next we compute marginal probabilities for the rows and columns. We compute row marginal probabilities as 
+Next we compute marginal frequencies for the rows and columns. We compute row marginal frequencies as 
 \begin{equation}
 {\mathbf m}_{\mathbf X} = {\mathbf O}_{\mathbf X}{\mathbf 1} \text{ and } {\mathbf m}_{\mathbf Y} = {\mathbf O}_{\mathbf Y}{\mathbf 1},
 \label{eq:xy_rowvecs}
 \end{equation}
-and column probabilities as 
+and column frequencies as 
 \begin{equation}
-{\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T} \text{ and } {\mathbf w}_{\mathbf Y} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T},
+{\mathbf w}_{\mathbf X} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf X})^{T} \text{ and } {\mathbf w}_{\mathbf Y} = ({\mathbf 1}^{T}{\mathbf O}_{\mathbf Y})^{T}.
 \label{eq:weightmats_v1}
 \end{equation}
 We then define expected matrices as
@@ -392,10 +384,9 @@ We then define expected matrices as
 \end{equation}
 and deviation matrices as
 \begin{equation}
-{\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X} \text{ and } {\mathbf Z}_{\mathbf Y} = {\mathbf O}_{\mathbf Y} - {\mathbf E}_{\mathbf Y},
+{\mathbf Z}_{\mathbf X} = {\mathbf O}_{\mathbf X} - {\mathbf E}_{\mathbf X} \text{ and } {\mathbf Z}_{\mathbf Y} = {\mathbf O}_{\mathbf Y} - {\mathbf E}_{\mathbf Y}.
 \label{eq:plscar_Zs}
 \end{equation}
-
 For PLS-CA-R we have row and column weights of ${\mathbf M}_{\mathbf X} = \mathrm{diag\{}{\mathbf m}_{\mathbf X} \mathrm{\}}$, ${\mathbf M}_{\mathbf Y} = \mathrm{diag\{}{\mathbf m}_{\mathbf Y} \mathrm{\}}$, ${\mathbf W}_{\mathbf X} = \mathrm{diag\{}{\mathbf w}_{\mathbf X} \mathrm{\}}$, and ${\mathbf W}_{\mathbf Y} = \mathrm{diag\{}{\mathbf w}_{\mathbf Y} \mathrm{\}}$. PLS-CA-R makes use of the rank 1 SVD solution iteratively and works as cross-product ${\mathbf Z}_{\mathbf R} = ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})$, where
 \begin{equation}
 {\mathbf Z}_{\mathbf R} = {\mathbf U} {\boldsymbol \Delta} {\mathbf V}^{T},
@@ -414,9 +405,9 @@ Next we compute ${\mathbf t}_{\mathbf X} = {\boldsymbol \ell}_{\mathbf X} \times
 \widehat{\mathbf Z}_{{\mathbf X},1} = {\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}} \text{ and } \widehat{\mathbf Z}_{{\mathbf Y},1} = {\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}.
 \label{eq:rank1_preds_plscar}
 \end{equation}
-Finally, we deflate ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}$ and ${\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}$. We then repeat the iterative procedure with these deflated ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$. The computations outlined above are performed for $C$ iterations where: (1) $C$ is some pre-specified number of intended latent variables where $C \leq A$ where $A$ is the rank of ${\bf M}_{\bf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\bf W}_{\bf X}^{-\frac{1}{2}}$ or (2) when ${\mathbf Z}_{\mathbf X} = {\mathbf 0}$ or ${\mathbf Z}_{\mathbf Y} = {\mathbf 0}$. Upon the stopping condition we would have $C$ components, and would have collected any vectors into corresponding matrices. Those matrices are
+Finally, we deflate ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf X} = {\mathbf Z}_{\mathbf X} - \widehat{\mathbf Z}_{{\mathbf X},1}$ and ${\mathbf Z}_{\mathbf Y} = {\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{{\mathbf Y},1}$. We then repeat the iterative procedure with these deflated ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$. The computations outlined above are performed for $C$ iterations where: (1) $C$ is some pre-specified number of intended latent variables where $C \leq A$ where $A$ is the rank of ${\bf M}_{\bf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\bf W}_{\bf X}^{-\frac{1}{2}}$ or (2) when ${\mathbf Z}_{\mathbf X} = {\mathbf 0}$ or ${\mathbf Z}_{\mathbf Y} = {\mathbf 0}$. Upon the stopping condition we would have $C$ components, and would have collected any vectors into corresponding matrices. Those matrices are:
 
-* two $C \times C$ diagonal matrices ${\mathbf B}$ and $\widetilde{\boldsymbol \Delta}$ with each $b$ and $\tilde\delta$ on the diagonal with zeros off-diagonal,
+* two $C \times C$ diagonal matrices ${\mathbf B}$ and $\widetilde{\boldsymbol \Delta}$ with each $b$ and $\tilde\delta$ on the diagonal,
 
 * the $I \times C$ matrices ${\mathbf L}_{\mathbf X}$, ${\mathbf L}_{\mathbf Y}$, and ${\mathbf T}_{\mathbf X}$, 
 
@@ -463,9 +454,9 @@ PLS-CA-R maximizes the common information between ${\mathbf Z}_{\mathbf X}$ and 
 
 \begin{equation}
 \begin{aligned}
-\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} = \\
-\widetilde{\mathbf u}^{T}({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v} = \\
-\widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v}  = \widetilde\delta,
+\underset{{\boldsymbol \ell}_{\mathbf X},{\boldsymbol \ell}_{\mathbf Y}}{\operatorname{arg\,max}} = {\boldsymbol \ell}_{\mathbf X}^{T}{\boldsymbol \ell}_{\mathbf Y} \\ 
+= \widetilde{\mathbf u}^{T}({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v} \\ 
+= \widetilde{\mathbf u}{\mathbf Z}_{\mathbf R}\widetilde{\mathbf v} = \widetilde{\mathbf u}{\mathbf U}{\boldsymbol \Delta}{\mathbf V}\widetilde{\mathbf v} = \widetilde\delta,
 \end{aligned}
 \end{equation}
 where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for each $c$ step. PLS-CA-R maximization is subject to the orthogonality constraint that ${\boldsymbol \ell}_{{\mathbf X},c}^{T}{\boldsymbol \ell}_{{\mathbf X},c'} = 0$ when $c \neq c'$. This orthogonality constraint propagates through to many of the vectors and matrices associated with ${\mathbf Z}_{\mathbf X}$ where ${\mathbf T}_{\mathbf X}^{T}{\mathbf T}_{\mathbf X} = \widetilde{\mathbf P}^{T}{\mathbf W}_{\bf X}^{-1}\widetilde{\mathbf P} = \widetilde{\mathbf U}^{T}\widetilde{\mathbf U} = {\mathbf I}$; these orthogonality constraints do not apply to the various vectors and matrices associated with ${\mathbf Y}$.
@@ -477,7 +468,7 @@ where $\widetilde\delta$ is the first singular value from ${\mathbf \Delta}$ for
 PLS-CA-R is a "double decomposition" where
 \begin{equation}
 \begin{aligned}
-{\mathbf Z}_{\mathbf X} = {\mathbf M}^{\frac{1}{2}}_{\mathbf X}{\mathbf T}\widehat{\mathbf U}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf X} \text{ and }\\
+{\mathbf Z}_{\mathbf X} = {\mathbf M}^{\frac{1}{2}}_{\mathbf X}{\mathbf T}\widehat{\mathbf U}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf X} \\ \text{ and } \\
 \widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}\widetilde{\mathbf Z}_{\mathbf X}\widehat{\mathbf U}^{{T}{+}}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y},
 \label{eq:doubledecomp}
 \end{aligned}
@@ -489,12 +480,12 @@ where $\widetilde{\mathbf Z}_{\mathbf X} = {\mathbf T}\widehat{\mathbf U}^{T} = 
 \end{equation}
 This connection to OLS shows how to residualize (i.e., "regress out" or "correct for") covariates, akin to how residuals are computed in OLS. We do so with the original ${\mathbf Z}_{\mathbf Y}$ as ${\mathbf Z}_{\mathbf Y} - \widehat{\mathbf Z}_{\mathbf Y}$. PLS-CA-R produces both a predicted and a residualized version of ${\mathbf Y}$. Recall that $\widehat{{\mathbf Z}}_{\mathbf Y} = {\mathbf M}^{\frac{1}{2}}_{\mathbf Y}{\mathbf T}_{\mathbf X}{\mathbf B}\widetilde{\mathbf V}^{T}{\mathbf W}^{\frac{1}{2}}_{\mathbf Y}$. We compute a reconstituted form of ${\mathbf Y}$ as 
 \begin{equation}
-\widehat{\mathbf Y} = (\widehat{{\mathbf Z}}_{\mathbf Y} + {\mathbf E}_{\mathbf Y}) \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}),
+\widehat{\mathbf Y} = (\widehat{{\mathbf Z}}_{\mathbf Y} + {\mathbf E}_{\mathbf Y}) \times Y_{++},
 \label{eq:Yhat}
 \end{equation}
 which is the opposite steps of computing the deviations matrix. We add back in the expected values and then scale the data by the total sum of the original matrix. The same can be done for residualized values (i.e., "error") as
 \begin{equation}
-{\mathbf Y}_{\epsilon} = [({\mathbf Z}_{\mathbf Y} - \widehat{{\mathbf Z}}_{\mathbf Y}) + {\mathbf E}_{\mathbf Y}] \times ({\mathbf 1}^{T}{\mathbf Y}{\mathbf 1}).
+{\mathbf Y}_{\epsilon} = [({\mathbf Z}_{\mathbf Y} - \widehat{{\mathbf Z}}_{\mathbf Y}) + {\mathbf E}_{\mathbf Y}] \times Y_{++}.
 \label{eq:Yresid}
 \end{equation}
 Typically, ${\mathbf E}_{\mathbf Y}$ is derived the data (as noted in Eq. \ref{eq:models}). However, the reconstituted space could come from any model by way of generalized correspondence analysis (GCA) [@escofier1983analyse; @escofier1984analyse; @grassi1994correspondence; @beaton2018generalization]. With GCA we could use any reasonable alternates of ${\mathbf E}_{\mathbf Y}$ as the model, which could be obtained from, for examples, known priors, a theoretical model, out of sample data, or population estimates. CA can then be applied directly to either $\widehat{\mathbf Y}$ or ${\mathbf Y}_{\epsilon}$. The same reconstitution procedures can be applied fitted and residualized versions of ${\mathbf X}$ as well.
@@ -516,7 +507,7 @@ Though we formalized PLS-CA-R as a method for categorical (nominal) data coded i
 # Applications & Examples
 \label{section:appex}
 
-In this section we provide examples with real data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). These examples illustrate how to approach mixed data with PLS-CA-R and the multiple uses of PLS-CA-R (e.g., for analyses, as a residualization procedure). We present three sets of analyses. First we introduce of PLS-CA-R through a typical example where we want predict genotypes (categorical) from groups (categorical). Next we show how to predict genotypes from a small set of behavioral and brain variables. This second example serves multiple purposes: (1) how to recode and analyze mixed data (categorical, ordinal, and continuous), (2) how to use PLS-CA-R, and (3) how to use PLS-CA-R as residualization technique to remove effects from data prior to subsequent analyses. Finally, we present a larger analysis with the goal to predict genotypes from cortical uptake of AV45 (i.e., a radiotracer) PET scan for beta-amyloid ("A$\beta$") deposition. This final example also makes use of residualization as illustrated in the second example. 
+In this section we provide examples with real data from the Alzheimer's Disease Neuroimaging Initiative (ADNI). These examples illustrate how to approach mixed data with PLS-CA-R and the multiple uses of PLS-CA-R (e.g., for analyses, as a residualization procedure). We present three sets of analyses. First we introduce of PLS-CA-R through an example where we want to predict genotypes (categorical) from groups (categorical). Next we show how to predict genotypes from a small set of behavioral and brain variables. This second example illustrates how to: (1) how to recode and analyze mixed data (categorical, ordinal, and continuous), (2) how to use PLS-CA-R, and (3) how to use PLS-CA-R as residualization technique to remove effects from data prior to subsequent analyses. Finally, we present a larger analysis with the goal to predict genotypes from cortical uptake of AV45 (i.e., a radiotracer) PET scan for beta-amyloid ("A$\beta$") deposition. This final example also makes use of residualization as illustrated in the second example. 
 
 
 ## ADNI Data
@@ -556,7 +547,7 @@ snp.tab <- cbind(base.ex.snps, geno.model, dom.model, rec.model)
 ## Diagnosis and genotypes
 \label{section:plscarda}
 
-Our first example asks and answers the question: "which genotypes are associated with which diagnostic category?". In ADNI, diagnosis at baseline is a categorical variable that denotes which group each participant belongs to (at the first visit): control (CN; $N=$ `r table(TADPOLE.fin$DX_bl)["CN"]`), subjective memory complaints (SMC; $N=$  `r table(TADPOLE.fin$DX_bl)["SMC"]`), early mild cognitive impairment (EMCI; $N=$  `r table(TADPOLE.fin$DX_bl)["EMCI"]`), late mild cognitive impairment (LMCI; $N=$  `r table(TADPOLE.fin$DX_bl)["LMCI"]`), and Alzheimer's disease (AD; $N=$  `r table(TADPOLE.fin$DX_bl)["AD"]`). We present this first example analysis in two ways: akin to a standard regression problem a la Wold [@wold_soft_1975; @wold_collinearity_1984; @wold_principal_1987; cf. Eq. \ref{ols_equivalence}) and then again in the multivariate perspective of "projection onto latent structures" [@abdi_partial_2010-1].
+Our first example asks and answers the question: "which genotypes are associated with which diagnostic category?". In ADNI, diagnosis at baseline is a categorical variable that denotes which group each participant belongs to (at the first visit): control (CN; $N=$ `r table(TADPOLE.fin$DX_bl)["CN"]`), subjective memory complaints (SMC; $N=$  `r table(TADPOLE.fin$DX_bl)["SMC"]`), early mild cognitive impairment (EMCI; $N=$  `r table(TADPOLE.fin$DX_bl)["EMCI"]`), late mild cognitive impairment (LMCI; $N=$  `r table(TADPOLE.fin$DX_bl)["LMCI"]`), and Alzheimer's disease (AD; $N=$  `r table(TADPOLE.fin$DX_bl)["AD"]`). We present this first example analysis in two ways: akin to a standard regression problem {\`a} la Wold [@wold1975soft; @wold_collinearity_1984; @wold_principal_1987; cf. Eq. \ref{ols_equivalence}) and then again in the multivariate perspective of "projection onto latent structures" [@abdi_partial_2010-1].
 
 ```{r sample_descriptives, echo=F, results="asis", include=T, warning=F, message=F}
 
@@ -651,7 +642,7 @@ par(par.opts)
 
 ```
 
-Though PLS-R was initally developed as a regression approach---especially to handle collinear predictors [see explanations in @wold_collinearity_1984]---it is far more common to use PLS to find latent structures (i.e., components or latent variables) [@abdi_partial_2010-1]. From here on we show the latent variable scores (observations) and component scores (variables) for the first two latent variables/components in Figure \ref{fig:contributions_ex1}. The first latent variable scores (Fig. \ref{fig:contributions_ex1}a) shows a gradient from the control (CN) group through to the Alzheimer's Disease (AD) groups (CN to SMC to EMCI to LMCI to AD). The second latent variable shows a dissociation of the EMCI group from all other groups (Fig. \ref{fig:contributions_ex1}b). Figure \ref{fig:contributions_ex1}c and d show the component scores for the variables. Genotypes on the left side of first latent variable (horizontal axis in Figs. \ref{fig:contributions_ex1}c and d) are more associated with CN and SMC than the other groups, whereas genotypes on the right side are more associated with AD and LMCI than with the other groups. Through the latent structures approach we can more clearly see the relationships between groups and genotypes. Because we treat the data categorically and code for genotypes, we can identify the specific genotypes that contribute to these effects. For example the 'AA' genotype of rs769449 and the 'GG' genotype of rs2075650 are more associated with AD and LMCI than with the other groups. In contrast, the 'TT' genotype of rs405697 and the 'TT' genotype rs439401 are more associated with the CN group than other groups (and thus could suggest potential protective effects).
+Though PLS-R was initally developed as a regression approach---especially to handle collinear predictors [see explanations in @wold_collinearity_1984]---it is far more common to use PLS to find latent structures (i.e., components or latent variables) [@abdi_partial_2010-1]. From here on we show the latent variable scores (observations) and component scores (variables) for the first two latent variables/components in Figure \ref{fig:contributions_ex1}. The first latent variable (Fig. \ref{fig:contributions_ex1}a) shows a gradient from the control (CN) group through to the Alzheimer's Disease (AD) groups (CN to SMC to EMCI to LMCI to AD). The second latent variable shows a dissociation of the EMCI group from all other groups (Fig. \ref{fig:contributions_ex1}b). Figure \ref{fig:contributions_ex1}c and d show the component scores for the variables. Genotypes on the left side of first latent variable (horizontal axis in Figs. \ref{fig:contributions_ex1}c and d) are more associated with CN and SMC than with the other groups, whereas genotypes on the right side are more associated with AD and LMCI than with the other groups. Through the latent structures approach we can more clearly see the relationships between groups and genotypes. Because we treat the data categorically and code for genotypes, we can identify the specific genotypes that contribute to these effects. For example the 'AA' genotype of rs769449 and the 'GG' genotype of rs2075650 are more associated with AD and LMCI than with the other groups. In contrast, the 'TT' genotype of rs405697 and the 'TT' genotype rs439401 are more associated with the CN group than other groups (and thus could suggest potential protective effects).
 
 
 ```{r echo=F,results="asis", fig.cap="\\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.", fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center",fig.pos = "!hbtp"}
@@ -750,9 +741,9 @@ kable(conf.tab[c("CN","SMC","EMCI","LMCI","AD"),c("CN","SMC","EMCI","LMCI","AD")
 
 Our second example illustrates the prediction of genotypes from brain and behavioral variables: (1) three behavioral/clinical scales: Montreal Cognitive Assessment (MoCA) [@nasreddine_montreal_2005], Clinical Dementia Rating-Sum of Boxes (CDRSB) [@morris1993clinical], and Alzheimer's Disease Assessment Scale (ADAS13) [@skinner_alzheimers_2012], (2) volumetric brain measures in $\textrm{mm}^3$: hippocampus (HIPPO), ventricles (VENT), and whole brain (WB), and (3) global estimates of brain function via PET scans: average FDG (for cerebral blood flow; metabolism) in angular, temporal, and posterior cingulate and average AV45 (A$\beta$ tracer) standard uptake value ratio (SUVR) in frontal, anterior cingulate, precuneus, and parietal cortex relative to the cerebellum. This example higlights two features of PLS-CA-R: (1) the ability to accomodate mixed data types (continuous, ordinal, and categorical) and (2) as a way to residualize (orthogonalize; cf. Eq. \ref{eq:Yresid}) with respect to known or assumed covariates.
 
-Here, the predictors encompass a variety of data types: all of the brain markers (volumetric MRI estimates, functional PET estimates) and the ADAS13 are quantitative variables, whereas the MoCA and the CDRSB can be considered as ordinal data. Continuous and ordinal data types can be coded into what is called thermometer [@beaton2018generalization], fuzzy, or "bipolar" coding (because it has two poles) [@greenacrefuzzy]; an idea initially propsosed by Escofier for continuous data [@escofier_traitement_1979]. The "Escofier transform" allows continuous data to be analyzed by CA and produces the exact same results as PCA [@escofier_traitement_1979]. The same principles can be applied to ordinal data as well [@beaton2018generalization]. Continuous and ordinal data can be transformed into a "pseudo-disjunctive" format that behaves exactly like complete disjunctive data (see Table \ref{table:disj}) but preserves the values (as opposed to binning, or dichotomizing). Here, we refer to the transform for continuous data as the "Escofier transform" or "Escofier coding" [@beaton_partial_2016] and the transform for ordinal data as the "thermometer transform" or "thermometer coding". Because continuous, ordinal, and categorical data can all be transformed into a disjunctive-like format, they can all be analyzed with PLS-CA-R.
+Here, the predictors encompass a variety of data types: all of the brain markers (volumetric MRI estimates, functional PET estimates) and the ADAS13 are quantitative variables, whereas the MoCA and the CDRSB can be considered as ordinal data. Continuous and ordinal data types can be coded into what is called thermometer [@beaton2018generalization], fuzzy, or "bipolar" coding (because it has two poles) [@greenacrefuzzy]---an idea initially propsosed by Escofier for continuous data [@escofier_traitement_1979]. The "Escofier transform" allows continuous data to be analyzed by CA and produces the same results as PCA [@escofier_traitement_1979]. The same principles can be applied to ordinal data as well [@beaton2018generalization]. Continuous and ordinal data can be transformed into a "pseudo-disjunctive" format that behaves like complete disjunctive data (see Table \ref{table:disj}) but preserves the values (as opposed to binning, or dichotomizing). Here, we refer to the transform for continuous data as the "Escofier transform" or "Escofier coding" [@beaton_partial_2016] and the transform for ordinal data as the "thermometer transform" or "thermometer coding". Because continuous, ordinal, and categorical data can all be transformed into a disjunctive-like format, they can all be analyzed with PLS-CA-R.
 
-The next example identifies the relationship between brain and behavioral markers of AD and genetics. We use the brain and behavioral data as the predictors and the genetics as responses. However, both data sets have their own covariates (some of which are confounds): age, sex, and education influence the behavioral and brain data, where sex, and population origins influence the genotypic variables. For genetic covariates, we use proxies of population origins: self-identified race and ethnicity categories. Both sets of covariates are miixtures of data types (e.g., sex is categorical, age is generally continuous). So, in this example, we illustrate the mixed analysis in two ways---unadjusted and then adjusted for these covariates. First we show the effects of the covariates on the separate data sets, and then compare and contrast adjusted vs. unadjusted analyes. For these analyses, the volumetric brain data were also normalized (divided by) by intracranial volume prior to these analyses to create proportions of total volume for each brain structure.
+The next example identifies the relationship between brain and behavioral markers of AD and genetics. We use the brain and behavioral data as the predictors and the genetics as responses. However, both data sets have their own covariates (some of which are confounds): age, sex, and education influence the behavioral and brain data, where sex, and population origins influence the genotypic variables. For genetic covariates, we use proxies of population origins: self-identified race and ethnicity categories. Both sets of covariates are mixtures of data types (e.g., sex is categorical, age is generally continuous). So, in this example, we illustrate the mixed analysis in two ways---unadjusted and then adjusted for these covariates. First we show the effects of the covariates on the separate data sets, and then compare and contrast adjusted vs. unadjusted analyes. For these analyses, the volumetric brain data were also normalized (divided by) by intracranial volume prior to these analyses to create proportions of total volume for each brain structure.
 
 ```{r echo=F, include=F, warning=F, message=F}
 
@@ -815,7 +806,7 @@ The next example identifies the relationship between brain and behavioral marker
   
 ```
 
-First we show the PLS-CA-R between each data set and their respective covariates The main effects of age, sex, and education explained `r round(sum(regress.beh.brain.pls$r2_y)*100,digits=2)`% of the variance of the behavioral and brain data, where the main effects of sex, race, and ethnicity explained `r round(sum(regress.genes.pls$r2_y)*100,digits=2)`% of the variance of the genotypic data. The first two components of each analysis are shown in Figure \ref{fig:confound_predictors_ex2}. In the brain and behavioral data, age explains a substantial amount of variance for Component 1. In the genotypic analysis, self-identified race and ethnicity are the primary overall effects, where the first two components are explained by those that identify as black or African-American (Component 1) vs. those that identify as Asian, Native, Hawaiian, and/or Latino/Hispanic (Component 2). Both data sets were reconstituted (i.e., ${\mathbf Y}_{\epsilon}$ from Eq. \ref{eq:Yresid}) from their residuals. 
+First we show the PLS-CA-R between each data set and their respective covariates. The main effects of age, sex, and education explained `r round(sum(regress.beh.brain.pls$r2_y)*100,digits=2)`% of the variance of the behavioral and brain data, where the main effects of sex, race, and ethnicity explained `r round(sum(regress.genes.pls$r2_y)*100,digits=2)`% of the variance of the genotypic data. The first two components of each analysis are shown in Figure \ref{fig:confound_predictors_ex2}. In the brain and behavioral data, age explains a substantial amount of variance for Component 1. In the genotypic analysis, self-identified race and ethnicity are the primary overall effects, where the first two components are explained by those that identify as black or African-American (Component 1) vs. those that identify as Asian, Native, Hawaiian, and/or Latino/Hispanic (Component 2). Both data sets were reconstituted (i.e., ${\mathbf Y}_{\epsilon}$ from Eq. \ref{eq:Yresid}) from their residuals. 
 
 Next we performed two analyses with the same goal: to understand the relationship between genetics and behavioral and brain markers of AD. In the unadjusted analysis, the brain and behavioral data explained `r round(sum(plsrca.res$r2_y)*100,digits=2)`% of variance in the genotypic data, whereas in the adjusted analysis, the brain and behavioral data explained `r round(sum(plsrca.res_regressed$r2_y)*100,digits=2)`% of variance in the genotypic data. The first two components of the PLS-CA-R results can be seen in Figure \ref{fig:confound_predictors_ex2}.
 
@@ -940,10 +931,10 @@ ours::component_plot(plsrca.res$fi,cex=2,pch=20, display_names = F,main="Origina
    
 ```
 
-In this final example we use all of the features of PLS-CA-R: mixed data types within and between data sets, each with covariates (and thus require residualization). The goal of this example is to predict genotypes from $\beta-$amyloid burden ("AV45 uptake") across regions of the cortex. In this case, because the AV45 uptake data are are strictly non-negative, we effectively treat these data as counts; that is, we would normally apply CA directly to this one data table. Of course, this is only one possible way to handle such data. It is possible to treat these data as row-wise proportions (i.e., percentage of total uptake per region within each subject) or even as continuous data. Ultimately, it is up to analysts and experts to decide how to best treat such data, and how it fits into the analysis framework. 
+In this final example we use all of the features of PLS-CA-R: mixed data types within and between data sets, each with covariates (and thus require residualization). The goal of this example is to predict genotypes from $\beta-$amyloid burden ("AV45 uptake") across regions of the cortex. In this case, because the AV45 uptake data are are strictly non-negative, we effectively treat these data as counts; that is, we would normally apply CA directly to this one data table. Of course, this is only one possible way to handle such data: It is possible to treat these data as row-wise proportions (i.e., percentage of total uptake per region within each subject) or even as continuous data. 
 
 
-Because not all subjects have complete AV45 and genotypic data, the sample for this example is slightly smaller: $N=$ `r nrow(regress.uptake.pls$Y_residual)`. Ethnicity, race, and sex (all categorical) explains `r round(sum(regress.genes.drop.pls$r2_y)*100,digits=2)`% of the variance in the genotypic data where age (numeric), education (ordinal), and sex (categorical) explains `r round(sum(regress.uptake.pls$r2_y)*100,digits=2)`% of the variance in the in the AV45 uptake data. Overall, AV45 brain data explains `r round(sum(big.plsrca.res$r2_y)*100,digits=2)`% of the variance in the genotypic data. With the adjusted data we can now perform our intended analyses. Although this analysis produced `r length(big.plsrca.res$d)` components (latent variables), we focus on just the first (`r round(big.plsrca.res$r2_y[1]*100,digits=2)`% of genotypic variance explained by AV45 brain data). 
+Because not all subjects have complete AV45 and genotypic data, the sample for this example is slightly smaller: $N=$ `r nrow(regress.uptake.pls$Y_residual)`. Ethnicity, race, and sex (all categorical) explains `r round(sum(regress.genes.drop.pls$r2_y)*100,digits=2)`% of the variance in the genotypic data where age (numeric), education (ordinal), and sex (categorical) together explain `r round(sum(regress.uptake.pls$r2_y)*100,digits=2)`% of the variance in the in the AV45 uptake data. Overall, AV45 brain data explains `r round(sum(big.plsrca.res$r2_y)*100,digits=2)`% of the variance in the genotypic data. With the adjusted data we can now perform our intended analyses. Although this analysis produced `r length(big.plsrca.res$d)` components (latent variables), we only focus on the first (`r round(big.plsrca.res$r2_y[1]*100,digits=2)`% of genotypic variance explained by AV45 brain data). 
 
 ```{r echo=F,results="asis",fig.height=8, out.width = ".8\\textwidth", results="asis", out.height=".8\\textheight", fig.align="center", fig.cap="\\label{fig:brain_genotypes_ex2} PLS-CA-R to predict genotypes from amyloid burden (\"AV45 uptake\"). The top figure (A) shows the latent variable scores for the observations on the first latent variable with group averages. The bottom figures (B) and (C) show the amyloid burden in cortical regions and the genotypes, respecively. In (A) we see a gradient from the Alzheimer's Disease (AD) group to the control (CON) group. Items above expected contribution to variance on the first LV are in purple.",fig.pos = "!hbtp"}
   par.opts <- par(no.readonly = T)
@@ -981,7 +972,7 @@ Because not all subjects have complete AV45 and genotypic data, the sample for t
 ```
 
 
-The first latent variable in Figure \ref{fig:brain_genotypes_ex2}a is associated with only the horizontal axes (Component 1) in Figure \ref{fig:brain_genotypes_ex2}b and c. The horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}b whereas the vertical axis in Fig. \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}c. The first latent variable (Figure \ref{fig:brain_genotypes_ex2}a) shows a gradient: from left to right we see the groups configured from CN to AD. On the first latent variable we do also see a group-level dissociation where AD+LMCI are entirely on one side whereas EMCI+SMC+CN are on the opposite side for both ${\bf L}_{\bf X}$ (AV45 uptake, horizontal) and ${\bf L}_{\bf Y}$ (genotypes, vertical); effectively the means of AD and LMCI exist in the upper right quadrant and the means of the EMCI, SMC, and CN groups exist in the lower left quadrant. Higher relative AV45 uptake for the regions on the left side of Component 1 are more associated with EMCI, SMC, and CN than with the other groups, whereas higher relative AV45 uptake for the regions on the right side of Component 1 are more associated with AD and LMCI (Fig. \ref{fig:brain_genotypes_ex2}b). The genotypes on the left side are associated with the uptake in regions on the left side; likewise the genotypes on the right side are associated with the uptake in regions on the right side (Fig. \ref{fig:brain_genotypes_ex2}c). For example, LV/Component 1 shows relative uptake in right and left frontal pole, rostral middle frontal, and medial orbitofrontal regions are more associated with the following genotypes: AA and AG from rs769449, GG from rs2075650, GG from rs4420638, and AA from rs157582, than with other genotypes; these effects are generally driven by the AD and LMCI groups. Conversely, LV/Component 1 shows higher relative uptake in right and left lingual, cuneus, as well left parahippocampal and left entorhinal are more associated with the following genotypes: TT from rs405697, GG from rs6859, TC+TT from rs7412, TT from rs2830076, GG from rs157580, and AA from rs4420638 genotypes than with other genotypes; these effects are generally driven by the CN, SMC, and EMCI cohorts. In summary, the PLS-CA-R results show that particular patterns of regional AV45 uptake predict particular genotypic patterns across many SNPs, and that the sources these effects are generally driven by the groups. Furthermore the underlying brain and genotypic effects of the groups exist along a spectrum of severity.  
+The first latent variable in Figure \ref{fig:brain_genotypes_ex2}a is only associated with the horizontal axes (Component 1) in Figure \ref{fig:brain_genotypes_ex2}b and c. The horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}b whereas the vertical axis in Fig. \ref{fig:brain_genotypes_ex2}a is associated with the horizontal axis in Fig. \ref{fig:brain_genotypes_ex2}c. The first latent variable (Figure \ref{fig:brain_genotypes_ex2}a) shows a gradient: from left to right we see the groups configured from CN to AD. On the first latent variable we do also see a group-level dissociation where AD+LMCI are entirely on one side whereas EMCI+SMC+CN are on the opposite side for both ${\bf L}_{\bf X}$ (AV45 uptake, horizontal) and ${\bf L}_{\bf Y}$ (genotypes, vertical). Higher relative AV45 uptake for the regions on the left side of Component 1 are more associated with EMCI, SMC, and CN than with the other groups, whereas higher relative AV45 uptake for the regions on the right side of Component 1 are more associated with AD and LMCI (Fig. \ref{fig:brain_genotypes_ex2}b). The genotypes on the left side are associated with the uptake in regions on the left side; likewise the genotypes on the right side are associated with the uptake in regions on the right side (Fig. \ref{fig:brain_genotypes_ex2}c). For example, LV/Component 1 shows relative uptake in right and left frontal pole, rostral middle frontal, and medial orbitofrontal regions are more associated with the following genotypes: AA and AG from rs769449, GG from rs2075650, GG from rs4420638, and AA from rs157582, than with other genotypes; these effects are generally driven by the AD and LMCI groups. Conversely, LV/Component 1 shows higher relative uptake in right and left lingual, cuneus, as well left parahippocampal and left entorhinal are more associated with the following genotypes: TT from rs405697, GG from rs6859, TC+TT from rs7412, TT from rs2830076, GG from rs157580, and AA from rs4420638 genotypes than with other genotypes; these effects are generally driven by the CN, SMC, and EMCI cohorts. In summary, the PLS-CA-R results show that particular patterns of regional AV45 uptake predict particular genotypic patterns across many SNPs, and that the sources these effects are generally driven by the groups. Furthermore the underlying brain and genotypic effects of the groups exist along a spectrum of severity.  
 
 
 # Discussion
@@ -993,9 +984,9 @@ Many modern studies, like ADNI, measure individuals with a variety of scales suc
 
 <!--  As a generalization of PLS-R, PLS-CA-R [[Needed transition]]. Because PLS-CA-R is a generalization of PLS-R, many of the standard inferential and stability approaches still apply, [[explain inference here and how the stndard approaches can be used and refer to typical papers]]. --> 
 
-While we focused on particular ways of coding and transforming data, there are many alternatives that could be used with PLS-CA-R. For example, we used a disjunctive approach for SNPs because they are categorical, which matches the genotypic model. However, through various disjunctive schemes, or other forms of Escofier or fuzzy coding, we could have used any genetic model: if all SNPs were coded as the major vs. the minor allele ('AA' vs. {'Aa+aa'}), this would be the dominant model, or we could have assumed the additive model ---i.e., 0, 1, 2 for 'AA', 'Aa', and 'aa', respectively---and transformed the data with the ordinal approach (but we strongly emphasize *not* the continuous approach). We previously provided a comprehensive guide on how to transform various SNP genetic models for use in PLS-CA and CA elsewhere [see Appendix of @beaton_partial_2016]. Furthermore, we only highlighted one of many possible methods to transform ordinal data. The term "fuzzy coding" applies more generally to the recoding of ordinal, ranked, preference, and even continuous data. The "fuzzy coding" approach is itself fuzzy, and includes a variety of transformation schemes, all of which conform to the same properties as disjunctive data. The many "fuzzy" and "doubling" coding schemes are generally found in @escofier_traitement_1979, @lebart_multivariate_1984, or @greenacrefuzzy. However, for ordinal data---especially with fewer than or equal to 10 levels, and without excessively rare ($\leq 1$%) occurences---we recommend to treat ordinal values as categorical levels. When ordinal data are treated as categorial (and disjunctively coded), greater detail about the levels emerges and in most cases reveal non-linear patterns of the ordinal levels.
+While we focused on particular ways of coding and transforming data, there are many alternatives that could be used with PLS-CA-R. For example, we used a disjunctive approach for SNPs because they are categorical---a pattern that matches the genotypic model. However, through various disjunctive schemes, or other forms of Escofier or fuzzy coding, we could have used any genetic model: if all SNPs were coded as the major vs. the minor allele ('AA' vs. {'Aa+aa'}), this would be the dominant model, or we could have assumed the additive model ---i.e., 0, 1, 2 for 'AA', 'Aa', and 'aa', respectively---and transformed the data with the ordinal approach (but *not* the continuous approach). We previously provided a comprehensive guide on how to transform various SNP genetic models for use in PLS-CA and CA elsewhere [see Appendix of @beaton_partial_2016]. Furthermore, we only highlighted one of many possible methods to transform ordinal data. The term "fuzzy coding" applies more generally to the recoding of ordinal, ranked, preference, or even continuous data. The "fuzzy coding" approach is itself fuzzy, and includes a variety of transformation schemes, all of which conform to the same properties as disjunctive data. The many "fuzzy" and "doubling" coding schemes are described in @escofier_traitement_1979, @lebart_multivariate_1984, or @greenacrefuzzy. However, for ordinal data---especially with fewer than or equal to 10 levels, and without excessively rare ($\leq 1$%) occurences---we recommend to treat ordinal values as categorical levels. When ordinal data are treated as categorical (and disjunctively coded), greater detail about the levels emerges and in most cases could reveal non-linear patterns of the ordinal levels.
 
-We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types. We designed PLS-CA-R as a mixed-data generalization of PLSR, which provides one strategy to identify latent variables and perform regression when standard assumptions are not met (e.g., HDLSS or high collinearity). PLS-CA-R---and GPLS---addresses the need of many fields that require \textit{data type general} methods across multi-source and multi-domain data sets where we require careful considerations about how we prepare and understand our data [@nguyen2019ten]. We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types all with respect to CA and the $\chi^2$ model. PLS-CA-R provides key features necessary for data analyses as data-rich and data-heavy disciplines and fields rapidly move towards and depend on fundamental techniques in machine and statistical learning (e.g., PLSR, CCA). Finally, with techniques such as mixed-data MFA [@becue-bertaut_multiple_2008], PLS-CA-R provides a much needed basis for development of future methods designed for such complex data sets.
+We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types. We designed PLS-CA-R as a mixed-data generalization of PLSR, which provides one strategy to identify latent variables and perform regression when standard assumptions are not met (e.g., "high dimensional low sample size" or high collinearity). PLS-CA-R---and GPLS---addresses the need of many fields that require \textit{data type general} methods across multi-source and multi-domain data sets where we require careful considerations about how we prepare and understand our data [@nguyen2019ten]. We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types all with respect to CA and the $\chi^2$ model. PLS-CA-R provides key features necessary for data analyses as data-rich and data-heavy disciplines and fields rapidly move towards and depend on fundamental techniques in machine and statistical learning (e.g., PLSR, CCA). Finally, with techniques such as mixed-data MFA [@becue-bertaut_multiple_2008], PLS-CA-R provides a much needed basis for development of future methods designed for such complex data sets.
 
 Finally, we want to remind the reader to see the Appendix. In the Appendix, we show (1) how PLS-CA-R generalizes most cross-decomposition techniques, (2) alternate PLS algorithms, (3) suggestions on alternate metrics, and finally (4) a ridge-like regularization approach that applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
 
