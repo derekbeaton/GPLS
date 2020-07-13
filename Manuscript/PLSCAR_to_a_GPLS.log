@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  6 JUL 2020 23:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7380 64-bit) (preloaded format=pdflatex 2020.3.30)  7 JUL 2020 23:57
 entering extended mode
 **./PLSCAR_to_a_GPLS.tex
 (PLSCAR_to_a_GPLS.tex
@@ -457,12 +457,7 @@ mtt/m/n/12 http : / / www . erasmus -[] epidemiology . nl/$[]\T1/cmr/m/n/12 ),
 col-lect pop-
  []
 
-[3]
-
-Package natbib Warning: Citation `wold_soft_1975' on page 4 undefined on input 
-line 171.
-
-[4]
+[3] [4]
 Overfull \hbox (13.969pt too wide) in paragraph at lines 213--213
 []\T1/cmr/bx/n/17.28 Partial least squares-correspondence analysis-regression 
  []
@@ -484,10 +479,6 @@ r/m/n/12 .
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Package natbib Warning: Citation `wold_soft_1975' on page 6 undefined on input 
-line 352.
-
 [6] [7] [8] [9] [10] [11] [12]
 Overfull \hbox (5.90051pt too wide) in paragraph at lines 675--688
 \T1/cmr/m/n/12 Data used in the prepa-ra-tion of this ar-ti-cle come from the A
@@ -495,10 +486,6 @@ DNI database (adni.loni.usc.edu).
  []
 
 [13] [14]
-
-Package natbib Warning: Citation `wold_soft_1975' on page 15 undefined on input
- line 765.
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -508,7 +495,7 @@ Overfull \hbox (21.18307pt too wide) in paragraph at lines 801--811
  []
 
 [16]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf, id=352, 433.62pt x 
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf, id=358, 433.62pt x 
 578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (t
 ype pdf)
@@ -519,7 +506,7 @@ pdf  used on input line 833.
 
 LaTeX Warning: Float too large for page by 28.71075pt on input line 838.
 
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf, id=362, 469.755pt x
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf, id=368, 469.755pt x
  578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (t
 ype pdf)
@@ -527,7 +514,7 @@ ype pdf)
 Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.
 pdf  used on input line 868.
 (pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf, id=363, 469.755pt x
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf, id=369, 469.755pt x
  578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (t
 ype pdf)
@@ -541,7 +528,7 @@ LaTeX Warning: Float too large for page by 7.6858pt on input line 882.
 [17] [18 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf>] [19 <./
 PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf>] [20 <./PLSCAR_to_a_
 GPLS_files/figure-latex/unnamed-chunk-6-1.pdf>] [21] [22]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf, id=460, 469.755pt x
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf, id=466, 469.755pt x
  578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (t
 ype pdf)
@@ -550,7 +537,7 @@ Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.
 pdf  used on input line 1021.
 (pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
 [23] [24 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf, id=495, 469.755pt 
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf, id=501, 469.755pt 
 x 578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (
 type pdf)
@@ -558,7 +545,7 @@ type pdf)
 Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1
 .pdf  used on input line 1078.
 (pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf, id=496, 469.755pt 
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf, id=502, 469.755pt 
 x 578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (
 type pdf)
@@ -571,7 +558,7 @@ LaTeX Warning: Float too large for page by 7.6858pt on input line 1092.
 
 [25] [26 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf>] [27 <.
 /PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf, id=533, 469.755pt 
+<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf, id=539, 469.755pt 
 x 578.16pt>
 File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (
 type pdf)
@@ -623,17 +610,17 @@ Package rerunfilecheck Info: File `PLSCAR_to_a_GPLS.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1279.
  ) 
 Here is how much of TeX's memory you used:
- 9861 strings out of 480897
- 152729 string characters out of 2908279
- 454277 words of memory out of 3000000
- 25402 multiletter control sequences out of 15000+200000
+ 9865 strings out of 480897
+ 152806 string characters out of 2908279
+ 454301 words of memory out of 3000000
+ 25405 multiletter control sequences out of 15000+200000
  553220 words of font info for 71 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,18n,48p,718b,530s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
 tcrm1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\ecbx1440.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts
+ec/dpi600\ecbx1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Derek\AppData\Local\MiKTeX\2.9\fonts
 /pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Derek\AppData\Local\MiKTeX
 \2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Derek\AppData\Lo
 cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Derek\
@@ -661,9 +648,9 @@ s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
 .9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
 /type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmsy8.pfb>
-Output written on PLSCAR_to_a_GPLS.pdf (39 pages, 1097136 bytes).
+Output written on PLSCAR_to_a_GPLS.pdf (39 pages, 1097953 bytes).
 PDF statistics:
- 1225 PDF objects out of 1440 (max. 8388607)
- 147 named destinations out of 1000 (max. 500000)
+ 1231 PDF objects out of 1440 (max. 8388607)
+ 148 named destinations out of 1000 (max. 500000)
  156 words of extra memory for PDF output out of 10000 (max. 10000000)
 
