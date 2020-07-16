@@ -50,7 +50,9 @@
 
 \if0\blind
 {
-  \title{\bf Appendix A}
+  \title{\bf Supplemental Material for `A generalization of partial least squares
+regression and correspondence analysis for categorical and mixed data:
+An application with the ADNI data'}
 
   \author{
         Derek Beaton \\
@@ -77,18 +79,25 @@ http://adni.loni.ucla.edu/wpcontent/uploads/how\_to\_apply/ADNI\_Acknowledgement
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf Appendix A}
+    {\LARGE\bf Supplemental Material for `A generalization of partial least squares
+regression and correspondence analysis for categorical and mixed data:
+An application with the ADNI data'}
   \end{center}
   \medskip
 } \fi
 
 \bigskip
 \begin{abstract}
-
+We provide supplemental material for partial least
+squares-correspondence analysis-regression (PLS-CA-R\_ that highlights
+how PLS-CA-R provides the baiss for generalization of numerous
+cross-decomposition methods (e.g., PLS, CCA, RRR) as well as ridge-like
+regularization. Here we provide additional material and explanations
+(e.g., algorithms) based on the formulation in the main text.
 \end{abstract}
 
 \noindent%
-{\it Keywords:} 
+{\it Keywords:} generalized partial least squares, canonical correlation analysis, reduced rank regression, ridge regularization, R package
 \vfill
 
 \newpage
@@ -306,7 +315,7 @@ Algorithm \ref{algo:plsc}.
 \Output{${\boldsymbol \Delta}$, ${\mathbf U}$, ${\mathbf V}$, ${\mathbf P}$, ${\mathbf Q}$, ${\mathbf F}_{J}$, ${\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$}
 \BlankLine
   $\mathrm{GPLSSVD(} {\mathbf M}_{\mathbf{X}}, {\mathbf Z}_{{\mathbf X}}, {\mathbf W}_{\mathbf{X}}, {\mathbf M}_{\mathbf{Y}}, {\mathbf Z}_{{\mathbf Y}}, {\mathbf W}_{\mathbf{Y}}, C \mathrm{)}$ \\
-\caption{Generalized PLS-correlation algorithm. GPLS-COR is the GPLSSVD and provides the basis of other GPLS techniques. Furthermore, GPLS-COR easily allows for a variety of optmizations for examples canonical correlation, reduced rank regression (redundancy analysis), and even ridge-like regularization.}
+\caption{Generalized PLS-correlation algorithm. GPLS-COR is the GPLSSVD and provides the basis of other GPLS techniques. Furthermore, GPLS-COR easily allows for a variety of optmizations for examples canonical correlation, reduced rank regression (redundancy analysis), and even ridge-like regularization, which then extend to the other GPLS algorithms (i.e., regression and canonical decompositions). Note that this is a truncated version of the algorithm and does not include all of the GPLSSVD outputs.}
 \label{algo:plsc}
 \end{algorithm}
 
@@ -406,7 +415,7 @@ Algorithm \ref{algo:plscar}.
   ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{-\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{-\frac{1}{2}}]$\\
   ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}(b{\mathbf t}_{\mathbf X}{\mathbf{v}}^{T}){\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}]$
 }
-\caption{Generalized PLS-regression algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$.}
+\caption{Generalized PLS-regression algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. Note that this is a truncated version of the algorithm and does not include all of the GPLSSVD outputs.}
 \label{algo:plscar}
 \end{algorithm}
 
@@ -456,7 +465,7 @@ is shown in Algorithm \ref{algo:plscacan}
   ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{-\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{-\frac{1}{2}}]$\\
    ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}({\mathbf t}_{\mathbf Y}\widehat{\mathbf v}^{T}){\mathbf W}_{\mathbf Y}^{-\frac{1}{2}}]$
 }
-\caption{Generalized PLS-canonical algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. Note that the deflation in GPLS-CAN differs from GPLS-REG in Algorithm \ref{algo:plscar}.}
+\caption{Generalized PLS-canonical algorithm. The results of a rank 1 GPLSSVD are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$. The deflation in GPLS-CAN is the same as in GPLS-REG in Algorithm \ref{algo:plscar}, but for both matrices. Note that this is a truncated version of the algorithm and does not include all of the GPLSSVD outputs.}
 \label{algo:plscacan}
 \end{algorithm}
 
@@ -620,6 +629,17 @@ parameters. Alternatively, if multiple \(\epsilon\)s were used, one
 could minimize the number of parameters to search and set some of the
 \(\epsilon\)s to 0 and, for example, use only one or two \(\epsilon\)
 values instead of four possible \(\epsilon\) values.
+
+\hypertarget{implementation-of-algorithms}{%
+\subsection{Implementation of
+algorithms}\label{implementation-of-algorithms}}
+
+We provide an \texttt{R} package that implements all of the algorithms,
+with the cross-decomposition variations here:
+\url{https://github.com/derekbeaton/gpls}. This package provides direct
+interfaces to PLS-COR, PLS-REG, PLS-CAN, CCA, RRR, and PLS-CA-COR,
+PLS-CA-REG, and PLS-CA-CAN, as well as the generalized PLS approaches as
+outlined above.
 
 \hypertarget{further-extensions-of-pls-ca-r-and-gplssvd}{%
 \section{Further extensions of PLS-CA-R and

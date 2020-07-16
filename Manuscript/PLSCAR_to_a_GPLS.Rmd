@@ -24,7 +24,7 @@ keywords:
 - latent models
 - genetics
 - neuroimaging
-- canonical correlation analysis
+- heterogeneous data
 
 abstract: |
   Current large scale studies of brain
@@ -197,7 +197,7 @@ and 3) reveal latent variables
 within a well-established framework. 
 
 
-In addition, we provide an appendix that shows
+In addition, we provide a Supplemental section that shows
 how PLS-CA-R provides the basis for further generalizations. 
 These include different optimization schemes 
 (e.g., covariance as in PLS or correlation 
@@ -297,7 +297,7 @@ where ${\mathbf X}$ is of rank $A$
 and ${\boldsymbol \Delta}$ is the $A \times A$ 
 diagonal matrix of the singular values,
 ${\boldsymbol \Lambda} = {\boldsymbol \Delta}^2$ 
-is the $A \times A$ diagonal matrix of the eigenvalues, and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* singular vectors. We compute singular vectors as ${\mathbf U} = {\mathbf M}^{\frac{1}{2}}{\mathbf P}$ and ${\mathbf V} = {\mathbf W}^{\frac{1}{2}}{\mathbf Q}$, where ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. For convenience, the GSVD is presented as a "triplet" with the row metric (weights), data, and column metric (weights) as $\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}$. We present the GSVD triplet here in slightly different way than it is typically presented [see, e.g., @holmes_multivariate_2008]. Our presentation of the GSVD reflects the multiplication steps taken before decomposition (see our Appendix).
+is the $A \times A$ diagonal matrix of the eigenvalues, and ${\mathbf P}$ and ${\mathbf Q}$ are the *generalized* singular vectors. We compute singular vectors as ${\mathbf U} = {\mathbf M}^{\frac{1}{2}}{\mathbf P}$ and ${\mathbf V} = {\mathbf W}^{\frac{1}{2}}{\mathbf Q}$, where ${\mathbf U}^{T}{\mathbf U} = {\mathbf I} = {\mathbf V}^{T}{\mathbf V}$. From the weights, generalized singular vectors, and singular values we can obtain component (a.k.a. factor) scores as ${\mathbf F}_{I} = {\mathbf M}{\mathbf P}{\boldsymbol \Delta}$ and ${\mathbf F}_{J} = {\mathbf W}{\mathbf Q}{\boldsymbol \Delta}$ for the $I$ rows and $J$ columns of ${\mathbf X}$, respectively. For convenience, the GSVD is presented as a "triplet" with the row metric (weights), data, and column metric (weights) as $\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}$. We present the GSVD triplet here in slightly different way than it is typically presented [see, e.g., @holmes_multivariate_2008]. Our presentation of the GSVD reflects the multiplication steps taken before decomposition (see our Supplmental Material).
 
 
 Correspondence analysis (CA) is a technique akin to principal components analysis (PCA)---originally designed for the analysis of contingency tables---and analyzes deviations to independence. See @greenacre_theory_1984, @greenacre_correspondence_2010-1, and @lebart_multivariate_1984 for detailed explanations of CA, and then see @escofier-cordier_analyse_1965 and @benzecri_analyse_1973 for the origins and early developments of CA. CA analyzes an $I \times J$ matrix ${\mathbf X}$ whose entries are all non-negative. CA is performed with the GSVD as follows. 
@@ -356,7 +356,7 @@ PLS regression [@wold1975soft;
 @wold_collinearity_1984; @wold_pls-regression_2001] decomposition is an asymmetric and iterative algorithm to find latent variables (a.k.a. components) from a set of predictors from ${\bf X}$ that best explain responses ${\bf Y}$. PLS-R is asymmetric one data table is privileged (i.e., treated as predictors). PLS-R methods simultaneously decompose ${\bf X}$ and ${\bf Y}$, generally, through an iterative algorithm. For each iteration, we identify the maximum covariance between ${\bf X}$ and ${\bf Y}$, and then deflate each matrix. 
 
 Here we present the PLS-CA-R approach which generalizes PLS-R for multiple correspondence analysis (MCA) and correspondence analysis (CA)-like methods 
-that generally apply to categorical (nominal) data. Our formulation of PLS-CA-R provides the basis for generalizations to various data types (e.g., categorical, ordinal, continuous, contingency), as well as different techniques, optimizations, and algorithms (see the Appendix for more details).
+that generally apply to categorical (nominal) data. Our formulation of PLS-CA-R provides the basis for generalizations to various data types (e.g., categorical, ordinal, continuous, contingency), as well as different techniques, optimizations, and algorithms (see the Supplemental Material for more details).
 
 For simplicity assume in the following formulation that ${\mathbf X}$ and ${\mathbf Y}$ are both complete disjunctive tables as seen in Table \ref{table:disj} (see SEX columns) or Table \ref{table:snps_models_disj}. This formulation also applies generally to non-negative data (see later sections). We define observed matrices for ${\mathbf X}$ and ${\mathbf Y}$ as
 
@@ -493,14 +493,14 @@ Typically, ${\mathbf E}_{\mathbf Y}$ is derived the data (as noted in Eq. \ref{e
 
 ## Concluding remarks
 
-Now that we have formalized PLS-CA-R, we want to point out small variations, some caveats, and some additional features. We also briefly discuss here---but show in the Appendix---how PLS-CA-R provides the basis for numerous variations and broader generalizations.
+Now that we have formalized PLS-CA-R, we want to point out small variations, some caveats, and some additional features. We also briefly discuss here---but show in the Supplemental Material---how PLS-CA-R provides the basis for numerous variations and broader generalizations.
 
 In PLS-CA-R (and PLS-R) each subsequent $\widetilde{\delta}$ is not guaranteed to be smaller than the previous, with the exception that all $\widetilde \delta$ are smaller than the first. This is a by-product of the iterative process and the deflation step. This problem poses two issues: (1) visualization of component scores and (2) explained variance. For visualization of the component scores---which use $\widetilde \delta$---there is an alternative computation: ${\mathbf F}^{'}_{J} = {\mathbf W}_{J}^{-1}\widetilde{\mathbf P}$ and ${\mathbf F}^{'}_{K} = {\mathbf W}_{K}^{-1}\widetilde{\mathbf Q}$. This alternative is referred to as "asymmetric component scores" in the correspondence analysis literature [@abdi2014correspondence; @greenacre1993biplots]. Additionally, instead of computing the variance per component or latent variable, we can instead compute the amount of variance explained by each component in $\mathbf X$ and $\mathbf Y$. To do so we require the sum of the eigenvalues of each of the respective matrices per iteration via CA (with the GSVD). Before the first iteration of PLS-CA-R we obtain the full variance (i.e., the sum of the eigenvalues) of each matrix from $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}$ and $\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}$, which we respectively refer to as ${\phi}_{\bf X}$ and ${\phi}_{\bf Y}$ We can compute the sum of the eigenvalues for each deflated version of ${\mathbf Z}_{\mathbf X}$ and ${\mathbf Z}_{\mathbf Y}$ through the GSVD just as above, referred to as ${\phi}_{{\bf X},c}$ and ${\phi}_{{\bf Y},c}$. For each $c$ component the proportion of explained variance for each matrix is $\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}$ and $\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}$.
 
 
 In our formulation, the weights we use are derived from the $\chi^2$ assumption of independence. However nearly any choices of weights could be used, so long as the weight matrices are at least positive semi-definite (which requires the use of a generalized inverse). If alternate row weights (i.e., ${\mathbf M}_{\mathbf X}$ or ${\mathbf M}_{\mathbf Y}$) were chosen, then the fitted values and residuals are no longer guaranteed to be orthogonal (the same condition is true in weighted OLS).  
 
-PLS-CA-R provides an important basis for various extensions. We can use different PLS algorithms in addition to Algorithm \ref{algo:plscar}, for examples, the PLS-SVD and canonical PLS algorithms. Our formulation of PLS-CA-R provides the basis for, and leads to a more generalized approach for other cross-decomposition techniques or optimizations (e.g., canonical correlation, reduced rank regression). This basis also allows for the use of alternate metrics as well as ridge-like regularization. We show how PLS-CA-R leads to these generalizations in the Appendix.
+PLS-CA-R provides an important basis for various extensions. We can use different PLS algorithms in addition to Algorithm \ref{algo:plscar}, for examples, the PLS-SVD and canonical PLS algorithms. Our formulation of PLS-CA-R provides the basis for, and leads to a more generalized approach for other cross-decomposition techniques or optimizations (e.g., canonical correlation, reduced rank regression). This basis also allows for the use of alternate metrics as well as ridge-like regularization. We show how PLS-CA-R leads to these generalizations in the Supplemental Material.
 
 Though we formalized PLS-CA-R as a method for categorical (nominal) data coded in complete disjunctive format (as seen in Table \ref{table:disj}---see SEX columns---or Table \ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various data types without loss of information. Specifically, both continuous and ordinal data can be handled with relative ease and in a "pseudo-disjunctive" format, also referred to as "fuzzy coding" where complete disjunctive would be a "crisp coding" [@greenacrefuzzy]. We explain exactly how to handle various data types as Section \ref{section:appex} progresses, which reflects more "real world" problems: complex, mixed data types, and multi-source data.
 
@@ -988,7 +988,9 @@ While we focused on particular ways of coding and transforming data, there are m
 
 We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types. We designed PLS-CA-R as a mixed-data generalization of PLSR, which provides one strategy to identify latent variables and perform regression when standard assumptions are not met (e.g., "high dimensional low sample size" or high collinearity). PLS-CA-R---and GPLS---addresses the need of many fields that require \textit{data type general} methods across multi-source and multi-domain data sets where we require careful considerations about how we prepare and understand our data [@nguyen2019ten]. We introduced PLS-CA-R in a way that emphasizes various recoding schemes to accomodate different data types all with respect to CA and the $\chi^2$ model. PLS-CA-R provides key features necessary for data analyses as data-rich and data-heavy disciplines and fields rapidly move towards and depend on fundamental techniques in machine and statistical learning (e.g., PLSR, CCA). Finally, with techniques such as mixed-data MFA [@becue-bertaut_multiple_2008], PLS-CA-R provides a much needed basis for development of future methods designed for such complex data sets.
 
-Finally, we want to remind the reader to see the Appendix. In the Appendix, we show (1) how PLS-CA-R generalizes most cross-decomposition techniques, (2) alternate PLS algorithms, (3) suggestions on alternate metrics, and finally (4) a ridge-like regularization approach that applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
+We provide an `R` package with data, documentation, and examples that implements PLS-CA-R (and other cross-decomposition methods) here: https://github.com/derekbeaton/gpls.
+
+Finally, we want to remind the reader to see the Supplemental Material, where we show (1) how PLS-CA-R generalizes most cross-decomposition techniques, (2) alternate PLS algorithms, (3) suggestions on alternate metrics, and finally (4) a ridge-like regularization approach that applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
 
 ## Acknowledgements
 

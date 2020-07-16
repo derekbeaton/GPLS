@@ -105,7 +105,7 @@ approaches, canonical correlation analysis, and redundancy analysis
 \end{abstract}
 
 \noindent%
-{\it Keywords:} generalized singular value decomposition, latent models, genetics, neuroimaging, canonical correlation analysis
+{\it Keywords:} generalized singular value decomposition, latent models, genetics, neuroimaging, heterogeneous data
 \vfill
 
 \newpage
@@ -190,13 +190,13 @@ framework, 2) regress out (i.e., residualize) effects of mixed and
 collinear data, and 3) reveal latent variables within a well-established
 framework.
 
-In addition, we provide an appendix that shows how PLS-CA-R provides the
-basis for further generalizations. These include different optimization
-schemes (e.g., covariance as in PLS or correlation as in canonical
-correlation), transformations for alternate metrics, ridge-like
-regularization, and three types of PLS algorithms (regression,
-correlation, and canonical). We also provide an R package and examples
-at \url{https://github.com/derekbeaton/gpls}.
+In addition, we provide a Supplemental section that shows how PLS-CA-R
+provides the basis for further generalizations. These include different
+optimization schemes (e.g., covariance as in PLS or correlation as in
+canonical correlation), transformations for alternate metrics,
+ridge-like regularization, and three types of PLS algorithms
+(regression, correlation, and canonical). We also provide an R package
+and examples at \url{https://github.com/derekbeaton/gpls}.
 
 This paper is organized as follows. In Section \ref{section:PLSCAR} we
 introduce PLS-CA-R. Next, in Section \ref{section:appex}, we illustrate
@@ -290,7 +290,7 @@ convenience, the GSVD is presented as a ``triplet'' with the row metric
 present the GSVD triplet here in slightly different way than it is
 typically presented \citep[see, e.g.,][]{holmes_multivariate_2008}. Our
 presentation of the GSVD reflects the multiplication steps taken before
-decomposition (see our Appendix).
+decomposition (see our Supplmental Material).
 
 Correspondence analysis (CA) is a technique akin to principal components
 analysis (PCA)---originally designed for the analysis of contingency
@@ -365,7 +365,7 @@ multiple correspondence analysis (MCA) and correspondence analysis
 Our formulation of PLS-CA-R provides the basis for generalizations to
 various data types (e.g., categorical, ordinal, continuous,
 contingency), as well as different techniques, optimizations, and
-algorithms (see the Appendix for more details).
+algorithms (see the Supplemental Material for more details).
 
 For simplicity assume in the following formulation that \({\mathbf X}\)
 and \({\mathbf Y}\) are both complete disjunctive tables as seen in
@@ -580,8 +580,8 @@ versions of \({\mathbf X}\) as well.
 
 Now that we have formalized PLS-CA-R, we want to point out small
 variations, some caveats, and some additional features. We also briefly
-discuss here---but show in the Appendix---how PLS-CA-R provides the
-basis for numerous variations and broader generalizations.
+discuss here---but show in the Supplemental Material---how PLS-CA-R
+provides the basis for numerous variations and broader generalizations.
 
 In PLS-CA-R (and PLS-R) each subsequent \(\widetilde{\delta}\) is not
 guaranteed to be smaller than the previous, with the exception that all
@@ -630,7 +630,7 @@ approach for other cross-decomposition techniques or optimizations
 (e.g., canonical correlation, reduced rank regression). This basis also
 allows for the use of alternate metrics as well as ridge-like
 regularization. We show how PLS-CA-R leads to these generalizations in
-the Appendix.
+the Supplemental Material.
 
 Though we formalized PLS-CA-R as a method for categorical (nominal) data
 coded in complete disjunctive format (as seen in Table
@@ -1238,8 +1238,12 @@ CCA). Finally, with techniques such as mixed-data MFA
 basis for development of future methods designed for such complex data
 sets.
 
-Finally, we want to remind the reader to see the Appendix. In the
-Appendix, we show (1) how PLS-CA-R generalizes most cross-decomposition
+We provide an \texttt{R} package with data, documentation, and examples
+that implements PLS-CA-R (and other cross-decomposition methods) here:
+\url{https://github.com/derekbeaton/gpls}.
+
+Finally, we want to remind the reader to see the Supplemental Material,
+where we show (1) how PLS-CA-R generalizes most cross-decomposition
 techniques, (2) alternate PLS algorithms, (3) suggestions on alternate
 metrics, and finally (4) a ridge-like regularization approach that
 applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
