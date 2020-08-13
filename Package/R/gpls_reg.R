@@ -212,7 +212,7 @@ gpls_reg <- function(X, Y,
   }
 
 
-  Y_reconstructed <- GSVD::invsqrt_psd_matrix(YLW) %*% (tx %*% diag(betas) %*% t(v)) %*% GSVD::invsqrt_psd_matrix(YRW)
+  Y_reconstructed <- GSVD::invsqrt_psd_matrix(YLW) %*% (tx %*% diag(betas,length(betas),length(betas)) %*% t(v)) %*% GSVD::invsqrt_psd_matrix(YRW)
     Y_reconstructed[abs(Y_reconstructed) < tol] <- 0
   Y_residual <- Y - Y_reconstructed
 
