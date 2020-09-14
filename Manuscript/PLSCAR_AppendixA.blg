@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2020/W32TeX)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: PLSCAR_AppendixA.aux
+The style file: agsm.bst
+Database file #1: plscar.bib
+Warning--empty publisher in borga_unified_1992
+You've used 42 entries,
+            2909 wiz_defined-function locations,
+            913 strings with 14381 characters,
+and the built_in function-call counts, 226119 in all, are:
+= -- 37089
+> -- 3122
+< -- 0
++ -- 18047
+- -- 961
+* -- 20070
+:= -- 44519
+add.period$ -- 46
+call.type$ -- 42
+change.case$ -- 586
+chr.to.int$ -- 42
+cite$ -- 43
+duplicate$ -- 710
+empty$ -- 1472
+format.name$ -- 1099
+if$ -- 40654
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 44
+newline$ -- 150
+num.names$ -- 446
+pop$ -- 140
+preamble$ -- 1
+purify$ -- 630
+quote$ -- 0
+skip$ -- 602
+stack$ -- 0
+substring$ -- 53160
+swap$ -- 150
+text.length$ -- 588
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 164
+warning$ -- 1
+while$ -- 953
+width$ -- 0
+write$ -- 583
+(There was 1 warning)

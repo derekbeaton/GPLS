@@ -1,0 +1,287 @@
+\begin{thebibliography}{xx}
+
+\harvarditem{Abdi}{2010}{abdi_partial_2010-1}
+Abdi, H.  \harvardyearleft 2010\harvardyearright , `Partial least squares
+  regression and projection on latent structure regression ({PLS}
+  {Regression})', {\em Wiley Interdisciplinary Reviews: Computational
+  Statistics} {\bf 2}(1),~97--106.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/wics.51}
+
+\harvarditem[Abdi et~al.]{Abdi, Guillemot, Eslami \harvardand\
+  Beaton}{2017}{abdi2017canonical}
+Abdi, H., Guillemot, V., Eslami, A. \harvardand\ Beaton, D.  \harvardyearleft
+  2017\harvardyearright , `Canonical correlation analysis', {\em Encyclopedia
+  of Social Network Analysis and Mining} pp.~1--16.
+\newblock Springer.
+
+\harvarditem{Allen}{2013}{allen_sparse_2013}
+Allen, G.~I.  \harvardyearleft 2013\harvardyearright , `Sparse and {Functional}
+  {Principal} {Components} {Analysis}', {\em arXiv:1309.2895 [stat]} .
+\newblock arXiv: 1309.2895.
+\newline\harvardurl{http://arxiv.org/abs/1309.2895}
+
+\harvarditem[Allen et~al.]{Allen, Grosenick \harvardand\
+  Taylor}{2014}{allen_generalized_2014}
+Allen, G.~I., Grosenick, L. \harvardand\ Taylor, J.  \harvardyearleft
+  2014\harvardyearright , `A {Generalized} {Least}-{Square} {Matrix}
+  {Decomposition}', {\em Journal of the American Statistical Association} {\bf
+  109}(505),~145--159.
+\newline\harvardurl{http://dx.doi.org/10.1080/01621459.2013.852978}
+
+\harvarditem[Beaton et~al.]{Beaton, Dunlop, Abdi \harvardand\ {Alzheimer’s
+  Disease Neuroimaging Initiative}}{2016}{beaton_partial_2016}
+Beaton, D., Dunlop, J., Abdi, H. \harvardand\ {Alzheimer’s Disease
+  Neuroimaging Initiative}  \harvardyearleft 2016\harvardyearright , `Partial
+  {Least} {Squares} {Correspondence} {Analysis}: {A} {Framework} to
+  {Simultaneously} {Analyze} {Behavioral} and {Genetic} {Data}', {\em
+  Psychological Methods} {\bf 21}(4),~621--651.
+
+\harvarditem[Berry et~al.]{Berry, Johnston \harvardand\
+  Mielke}{2011}{berry_permutation_2011}
+Berry, K.~J., Johnston, J.~E. \harvardand\ Mielke, P.~W.  \harvardyearleft
+  2011\harvardyearright , `Permutation methods', {\em Wiley Interdisciplinary
+  Reviews: Computational Statistics} {\bf 3},~527--542.
+\newline\harvardurl{http://wires.wiley.com/WileyCDA/WiresArticle/wisId-WICS177.html}
+
+\harvarditem{Bookstein}{1994}{bookstein1994partial}
+Bookstein, F.~L.  \harvardyearleft 1994\harvardyearright , `Partial least
+  squares: A dose-response model for measurement in the behavioral and brain
+  sciences.', {\em Psycoloquy} .
+
+\harvarditem[Borga et~al.]{Borga, Landelius \harvardand\
+  Knutsson}{1992}{borga_unified_1992}
+Borga, M., Landelius, T. \harvardand\ Knutsson, H.  \harvardyearleft
+  1992\harvardyearright , {\em A {Unified} {Approach} to {PCA}, {PLS}, {MLR}
+  and {CCA}}.
+
+\harvarditem[de~Micheaux et~al.]{de~Micheaux, Liquet, Sutton
+  et~al.}{2019}{de2019pls}
+de~Micheaux, P.~L., Liquet, B., Sutton, M. et~al.  \harvardyearleft
+  2019\harvardyearright , `Pls for big data: A unified parallel algorithm for
+  regularised group pls', {\em Statistics Surveys} {\bf 13},~119--149.
+
+\harvarditem{Dolédec \harvardand\ Chessel}{1994}{doledec1994}
+Dolédec, S. \harvardand\ Chessel, D.  \harvardyearleft 1994\harvardyearright ,
+  `Co-inertia analysis: an alternative method for studying species-environment
+  relationships', {\em Freshwater Biology} {\bf 31},~177--194.
+
+\harvarditem{Dray}{2014}{dray2014}
+Dray, S.  \harvardyearleft 2014\harvardyearright , Analysing a pair of tables:
+  Coinertia analysis and duality diagrams, {\em in} J.~Blasius \harvardand\
+  G.~M, eds, `Visualization and Verbalization of Data', CRC Press, Boca Raton,
+  pp.~289--300.
+
+\harvarditem{D’Ambra \harvardand\ Lauro}{1992}{d1992non}
+D’Ambra, L. \harvardand\ Lauro, N.~C.  \harvardyearleft 1992\harvardyearright
+  , `Non symmetrical exploratory data analysis', {\em Statistica Applicata}
+  {\bf 4}(4),~511--529.
+
+\harvarditem{Escofier}{1978}{escofier1978analyse}
+Escofier, B.  \harvardyearleft 1978\harvardyearright , `Analyse factorielle et
+  distances r{\'e}pondant au principe d'{\'e}quivalence distributionnelle',
+  {\em Revue de statistique appliqu{\'e}e} {\bf 26}(4),~29--37.
+
+\harvarditem{Greenacre}{2009}{greenacre2009power}
+Greenacre, M.  \harvardyearleft 2009\harvardyearright , `Power transformations
+  in correspondence analysis', {\em Computational Statistics \& Data Analysis}
+  {\bf 53}(8),~3107--3116.
+
+\harvarditem[Guillemot et~al.]{Guillemot, Beaton, Gloaguen, Löfstedt, Levine,
+  Raymond, Tenenhaus \harvardand\ Abdi}{2019}{guillemot2019constrained}
+Guillemot, V., Beaton, D., Gloaguen, A., Löfstedt, T., Levine, B., Raymond,
+  N., Tenenhaus, A. \harvardand\ Abdi, H.  \harvardyearleft
+  2019\harvardyearright , `A constrained singular value decomposition method
+  that integrates sparsity and orthogonality', {\em PloS one} {\bf
+  14}(3),~e0211463.
+
+\harvarditem[Indahl et~al.]{Indahl, Liland \harvardand\
+  N{\ae}s}{2009}{indahl2009canonical}
+Indahl, U.~G., Liland, K.~H. \harvardand\ N{\ae}s, T.  \harvardyearleft
+  2009\harvardyearright , `Canonical partial least squares—a unified pls
+  approach to classification and regression problems', {\em Journal of
+  Chemometrics: A Journal of the Chemometrics Society} {\bf 23}(9),~495--504.
+
+\harvarditem[Ketterlinus et~al.]{Ketterlinus, Bookstein, Sampson \harvardand\
+  Lamb}{1989}{ketterlinus1989partial}
+Ketterlinus, R.~D., Bookstein, F.~L., Sampson, P.~D. \harvardand\ Lamb, M.~E.
+  \harvardyearleft 1989\harvardyearright , `Partial least squares analysis in
+  developmental psychopathology', {\em Development and Psychopathology} {\bf
+  1}(4),~351--371.
+
+\harvarditem[Kovacevic et~al.]{Kovacevic, Abdi, Beaton \harvardand\
+  McIntosh}{2013}{kovacevic2013revisiting}
+Kovacevic, N., Abdi, H., Beaton, D. \harvardand\ McIntosh, A.~R.
+  \harvardyearleft 2013\harvardyearright , Revisiting pls resampling: comparing
+  significance versus reliability across range of simulations, {\em in} `New
+  Perspectives in Partial Least Squares and Related Methods', Springer,
+  pp.~159--170.
+
+\harvarditem[Krishnan et~al.]{Krishnan, Williams, McIntosh \harvardand\
+  Abdi}{2011}{krishnan_partial_2011}
+Krishnan, A., Williams, L.~J., McIntosh, A.~R. \harvardand\ Abdi, H.
+  \harvardyearleft 2011\harvardyearright , `Partial {Least} {Squares} ({PLS})
+  methods for neuroimaging: {A} tutorial and review', {\em NeuroImage} {\bf
+  56}(2),~455 -- 475.
+\newblock Multivariate Decoding and Brain Reading.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S1053811910010074}
+
+\harvarditem{Kroonenberg \harvardand\
+  Lombardo}{1999}{kroonenberg1999nonsymmetric}
+Kroonenberg, P.~M. \harvardand\ Lombardo, R.  \harvardyearleft
+  1999\harvardyearright , `Nonsymmetric correspondence analysis: A tool for
+  analysing contingency tableswith a dependence structure', {\em Multivariate
+  Behavioral Research} {\bf 34}(3),~367--396.
+
+\harvarditem[Kvalheim et~al.]{Kvalheim, Grung \harvardand\
+  Rajalahti}{2019}{kvalheim_number_2019}
+Kvalheim, O.~M., Grung, B. \harvardand\ Rajalahti, T.  \harvardyearleft
+  2019\harvardyearright , `Number of components and prediction error in partial
+  least squares regression determined by {Monte} {Carlo} resampling
+  strategies', {\em Chemometrics and Intelligent Laboratory Systems} .
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S0169743918307056}
+
+\harvarditem[Le~Floch et~al.]{Le~Floch, Guillemot, Frouin, Pinel, Lalanne,
+  Trinchera, Tenenhaus, Moreno, Zilbovicius, Bourgeron, Dehaene, Thirion,
+  Poline \harvardand\ Duchesnay}{2012}{le_floch_significant_2012-1}
+Le~Floch, E., Guillemot, V., Frouin, V., Pinel, P., Lalanne, C., Trinchera, L.,
+  Tenenhaus, A., Moreno, A., Zilbovicius, M., Bourgeron, T., Dehaene, S.,
+  Thirion, B., Poline, J.-B. \harvardand\ Duchesnay, E.  \harvardyearleft
+  2012\harvardyearright , `Significant correlation between a set of genetic
+  polymorphisms and a functional brain network revealed by feature selection
+  and sparse {Partial} {Least} {Squares}', {\em NeuroImage} {\bf
+  63}(1),~11--24.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S1053811912006775}
+
+\harvarditem[McIntosh et~al.]{McIntosh, Bookstein, Haxby \harvardand\
+  Grady}{1996}{mcintosh_spatial_1996}
+McIntosh, A., Bookstein, F., Haxby, J. \harvardand\ Grady, C.  \harvardyearleft
+  1996\harvardyearright , `Spatial {Pattern} {Analysis} of {Functional} {Brain}
+  {Images} {Using} {Partial} {Least} {Squares}', {\em NeuroImage} {\bf
+  3}(3),~143--157.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S1053811996900166}
+
+\harvarditem{McIntosh \harvardand\ Lobaugh}{2004}{mcintosh_partial_2004}
+McIntosh, A.~R. \harvardand\ Lobaugh, N.~J.  \harvardyearleft
+  2004\harvardyearright , `Partial least squares analysis of neuroimaging data:
+  applications and advances', {\em Neuroimage} {\bf 23},~S250--S263.
+
+\harvarditem{Rao}{1995}{rao1995review}
+Rao, C.~R.  \harvardyearleft 1995\harvardyearright , `A review of canonical
+  coordinates and an alternative to correspondence analysis using {Hellinger}
+  distance', {\em Qüestiió: quaderns d'estadística i investigació
+  operativa} {\bf 19}(1).
+
+\harvarditem[Rodríguez-Pérez et~al.]{Rodríguez-Pérez, Fernández
+  \harvardand\ Marco}{2018}{rodriguez-perez_overoptimism_2018}
+Rodríguez-Pérez, R., Fernández, L. \harvardand\ Marco, S.  \harvardyearleft
+  2018\harvardyearright , `Overoptimism in cross-validation when using partial
+  least squares-discriminant analysis for omics data: a systematic study', {\em
+  Analytical and Bioanalytical Chemistry} {\bf 410}(23),~5981--5992.
+\newline\harvardurl{https://doi.org/10.1007/s00216-018-1217-1}
+
+\harvarditem[Strother et~al.]{Strother, Anderson, Hansen, Kjems, Kustra,
+  Sidtis, Frutiger, Muley, LaConte \harvardand\
+  Rottenberg}{2002}{strother_quantitative_2002-1}
+Strother, S.~C., Anderson, J., Hansen, L.~K., Kjems, U., Kustra, R., Sidtis,
+  J., Frutiger, S., Muley, S., LaConte, S. \harvardand\ Rottenberg, D.
+  \harvardyearleft 2002\harvardyearright , `The {Quantitative} {Evaluation} of
+  {Functional} {Neuroimaging} {Experiments}: {The} {NPAIRS} {Data} {Analysis}
+  {Framework}', {\em NeuroImage} {\bf 15}(4),~747--771.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S1053811901910341}
+
+\harvarditem[Strother et~al.]{Strother, La~Conte, Hansen, Anderson, Zhang,
+  Pulapura \harvardand\ Rottenberg}{2004}{strother2004optimizing}
+Strother, S., La~Conte, S., Hansen, L.~K., Anderson, J., Zhang, J., Pulapura,
+  S. \harvardand\ Rottenberg, D.  \harvardyearleft 2004\harvardyearright ,
+  `Optimizing the fmri data-processing pipeline using prediction and
+  reproducibility performance metrics: I. a preliminary group analysis', {\em
+  Neuroimage} {\bf 23},~S196--S207.
+
+\harvarditem[Sutton et~al.]{Sutton, Thiébaut \harvardand\
+  Liquet}{2018}{sutton_sparse_2018}
+Sutton, M., Thiébaut, R. \harvardand\ Liquet, B.  \harvardyearleft
+  2018\harvardyearright , `Sparse partial least squares with group and subgroup
+  structure', {\em Statistics in Medicine} {\bf 37}(23),~3338--3356.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.7821}
+
+\harvarditem{Takane \harvardand\ Hwang}{2006}{takane_regularized_2006}
+Takane, Y. \harvardand\ Hwang, H.  \harvardyearleft 2006\harvardyearright ,
+  `Regularized multiple correspondence analysis', {\em Multiple correspondence
+  analysis and related methods} pp.~259--279.
+
+\harvarditem{Takane \harvardand\ Jung}{2009}{takane_regularized_2009-1}
+Takane, Y. \harvardand\ Jung, S.  \harvardyearleft 2009\harvardyearright ,
+  `Regularized nonsymmetric correspondence analysis', {\em Computational
+  Statistics \& Data Analysis} {\bf 53}(8),~3159--3170.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S0167947308004313}
+
+\harvarditem[Takane et~al.]{Takane, Yanai \harvardand\
+  Mayekawa}{1991}{takane1991relationships}
+Takane, Y., Yanai, H. \harvardand\ Mayekawa, S.  \harvardyearleft
+  1991\harvardyearright , `Relationships among several methods of linearly
+  constrained correspondence analysis', {\em Psychometrika} {\bf
+  56}(4),~667--684.
+
+\harvarditem[Tenenhaus et~al.]{Tenenhaus, Philippe, Guillemot, Cao, Grill
+  \harvardand\ Frouin}{2014}{tenenhaus_variable_2014}
+Tenenhaus, A., Philippe, C., Guillemot, V., Cao, K.-A.~L., Grill, J.
+  \harvardand\ Frouin, V.  \harvardyearleft 2014\harvardyearright , `Variable
+  selection for generalized canonical correlation analysis', {\em
+  Biostatistics} p.~kxu001.
+\newline\harvardurl{http://biostatistics.oxfordjournals.org/content/early/2014/02/17/biostatistics.kxu001}
+
+\harvarditem{Tenenhaus \harvardand\
+  Tenenhaus}{2011}{tenenhaus_regularized_2011}
+Tenenhaus, A. \harvardand\ Tenenhaus, M.  \harvardyearleft
+  2011\harvardyearright , `Regularized {Generalized} {Canonical} {Correlation}
+  {Analysis}', {\em Psychometrika} {\bf 76}(2),~257--284.
+\newline\harvardurl{http://www.springerlink.com/content/8r17621w56k3025w/abstract/}
+
+\harvarditem{Tenenhaus}{1998}{tenenhaus_regression_1998}
+Tenenhaus, M.  \harvardyearleft 1998\harvardyearright , {\em La régression
+  {PLS}: théorie et pratique}, Editions TECHNIP.
+
+\harvarditem{Tucker}{1958}{tucker_inter-battery_1958}
+Tucker, L.~R.  \harvardyearleft 1958\harvardyearright , `An inter-battery
+  method of factor analysis', {\em Psychometrika} {\bf 23}(2),~111--136.
+\newline\harvardurl{http://www.springerlink.com/content/u74149nr2h0124l0/}
+
+\harvarditem{Wegelin et~al.}{2000}{wegelin2000survey}
+Wegelin, J.~A. et~al.  \harvardyearleft 2000\harvardyearright , `A survey of
+  partial least squares (pls) methods, with emphasis on the two-block case',
+  {\em University of Washington, Tech. Rep} .
+
+\harvarditem[Winkler et~al.]{Winkler, Renaud, Smith \harvardand\
+  Nichols}{2020}{winkler2020permutation}
+Winkler, A.~M., Renaud, O., Smith, S.~M. \harvardand\ Nichols, T.~E.
+  \harvardyearleft 2020\harvardyearright , `Permutation inference for canonical
+  correlation analysis', {\em arXiv preprint arXiv:2002.10046} .
+
+\harvarditem{Wold}{1975}{wold1975soft}
+Wold, H.  \harvardyearleft 1975\harvardyearright , `Soft modelling by latent
+  variables: the non-linear iterative partial least squares ({NIPALS})
+  approach', {\em Journal of Applied Probability} {\bf 12}(S1),~117--142.
+\newblock Cambridge University Press.
+
+\harvarditem[Wold et~al.]{Wold, Esbensen \harvardand\
+  Geladi}{1987}{wold_principal_1987}
+Wold, S., Esbensen, K. \harvardand\ Geladi, P.  \harvardyearleft
+  1987\harvardyearright , `Principal component analysis', {\em Chemometrics and
+  Intelligent Laboratory Systems} {\bf 2}(1),~37--52.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/0169743987800849}
+
+\harvarditem[Wold et~al.]{Wold, Ruhe, Wold \harvardand\
+  Dunn}{1984}{wold_collinearity_1984}
+Wold, S., Ruhe, A., Wold, H. \harvardand\ Dunn, III, W.  \harvardyearleft
+  1984\harvardyearright , `The collinearity problem in linear regression. {The}
+  partial least squares ({PLS}) approach to generalized inverses', {\em SIAM
+  Journal on Scientific and Statistical Computing} {\bf 5}(3),~735--743.
+
+\harvarditem[Wold et~al.]{Wold, Sjöström \harvardand\
+  Eriksson}{2001}{wold_pls-regression_2001}
+Wold, S., Sjöström, M. \harvardand\ Eriksson, L.  \harvardyearleft
+  2001\harvardyearright , `{PLS}-regression: a basic tool of chemometrics',
+  {\em Chemometrics and Intelligent Laboratory Systems} {\bf 58}(2),~109--130.
+\newline\harvardurl{http://www.sciencedirect.com/science/article/pii/S0169743901001551}
+
+\end{thebibliography}

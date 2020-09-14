@@ -38,6 +38,20 @@
 \usepackage{tabularx}
 \usepackage{verbatim}
 \usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 
 \begin{document}
 
@@ -327,9 +341,9 @@ and
 \begin{tabular}[t]{llrrrrrrrr}
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Original coding} & \multicolumn{6}{c}{Disjunctive and pseudo-disjunctive coding} \\
-\cmidrule(l{2pt}r{2pt}){2-4} \cmidrule(l{2pt}r{2pt}){5-10}
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-10}
 \multicolumn{4}{c}{ } & \multicolumn{2}{c}{SEX} & \multicolumn{2}{c}{AGE} & \multicolumn{2}{c}{EDU} \\
-\cmidrule(l{2pt}r{2pt}){5-6} \cmidrule(l{2pt}r{2pt}){7-8} \cmidrule(l{2pt}r{2pt}){9-10}
+\cmidrule(l{3pt}r{3pt}){5-6} \cmidrule(l{3pt}r{3pt}){7-8} \cmidrule(l{3pt}r{3pt}){9-10}
   & SEX & AGE & EDU & Male & Female & AGE- & AGE+ & EDU- & EDU+\\
 \midrule
 SUBJ 1 & Male & 64.8 & 16 & 1 & 0 & 1.03 & -0.03 & 0.33 & 0.67\\
@@ -735,7 +749,7 @@ additional data in further detail when we introduce these data.
 \begin{tabular}[t]{lllllllll}
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{1}{c}{SNP} & \multicolumn{3}{c}{Genotypic} & \multicolumn{2}{c}{Dominant} & \multicolumn{2}{c}{Recessive} \\
-\cmidrule(l{2pt}r{2pt}){2-2} \cmidrule(l{2pt}r{2pt}){3-5} \cmidrule(l{2pt}r{2pt}){6-7} \cmidrule(l{2pt}r{2pt}){8-9}
+\cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-7} \cmidrule(l{3pt}r{3pt}){8-9}
   & Genotype & AA & Aa & aa & AA & Aa+aa & AA+Aa & aa\\
 \midrule
 SUBJ 1 & Aa & 0 & 1 & 0 & 0 & 1 & 1 & 0\\
@@ -919,8 +933,8 @@ problem (i.e., here a single predictor with multiple responses).
 \centering
 \begin{tabular}[t]{lrrrrr}
 \toprule
-\multicolumn{1}{c}{\em  } & \multicolumn{5}{c}{\em Assigned} \\
-\cmidrule(l{2pt}r{2pt}){2-6}
+\multicolumn{1}{c}{\em{ }} & \multicolumn{5}{c}{\em{Assigned}} \\
+\cmidrule(l{3pt}r{3pt}){2-6}
   & CN & SMC & EMCI & LMCI & AD\\
 \midrule
 CN & 62 & 15 & 54 & 16 & 17\\
