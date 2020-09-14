@@ -32,17 +32,16 @@
 #' \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 #' \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 #' \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-#' \item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-#' \item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+#' \item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+#' \item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 #' \item{X_reconstructed}{A version of \code{X} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 #' \item{X_residual}{The residualized (i.e., \code{X - X_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 #' \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 #' \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-#' \item{X_hat}{The re-centered and re-scaled version of \code{X_reconstructed} to have the same center and scale as \code{X}.}
-#' \item{Y_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
-#' \item{X_hats}{The re-centered and re-scaled versions of \code{X_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{X}.}
-#' \item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
-#'
+#' \item{X_reconstructed_hat}{The re-centered and re-scaled version of \code{X_reconstructed} to have the same center and scale as \code{X}.}
+#' \item{Y_reconstructed_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
+#' \item{X_residual_hat}{The re-centered and re-scaled version of \code{X_residual} to have the same center and scale as \code{X}.}
+#' \item{Y_residual_hat}{The re-centered and re-scaled version of \code{Y_residual} to have the same center and scale as \code{Y}.}
 #'
 #' @seealso \code{\link{plsca_can}} \code{\link{gpls_can}} \code{\link[GSVD]{gplssvd}}
 #'
@@ -99,21 +98,24 @@ pls_can <- function(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE, scal
 
   gpls_can_results <- gpls_can(X = X, Y = Y, components = components, tol = tol)
 
-  gpls_can_results$X_hat <- gpls_can_results$X_reconstructed * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
-  gpls_can_results$Y_hat <- gpls_can_results$Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
+  gpls_can_results$X_reconstructed_hat <- gpls_can_results$X_reconstructed * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
+  gpls_can_results$Y_reconstructed_hat <- gpls_can_results$Y_reconstructed * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
 
-  gpls_can_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_can_results$d)))
-  gpls_can_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_can_results$d)))
-  for(i in 1:length(gpls_can_results$d)){
-    gpls_can_results$X_hats[,,i] <- gpls_can_results$X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
-    gpls_can_results$Y_hats[,,i] <- gpls_can_results$Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
-  }
+  gpls_can_results$X_residual_hat <- gpls_can_results$X_residual * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
+  gpls_can_results$Y_residual_hat <- gpls_can_results$Y_residual * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
 
-  rownames(gpls_can_results$X_hat) <- rownames(gpls_can_results$X_hats) <- rownames(X)
-  colnames(gpls_can_results$X_hat) <- colnames(gpls_can_results$X_hats) <- colnames(X)
+  # gpls_can_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_can_results$d)))
+  # gpls_can_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_can_results$d)))
+  # for(i in 1:length(gpls_can_results$d)){
+  #   gpls_can_results$X_hats[,,i] <- gpls_can_results$X_reconstructeds[,,i] * matrix(X_scale,nrow(X),ncol(X),byrow=T) + matrix(X_center,nrow(X),ncol(X),byrow=T)
+  #   gpls_can_results$Y_hats[,,i] <- gpls_can_results$Y_reconstructeds[,,i] * matrix(Y_scale,nrow(Y),ncol(Y),byrow=T) + matrix(Y_center,nrow(Y),ncol(Y),byrow=T)
+  # }
 
-  rownames(gpls_can_results$Y_hat) <- rownames(gpls_can_results$Y_hats) <- rownames(Y)
-  colnames(gpls_can_results$Y_hat) <- colnames(gpls_can_results$Y_hats) <- colnames(Y)
+  rownames(gpls_can_results$X_reconstructed_hat) <- rownames(gpls_can_results$X_residual_hat) <- rownames(X)
+  colnames(gpls_can_results$X_reconstructed_hat) <- colnames(gpls_can_results$X_residual_hat) <- colnames(X)
+
+  rownames(gpls_can_results$Y_reconstructed_hat) <- rownames(gpls_can_results$Y_residual_hat) <- rownames(Y)
+  colnames(gpls_can_results$Y_reconstructed_hat) <- colnames(gpls_can_results$Y_residual_hat) <- colnames(Y)
 
   return(gpls_can_results)
 

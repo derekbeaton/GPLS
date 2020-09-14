@@ -74,7 +74,7 @@ plsca_reg <- function(X, Y, components = 0, tol = .Machine$double.eps){
 
   gpls_reg_results$Y_reconstructed_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
   gpls_reg_results$Y_residual_hat <- (gpls_reg_results$Y_residual + Y_ca_preproc$E) * sum(Y)
-    ## this should be the same as Y_residual, but I need to verify.
+
 
   # gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
   # gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
