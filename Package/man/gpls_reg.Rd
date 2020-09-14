@@ -4,9 +4,16 @@
 \alias{gpls_reg}
 \title{Generalized partial least squares "regression decomposition" (GPLSREG)}
 \usage{
-gpls_reg(X, Y, XLW = diag(nrow(X)), YLW = diag(nrow(Y)),
-  XRW = diag(ncol(X)), YRW = diag(ncol(Y)), components = 0,
-  tol = .Machine$double.eps)
+gpls_reg(
+  X,
+  Y,
+  XLW = diag(nrow(X)),
+  YLW = diag(nrow(Y)),
+  XRW = diag(ncol(X)),
+  YRW = diag(ncol(Y)),
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}
@@ -43,8 +50,8 @@ A list of outputs
 \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-\item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-\item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+\item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+\item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 }

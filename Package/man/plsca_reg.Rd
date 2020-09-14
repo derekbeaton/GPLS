@@ -33,13 +33,12 @@ A list of outputs based on \code{\link{gpls_reg}}
 \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-\item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-\item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+\item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+\item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-\item{Y_hat}{The version of \code{Y_reconstructed} in the original coordinates (expected & marginal values) as \code{Y}.}
-\item{X_hats}{The versions of \code{X_reconstructeds} in the original coordinates (expected & marginal values) as \code{X} per iteration (i.e., latent variable/component).}
-\item{Y_hats}{The versions of \code{Y_reconstructeds} in the original coordinates (expected & marginal values) as \code{Y} per iteration (i.e., latent variable/component).}
+\item{Y_reconstructed_hat}{The version of \code{Y_reconstructed} in the original scale (expected & marginal values, total sum) as \code{Y}.}
+\item{Y_residual_hat}{The version of \code{Y_residual} in the original scale (expected & marginal values, total sum) as \code{Y}.}
 }
 \description{
 Computes partial least squares-correspondence analysis "regression decomposition" between two data matrices by way of generalized PLS regression decomposition

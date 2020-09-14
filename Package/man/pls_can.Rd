@@ -4,8 +4,16 @@
 \alias{pls_can}
 \title{Partial least squares "canonical decomposition" (PLSCAN)}
 \usage{
-pls_can(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
-  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
+pls_can(
+  X,
+  Y,
+  center_X = TRUE,
+  center_Y = TRUE,
+  scale_X = TRUE,
+  scale_Y = TRUE,
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}

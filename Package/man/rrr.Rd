@@ -4,8 +4,16 @@
 \alias{rrr}
 \title{Reduced rank regression (see also redundancy analysis)}
 \usage{
-rrr(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
-  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
+rrr(
+  X,
+  Y,
+  center_X = TRUE,
+  center_Y = TRUE,
+  scale_X = TRUE,
+  scale_Y = TRUE,
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}

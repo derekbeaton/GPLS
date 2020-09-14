@@ -4,8 +4,16 @@
 \alias{rda}
 \title{Redundancy analysis (see also reduced rank regression)}
 \usage{
-rda(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
-  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
+rda(
+  X,
+  Y,
+  center_X = TRUE,
+  center_Y = TRUE,
+  scale_X = TRUE,
+  scale_Y = TRUE,
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}

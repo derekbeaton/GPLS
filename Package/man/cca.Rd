@@ -4,8 +4,16 @@
 \alias{cca}
 \title{Canonical correlation analysis (CCA)}
 \usage{
-cca(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
-  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
+cca(
+  X,
+  Y,
+  center_X = TRUE,
+  center_Y = TRUE,
+  scale_X = TRUE,
+  scale_Y = TRUE,
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}
@@ -59,11 +67,11 @@ do not meet assumptions typically expected for standard CCA, e.g., collinear, ra
      cca_results$d
 
      ## where the singular values are the "canonical correlations"
-         #### see \\code{$cor} from \\code{cancor}.
+         #### see \code{$cor} from \code{cancor}.
      cca_results$d
 
      ## additionally, generalized singular vectors are the "coefficients"
-         #### see \\code{$xcoef} and \\code{$ycoef} from \\code{cancor}.
+         #### see \code{$xcoef} and \code{$ycoef} from \code{cancor}.
      cca_results$p
      cca_results$q
 

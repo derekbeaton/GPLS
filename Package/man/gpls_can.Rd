@@ -4,9 +4,16 @@
 \alias{gpls_can}
 \title{Generalized partial least squares "canonical decomposition" (GPLSCAN)}
 \usage{
-gpls_can(X, Y, XLW = diag(nrow(X)), YLW = diag(nrow(Y)),
-  XRW = diag(ncol(X)), YRW = diag(ncol(Y)), components = 0,
-  tol = .Machine$double.eps)
+gpls_can(
+  X,
+  Y,
+  XLW = diag(nrow(X)),
+  YLW = diag(nrow(Y)),
+  XRW = diag(ncol(X)),
+  YRW = diag(ncol(Y)),
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}

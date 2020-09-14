@@ -4,8 +4,16 @@
 \alias{pls_reg}
 \title{Partial least squares "regression decomposition" (PLSREG)}
 \usage{
-pls_reg(X, Y, center_X = TRUE, center_Y = TRUE, scale_X = TRUE,
-  scale_Y = TRUE, components = 0, tol = .Machine$double.eps)
+pls_reg(
+  X,
+  Y,
+  center_X = TRUE,
+  center_Y = TRUE,
+  scale_X = TRUE,
+  scale_Y = TRUE,
+  components = 0,
+  tol = .Machine$double.eps
+)
 }
 \arguments{
 \item{X}{Data matrix with \emph{I} rows and \emph{J} columns}
@@ -42,13 +50,12 @@ A list of outputs based on \code{\link{gpls_reg}}
 \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-\item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-\item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+\item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+\item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-\item{Y_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
-\item{X_hats}{The re-centered and re-scaled versions of \code{X_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{X}.}
-\item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
+\item{Y_reconstructed_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
+\item{Y_residual_hat}{The re-centered and re-scaled version of \code{Y_residual} to have the same center and scale as \code{Y}.}
 }
 \description{
 Computes partial least squares "regression decomposition" between two data matrices by way of generalized PLS regression decomposition
