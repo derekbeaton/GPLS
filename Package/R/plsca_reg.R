@@ -27,13 +27,12 @@
 #' \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 #' \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 #' \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-#' \item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-#' \item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+#' \item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+#' \item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 #' \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 #' \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-#' \item{Y_hat}{The version of \code{Y_reconstructed} in the original coordinates (expected & marginal values) as \code{Y}.}
-#' \item{X_hats}{The versions of \code{X_reconstructeds} in the original coordinates (expected & marginal values) as \code{X} per iteration (i.e., latent variable/component).}
-#' \item{Y_hats}{The versions of \code{Y_reconstructeds} in the original coordinates (expected & marginal values) as \code{Y} per iteration (i.e., latent variable/component).}
+#' \item{Y_reconstructed_hat}{The version of \code{Y_reconstructed} in the original scale (expected & marginal values, total sum) as \code{Y}.}
+#' \item{Y_residual_hat}{The version of \code{Y_residual} in the original scale (expected & marginal values, total sum) as \code{Y}.}
 #'
 #' @seealso \code{\link{ca_preproc}} \code{\link{make_data_disjunctive}} \code{\link{thermometer_coding}} \code{\link{escofier_coding}} \code{\link{pls_reg}} \code{\link{plsca_cor}} \code{\link{plsca_can}} \code{\link{gpls_reg}} \code{\link[GSVD]{gplssvd}}
 #'
@@ -72,25 +71,27 @@ plsca_reg <- function(X, Y, components = 0, tol = .Machine$double.eps){
                                YLW = diag(1/Y_ca_preproc$m), YRW = diag(1/Y_ca_preproc$w),
                                components = components, tol = tol)
 
-    ### not exactly the same residual as in PLS REG; should harmonize or check this.
-  gpls_reg_results$Y_residual <- ((Y_ca_preproc$Z - gpls_reg_results$Y_reconstructed) + Y_ca_preproc$E) * sum(Y)
-  gpls_reg_results$Y_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
 
-  gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
-  gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
+  gpls_reg_results$Y_reconstructed_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
+  gpls_reg_results$Y_residual_hat <- ((Y_ca_preproc$Z - gpls_reg_results$Y_reconstructed) + Y_ca_preproc$E) * sum(Y)
+    ## this should be the same as Y_residual, but I need to verify.
 
-  for(i in 1:length(gpls_reg_results$d)){
-     gpls_reg_results$X_hats[,,i] <- (gpls_reg_results$X_reconstructeds[,,i] + X_ca_preproc$E) * sum(X)
-     gpls_reg_results$Y_hats[,,i] <- (gpls_reg_results$Y_reconstructeds[,,i] + Y_ca_preproc$E) * sum(Y)
-  }
+  # gpls_reg_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_reg_results$d)))
+  # gpls_reg_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_reg_results$d)))
+  # for(i in 1:length(gpls_reg_results$d)){
+  #    gpls_reg_results$X_hats[,,i] <- (gpls_reg_results$X_reconstructeds[,,i] + X_ca_preproc$E) * sum(X)
+  #    gpls_reg_results$Y_hats[,,i] <- (gpls_reg_results$Y_reconstructeds[,,i] + Y_ca_preproc$E) * sum(Y)
+  # }
+  #
+  # rownames(gpls_reg_results$X_hats) <- rownames(X)
+  # colnames(gpls_reg_results$X_hats) <- colnames(X)
 
-  rownames(gpls_reg_results$X_hats) <- rownames(X)
-  colnames(gpls_reg_results$X_hats) <- colnames(X)
+  # rownames(gpls_reg_results$Y_hat) <- rownames(gpls_reg_results$Y_residual) <- rownames(gpls_reg_results$Y_hats) <- rownames(Y)
+  # colnames(gpls_reg_results$Y_hat) <- colnames(gpls_reg_results$Y_residual) <- colnames(gpls_reg_results$Y_hats) <- colnames(Y)
 
-  rownames(gpls_reg_results$Y_hat) <- rownames(gpls_reg_results$Y_residual) <- rownames(gpls_reg_results$Y_hats) <- rownames(Y)
-  colnames(gpls_reg_results$Y_hat) <- colnames(gpls_reg_results$Y_residual) <- colnames(gpls_reg_results$Y_hats) <- colnames(Y)
+  rownames(gpls_reg_results$Y_reconstructed_hat) <- rownames(gpls_reg_results$Y_residual_hat) <- rownames(Y)
+  colnames(gpls_reg_results$Y_reconstructed_hat) <- colnames(gpls_reg_results$Y_residual_hat) <- colnames(Y)
 
   return(gpls_reg_results)
-
 
 }
