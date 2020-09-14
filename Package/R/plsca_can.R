@@ -79,11 +79,11 @@ plsca_can <- function(X, Y, components = 0, tol = .Machine$double.eps){
                                components = components, tol = tol)
 
 
-  gpls_reg_results$X_reconstructed_hat <- (gpls_reg_results$X_reconstructed + X_ca_preproc$E) * sum(X)
-  gpls_reg_results$X_residual_hat <- (gpls_reg_results$X_residual + X_ca_preproc$E) * sum(X)
+  gpls_can_results$X_reconstructed_hat <- (gpls_can_results$X_reconstructed + X_ca_preproc$E) * sum(X)
+  gpls_can_results$X_residual_hat <- (gpls_can_results$X_residual + X_ca_preproc$E) * sum(X)
 
-  gpls_reg_results$Y_reconstructed_hat <- (gpls_reg_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
-  gpls_reg_results$Y_residual_hat <- (gpls_reg_results$Y_residual + Y_ca_preproc$E) * sum(Y)
+  gpls_can_results$Y_reconstructed_hat <- (gpls_can_results$Y_reconstructed + Y_ca_preproc$E) * sum(Y)
+  gpls_can_results$Y_residual_hat <- (gpls_can_results$Y_residual + Y_ca_preproc$E) * sum(Y)
 
   # gpls_can_results$X_hats <- array(NA,dim=c(nrow(X), ncol(X), length(gpls_can_results$d)))
   # gpls_can_results$Y_hats <- array(NA,dim=c(nrow(Y), ncol(Y), length(gpls_can_results$d)))
