@@ -36,12 +36,14 @@ A list of outputs based on \code{\link{gpls_can}}
 \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
 \item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
 \item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
+\item{X_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
+\item{X_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-\item{X_hat}{The version of \code{X_reconstructed} in the original coordinates (expected & marginal values) as \code{X}.}
-\item{Y_hat}{The version of \code{Y_reconstructed} in the original coordinates (expected & marginal values) as \code{Y}.}
-\item{X_hats}{The versions of \code{X_reconstructeds} in the original coordinates (expected & marginal values) as \code{X} per iteration (i.e., latent variable/component).}
-\item{Y_hats}{The versions of \code{Y_reconstructeds} in the original coordinates (expected & marginal values) as \code{Y} per iteration (i.e., latent variable/component).}
+\item{X_reconstructed_hat}{The version of \code{X_reconstructed} in the original coordinates (expected & marginal values, total sum) as \code{X}.}
+\item{Y_reconstructed_hat}{The version of \code{Y_reconstructed} in the original coordinates (expected & marginal values, total sum) as \code{Y}.}
+\item{X_residual_hat}{The version of \code{X_residual} in the original coordinates (expected & marginal values, total sum) as \code{X}.}
+\item{Y_residual_hat}{The version of \code{Y_residual} in the original coordinates (expected & marginal values, total sum) as \code{Y}.}
 }
 \description{
 Computes partial least squares-correspondence analysis "canonical decomposition" between two data matrices by way of generalized PLS canonical decomposition

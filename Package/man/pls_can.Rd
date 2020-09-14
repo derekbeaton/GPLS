@@ -51,16 +51,16 @@ A list of outputs based on \code{\link{gpls_can}}
 \item{Y_reconstructeds}{A version of \code{Y} reconstructed for each iteration (i.e., latent variable/component)}
 \item{X_residuals}{The residualized (i.e., \code{X - X_reconstructeds}) version of \code{X} for each iteration (i.e., latent variable/component)}
 \item{Y_residuals}{The residualized (i.e., \code{Y - Y_reconstructeds}) version of \code{Y} for each iteration (i.e., latent variable/component)}
-\item{r2_x}{Proporition of explained variance from \code{X} to each latent variable/component.}
-\item{r2_y}{Proporition of explained variance from \code{Y} to each latent variable/component.}
+\item{r2_x}{Proportion of explained variance from \code{X} to each latent variable/component.}
+\item{r2_y}{Proportion of explained variance from \code{Y} to each latent variable/component.}
 \item{X_reconstructed}{A version of \code{X} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{X_residual}{The residualized (i.e., \code{X - X_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_reconstructed}{A version of \code{Y} reconstructed from all iterations (i.e., latent variables/components); see \code{components}.}
 \item{Y_residual}{The residualized (i.e., \code{Y - Y_reconstructed} from all iterations (i.e., latent variables/components); see \code{components}.}
-\item{X_hat}{The re-centered and re-scaled version of \code{X_reconstructed} to have the same center and scale as \code{X}.}
-\item{Y_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
-\item{X_hats}{The re-centered and re-scaled versions of \code{X_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{X}.}
-\item{Y_hats}{The re-centered and re-scaled versions of \code{Y_reconstructeds} per iteration (i.e., latent variable/component) to have the same center and scale as \code{Y}.}
+\item{X_reconstructed_hat}{The re-centered and re-scaled version of \code{X_reconstructed} to have the same center and scale as \code{X}.}
+\item{Y_reconstructed_hat}{The re-centered and re-scaled version of \code{Y_reconstructed} to have the same center and scale as \code{Y}.}
+\item{X_residual_hat}{The re-centered and re-scaled version of \code{X_residual} to have the same center and scale as \code{X}.}
+\item{Y_residual_hat}{The re-centered and re-scaled version of \code{Y_residual} to have the same center and scale as \code{Y}.}
 }
 \description{
 Computes partial least squares "canonicaldecomposition " between two data matrices by way of generalized PLS canonical decomposition
