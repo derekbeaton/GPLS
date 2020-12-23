@@ -6,7 +6,7 @@ The preprint can be found here: [Beaton, D., ADNI, Saporta, G., Abdi, H.
 (2019). A generalization of partial least squares regression and
 correspondence analysis for categorical and mixed data: An application
 with the ADNI data.
-bioRxiv, 598888.](https://www.biorxiv.org/content/10.1101/598888v2).
+bioRxiv, 598888.](https://www.biorxiv.org/content/10.1101/598888v3).
 
 The preprint was generated through RMarkdown with the `rticles` package,
 and is fully reproducible *for us* at least\! You can reproduce it so
