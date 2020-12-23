@@ -15,7 +15,7 @@ directory for the manuscript’s content and supplements (RMarkdown, PDF).
 
 Other materials can be found in the [Code](/Code/) directory. A detailed
 RMD file provides how to reproduce the data and is found
-[here](/Code/prep_data_code_notes.rmd) with an HTML
+[here](/Code/prep_data_code_notes.Rmd) with an HTML
 [file](/Code/prep_data_code_notes.html).
 
 The GPLS package lives in the [Package](/Package/) directory. It is
