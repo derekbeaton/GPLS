@@ -2,7 +2,7 @@
 title: "A generalization of partial least squares regression and correspondence analysis for categorical and mixed data: An application with the ADNI data"
 
 # to produce blinded version set to 1
-blinded: 0
+blinded: 1
 
 authors: 
 - name: Derek Beaton
@@ -80,7 +80,7 @@ library(GPLS)
 # library(corrplot)
 library(plotrix)
 library(dplyr)
-# library(here)
+#library(here)
 
 load(paste0(Sys.getenv("DATA_DIR"),"TADPOLE.fin_2020DEC17.rda"))
 load(paste0(Sys.getenv("DATA_DIR"),"genetic.data_Data_2020DEC17.rda"))
@@ -978,25 +978,25 @@ We provide an `R` package with data, documentation, and examples that implements
 
 <!-- Finally, we want to remind the reader to see the Supplemental Material, where we show (1) how PLS-CA-R generalizes most cross-decomposition techniques, (2) alternate PLS algorithms, (3) suggestions on alternate metrics, and finally (4) a ridge-like regularization approach that applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes. -->
 
-## Acknowledgements
+<!-- ## Acknowledgements -->
 
-Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative
-(ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award
-number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of
-Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie,
-Alzheimer’s Association; Alzheimer’s Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen;
-Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and
-Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE
-Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson &
-Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso
-Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals
-Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition
-Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites
-in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health
-(www.fnih.org). The grantee organization is the Northern California Institute for Research and Education,
-and the study is coordinated by the Alzheimer’s Therapeutic Research Institute at the University of Southern
-California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern
-California.
+<!-- Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative -->
+<!-- (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award -->
+<!-- number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of -->
+<!-- Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, -->
+<!-- Alzheimer’s Association; Alzheimer’s Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; -->
+<!-- Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and -->
+<!-- Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE -->
+<!-- Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & -->
+<!-- Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso -->
+<!-- Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals -->
+<!-- Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition -->
+<!-- Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites -->
+<!-- in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health -->
+<!-- (www.fnih.org). The grantee organization is the Northern California Institute for Research and Education, -->
+<!-- and the study is coordinated by the Alzheimer’s Therapeutic Research Institute at the University of Southern -->
+<!-- California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern -->
+<!-- California. -->
 
 
 

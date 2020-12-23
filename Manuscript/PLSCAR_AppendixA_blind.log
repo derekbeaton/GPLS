@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.20)  22 DEC 2020 22:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.20)  22 DEC 2020 22:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**PLSCAR_to_a_GPLS.tex
-(./PLSCAR_to_a_GPLS.tex
+**PLSCAR_AppendixA_blind.tex
+(./PLSCAR_AppendixA_blind.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03> (c:/Users/WALL-E/AppData/
 Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
@@ -598,8 +598,8 @@ nd-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count312
 \l__pdf_internal_box=\box75
-) (./PLSCAR_to_a_GPLS.aux)
-\openout1 = `PLSCAR_to_a_GPLS.aux'.
+) (./PLSCAR_AppendixA_blind.aux)
+\openout1 = `PLSCAR_AppendixA_blind.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
 LaTeX Font Info:    ... okay on input line 57.
@@ -648,9 +648,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 57.
 LaTeX Info: Redefining \pageref on input line 57.
 LaTeX Info: Redefining \nameref on input line 57.
-(./PLSCAR_to_a_GPLS.out) (./PLSCAR_to_a_GPLS.out)
+(./PLSCAR_AppendixA_blind.out) (./PLSCAR_AppendixA_blind.out)
 \@outlinefile=\write4
-\openout4 = `PLSCAR_to_a_GPLS.out'.
+\openout4 = `PLSCAR_AppendixA_blind.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
@@ -663,218 +663,135 @@ Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 8
-9.
-(c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [1
+
+Overfull \hbox (2.51619pt too wide) in paragraph at lines 106--112
+[]\T1/cmr/m/n/10.95 We pro-vide sup-ple-men-tal ma-te-rial for par-tial least s
+quares-correspondence analysis-
+ []
+
+[1
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
 {c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdft
 ex.map}] [2]
-Overfull \hbox (13.93872pt too wide) in paragraph at lines 134--155
-\T1/cmr/m/n/12 Today's large scale and multi-site stud-ies, such as the UK BioB
-ank ([]$\T1/cmtt/m/n/12 https : / / www . ukbiobank .
+
+LaTeX Warning: Reference `table:disj' on page 3 undefined on input line 209.
+
+
+LaTeX Warning: Reference `table:snps_models_disj' on page 3 undefined on input 
+line 210.
+
+
+LaTeX Warning: Reference `section:appex' on page 3 undefined on input line 216.
+
+
+[3]
+Overfull \hbox (20.64357pt too wide) in paragraph at lines 239--242
+\T1/cmr/m/n/12 As noted in the main text, the GSVD can be pre-sented in ``tripl
+et no-ta-tion'' as $[]\OT1/cmr/bx/n/12 M\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 X\O
+ML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 W[]$\T1/cmr/m/n/12 . 
  []
 
-
-Overfull \hbox (1.97372pt too wide) in paragraph at lines 134--155
-\T1/cmtt/m/n/12 ac . uk/$[]\T1/cmr/m/n/12 ) and the Rot-ter-dam study ([]$\T1/c
-mtt/m/n/12 http : / / www . erasmus -[] epidemiology . nl/$[]\T1/cmr/m/n/12 ), 
-col-lect pop-
- []
-
-[3] [4]
-Overfull \hbox (13.969pt too wide) in paragraph at lines 228--228
-[]\T1/cmr/bx/n/17.28 Partial least squares-correspondence analysis-regression 
+[4]
+Overfull \hbox (127.50587pt too wide) in paragraph at lines 317--329
+\T1/cmr/m/n/12 in-put pa-ram-e-ter for the GPLSSVD sep-tu-plet (and GSVD quadru
+-plet) as $[]\OT1/cmr/bx/n/12 M[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cm
+m/m/it/12 ; \OT1/cmr/bx/n/12 W[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 M[]\OML/cmm
+/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 W[]\OML/cmm/
+m/it/12 ; C[]$
  []
 
 [5]
-Overfull \hbox (2.0553pt too wide) in paragraph at lines 331--337
-\T1/cmr/m/n/12 We com-pute CA from $[]\OT1/cmr/bx/n/12 M[]\OML/cmm/m/it/12 ; \O
-T1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 W[][]$ \T1/cmr/m/n/12 wit
-h $\OT1/cmr/bx/n/12 M[] \OT1/cmr/m/n/12 = []\OT1/cmr/bx/n/12 m[][]$ \T1/cmr/m/n
-/12 and $\OT1/cmr/bx/n/12 W[] \OT1/cmr/m/n/12 = []\OT1/cmr/bx/n/12 w[][]$\T1/cm
-r/m/n/12 . 
+Underfull \hbox (badness 1859) in paragraph at lines 401--401
+[]\T1/cmr/bx/n/12 Algorithm 1: \T1/cmr/m/n/12 Gen-er-al-ized PLS-correlation al
+-go-rithm. GPLS-COR is the
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[6] [7] [8] [9] [10]
-Overfull \hbox (5.90051pt too wide) in paragraph at lines 588--601
-\T1/cmr/m/n/12 Data used in the prepa-ra-tion of this ar-ti-cle come from the A
-DNI database (adni.loni.usc.edu).
+[6]
+Overfull \hbox (4.20978pt too wide) in paragraph at lines 449--465
+\T1/cmr/m/n/12 lished in the main text, PLS-CA ``cor-re-la-tion'' is $[]\OT1/cm
+r/bx/n/12 M[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr
+/bx/n/12 W[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 M[]\OML/cmm/m/it/12 ; \OT1/cmr/
+bx/n/12 Z[]\OML/cmm/m/it/12 ; \OT1/cmr/bx/n/12 W[][]$\T1/cmr/m/n/12 ,
  []
 
-[11]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
+[7] [8] [9] [10] [11]
+LaTeX Font Info:    Trying to load font information for U+bbold on input line 6
+57.
+(c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/bbold/Ubbold.fd) 
 [12]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[13]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1.pdf, id=325, 433.62pt x 
-578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1.
-pdf  used on input line 727.
-(pdftex.def)             Requested size: 369.83588pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 28.71075pt on input line 732.
-
-[14] [15 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf, id=351, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.
-pdf  used on input line 762.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf, id=352, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.
-pdf  used on input line 771.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 776.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[16] [17 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1.pdf>] [18 <./
-PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1.pdf>] [19] [20]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1.pdf, id=441, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1.
-pdf  used on input line 915.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-[21] [22 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1.pdf>]
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf, id=477, 469.755pt x
- 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (t
-ype pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.
-pdf  used on input line 972.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf, id=478, 469.755pt 
-x 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (
-type pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1
-.pdf  used on input line 981.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 986.
-
-<PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-12-1.pdf, id=479, 469.755pt 
-x 578.16pt>
-File: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (
-type pdf)
-<use PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-12-1
-.pdf  used on input line 1018.
-(pdftex.def)             Requested size: 369.81934pt x 513.98735pt.
-
-LaTeX Warning: Float too large for page by 7.6858pt on input line 1023.
-
-[23] [24 <./PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1.pdf>] [25 <./
-PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1.pdf>] [26 <./PLSCAR_to_a
-_GPLS_files/figure-latex/unnamed-chunk-12-1.pdf>] [27] [28]
-Overfull \hbox (1.99309pt too wide) in paragraph at lines 1135--1138
-\T1/cmr/m/n/12 CA-R (and other cross-decomposition meth-ods) here: []$\T1/cmtt/
-m/n/12 https : / / github . com / derekbeaton /
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
+20.
+(c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+Overfull \hbox (1.64455pt too wide) in paragraph at lines 720--726
+\T1/cmr/m/n/12 We pro-vide an \T1/cmtt/m/n/12 R \T1/cmr/m/n/12 pack-age that im
+-ple-ments all of the al-go-rithms, with the cross-decomposition
  []
 
-[29] (./PLSCAR_to_a_GPLS.bbl [30] [31]
-Underfull \hbox (badness 10000) in paragraph at lines 133--142
-\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 https://www.cambridge.org/core/journals/ca
-nadian-journal-of-neurological-
+[13] (./PLSCAR_AppendixA_blind.bbl
+Underfull \hbox (badness 5475) in paragraph at lines 24--28
+[]\T1/cmr/m/n/12 Allen, G. I. (2013), `Sparse and Func-tional Prin-ci-pal Com-p
+o-nents Anal-y-sis',
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 133--142
-\T1/cmr/m/it/12 sciences/article/div-classtitlethe-ontario-neurodegenerative-di
-sease-research-initiative-
+[14] [15] [16]
+Overfull \hbox (20.61485pt too wide) in paragraph at lines 244--249
+\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 http://biostatistics.oxfordjournals.org/co
+ntent/early/2014/02/17/biostatistics.kxu001 
  []
 
-[32] [33] [34] [35]
-Underfull \hbox (badness 2799) in paragraph at lines 359--364
-\T1/cmr/m/n/12 type^^Uphenotype anal-y-sis and on data trans-for-ma-tion in pha
-r-ma-co-ge-net-ics and
- []
+[17]) [18] (./PLSCAR_AppendixA_blind.aux)
+Package rerunfilecheck Info: File `PLSCAR_AppendixA_blind.out' has not changed.
 
+(rerunfilecheck)             Checksum: 865C1D1DD6BA1D71E9C580F5FFB955BB;891.
 
-Underfull \hbox (badness 10000) in paragraph at lines 359--364
-\T1/cmr/bx/n/12 URL: \T1/cmr/m/it/12 http://www.nature.com.libproxy.utdallas.ed
-u/nrg/journal/v8/n12/full/nrg1916-
- []
+LaTeX Warning: There were undefined references.
 
-) [36] (./PLSCAR_to_a_GPLS.aux)
-Package rerunfilecheck Info: File `PLSCAR_to_a_GPLS.out' has not changed.
-(rerunfilecheck)             Checksum: 638FBEA0F5C8777CC1E66B5EEC88DDA6;954.
  ) 
 Here is how much of TeX's memory you used:
- 11019 strings out of 481364
- 177226 string characters out of 5917496
- 516563 words of memory out of 5000000
- 27460 multiletter control sequences out of 15000+600000
- 424418 words of font info for 75 fonts, out of 8000000 for 9000
+ 10894 strings out of 481364
+ 173358 string characters out of 5917496
+ 505153 words of memory out of 5000000
+ 27372 multiletter control sequences out of 15000+600000
+ 420523 words of font info for 66 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 66i,14n,76p,716b,503s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,18n,76p,664b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/
-ec/ecbx1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/
-ljfour/jknappen/ec/tcrm1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/tex
-mf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> <c:/Users/WALL-E/AppData/Roa
-ming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1200.600pk> <c:/Users/WA
+ec/ectt1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/
+ljfour/public/bbold/bbold12.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> <c:/Users/WALL-E/AppData/Roa
+ming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> <c:/Users/WA
 LL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728.600
 pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen
-/ec/ecti1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk
-/ljfour/jknappen/ec/ecrm1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/te
-xmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> <c:/Users/WALL-E/AppData/Ro
-aming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> <c:/Users/W
-ALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.60
-0pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappe
-n/ec/ecrm1095.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/p
-k/ljfour/jknappen/ec/ecbx1095.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/t
-exmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk> <c:/Users/WALL-E/AppData/R
-oaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> <c:/Users/
-WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.6
-00pk><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmbx12.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmbx6.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/Users/WALL-E/AppData/Roamin
-g/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/Users/WALL-E
-/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmmib10.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dis
-t/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><c:/Users/WALL-E/AppData/Roami
-ng/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/WALL-E
-/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:
-/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy10.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on PLSCAR_to_a_GPLS.pdf (36 pages, 978409 bytes).
+/ec/ecrm1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk
+/ljfour/jknappen/ec/ecti1200.600pk> <c:/Users/WALL-E/AppData/Roaming/TinyTeX/te
+xmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> <c:/Users/WALL-E/AppData/Ro
+aming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> <c:/Users/W
+ALL-E/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.60
+0pk><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx12.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmbx6.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/Users/WALL-E/AppData/Roaming
+/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/Users/WALL-E/
+AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c
+:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi6.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi8.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmib10.pfb><c:/Users/WALL-E/AppData/Roaming/Tiny
+TeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/WALL-E/AppDat
+a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/
+WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy6.pfb><c:/Users/WALL-E/AppData/Roaming/TinyTeX/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on PLSCAR_AppendixA_blind.pdf (18 pages, 288093 bytes).
 PDF statistics:
- 1180 PDF objects out of 1200 (max. 8388607)
- 654 compressed objects within 7 object streams
- 138 named destinations out of 1000 (max. 500000)
- 148 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 825 PDF objects out of 1000 (max. 8388607)
+ 417 compressed objects within 5 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 
