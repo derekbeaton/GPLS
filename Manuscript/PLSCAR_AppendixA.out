@@ -1,12 +1,13 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{The SVD, GSVD, and GPLSSVD}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{From GSVD triplet to GPLSSVD sextuplet}{section.2}% 3
-\BOOKMARK [1][-]{section.3}{PLS and GPLS algorithms}{}% 4
-\BOOKMARK [2][-]{subsection.3.1}{GPLS-COR}{section.3}% 5
-\BOOKMARK [2][-]{subsection.3.2}{GPLS-REG}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.3}{GPLS-CAN}{section.3}% 7
-\BOOKMARK [2][-]{subsection.3.4}{GPLS algorithms summary}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.5}{GPLS optimizations and further generalizations}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.6}{Ridge-like regularizations}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.7}{Implementation of algorithms}{section.3}% 11
-\BOOKMARK [1][-]{section.4}{Further extensions of PLS-CA-R and GPLSSVD}{}% 12
+\BOOKMARK [2][-]{subsection.1.1}{Additional remarks}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{The SVD, GSVD, and GPLSSVD}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{From GSVD triplet to GPLSSVD sextuplet}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{PLS and GPLS algorithms}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{GPLS-COR}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{GPLS-REG}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.3}{GPLS-CAN}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.4}{GPLS algorithms summary}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.5}{GPLS optimizations and further generalizations}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.6}{Ridge-like regularizations}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.7}{Implementation of algorithms}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Further extensions of PLS-CA-R and GPLSSVD}{}% 13

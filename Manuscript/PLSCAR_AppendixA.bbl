@@ -7,6 +7,12 @@ Abdi, H.  \harvardyearleft 2010\harvardyearright , `Partial least squares
   Statistics} {\bf 2}(1),~97--106.
 \newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/wics.51}
 
+\harvarditem{Abdi \harvardand\ B{\'e}ra}{2018}{abdi2014correspondence}
+Abdi, H. \harvardand\ B{\'e}ra, M.  \harvardyearleft 2018\harvardyearright ,
+  Correspondence analysis., {\em in} R.~Alhajj \harvardand\ J.~Rokne, eds,
+  `Encyclopedia of {Social} {Networks} and {Mining} (2nd {Edition})', Springer
+  Verlag, New York.
+
 \harvarditem[Abdi et~al.]{Abdi, Guillemot, Eslami \harvardand\
   Beaton}{2017}{abdi2017canonical}
 Abdi, H., Guillemot, V., Eslami, A. \harvardand\ Beaton, D.  \harvardyearleft
@@ -85,6 +91,17 @@ Escofier, B.  \harvardyearleft 1978\harvardyearright , `Analyse factorielle et
 Greenacre, M.  \harvardyearleft 2009\harvardyearright , `Power transformations
   in correspondence analysis', {\em Computational Statistics \& Data Analysis}
   {\bf 53}(8),~3107--3116.
+
+\harvarditem{Greenacre}{2014}{greenacrefuzzy}
+Greenacre, M.  \harvardyearleft 2014\harvardyearright , Data {Doubling} and
+  {Fuzzy} {Coding}, {\em in} J.~Blasius \harvardand\ M.~Greenacre, eds,
+  `Visualization and {Verbalization} of {Data}', CRC Press, Philadelphia, PA,
+  USA, pp.~239--253.
+
+\harvarditem{Greenacre}{1993}{greenacre1993biplots}
+Greenacre, M.~J.  \harvardyearleft 1993\harvardyearright , `Biplots in
+  correspondence analysis', {\em Journal of Applied Statistics} {\bf
+  20}(2),~251--269.
 
 \harvarditem[Guillemot et~al.]{Guillemot, Beaton, Gloaguen, Löfstedt, Levine,
   Raymond, Tenenhaus \harvardand\ Abdi}{2019}{guillemot2019constrained}

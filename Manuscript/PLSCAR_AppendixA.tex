@@ -25,6 +25,7 @@
 
 
 
+% Pandoc citation processing
 
 \usepackage{float}
 \usepackage{bbold}
@@ -147,6 +148,74 @@ regularization applies to any technique under the GPLSSVD framework.
 Finally, we point out numerous strategies and approaches for inference
 and stability assessment that are easily adapted for PLS-CA-R
 specifically and GPLSSVD generally.
+
+\hypertarget{additional-remarks}{%
+\subsection{Additional remarks}\label{additional-remarks}}
+
+Given our formalization of PLS-CA-R, we want to point out variations,
+some caveats, and some additional features. We also briefly discuss here
+how PLS-CA-R provides the basis for numerous variations and broader
+generalizations (we go into much more detail in subsequent sections).
+
+In PLS-CA-R (and PLS-R) each subsequent \(\widetilde{\delta}\) is not
+guaranteed to be smaller than the previous, with the exception that all
+\(\widetilde \delta\) are smaller than the first. This is a by-product
+of the iterative process and the deflation step. This problem poses two
+issues: (1) visualization of component scores and (2) explained
+variance. For visualization of the component scores---which use
+\(\widetilde \delta\)---there is an alternative computation:
+\({\mathbf F}^{'}_{J} = {\mathbf W}_{J}^{-1}\widetilde{\mathbf P}\) and
+\({\mathbf F}^{'}_{K} = {\mathbf W}_{K}^{-1}\widetilde{\mathbf Q}\).
+This alternative is referred to as ``asymmetric component scores'' in
+the correspondence analysis literature
+\citep{abdi2014correspondence, greenacre1993biplots}. Additionally,
+instead of computing the variance per component or latent variable, we
+can instead compute the amount of variance explained by each component
+in \(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
+eigenvalues of each of the respective matrices per iteration via CA
+(with the GSVD). Before the first iteration of PLS-CA-R we obtain the
+full variance (i.e., the sum of the eigenvalues) of each matrix from
+\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}\)
+and
+\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}\),
+which we respectively refer to as \({\phi}_{\bf X}\) and
+\({\phi}_{\bf Y}\) We can compute the sum of the eigenvalues for each
+deflated version of \({\mathbf Z}_{\mathbf X}\) and
+\({\mathbf Z}_{\mathbf Y}\) through the GSVD just as above, referred to
+as \({\phi}_{{\bf X},c}\) and \({\phi}_{{\bf Y},c}\). For each \(c\)
+component the proportion of explained variance for each matrix is
+\(\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}\) and
+\(\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}\).
+
+The weights we use are derived from the \(\chi^2\) assumption of
+independence. However nearly any choices of weights could be used, so
+long as the weight matrices are at least positive semi-definite (which
+requires the use of a generalized inverse). If alternate row weights
+(i.e., \({\mathbf M}_{\mathbf X}\) or \({\mathbf M}_{\mathbf Y}\)) were
+chosen, then the fitted values and residuals are no longer guaranteed to
+be orthogonal (the same condition is true in weighted OLS).
+
+PLS-CA-R provides an important basis for various extensions that allow
+for example, to accommodate the PLS-SVD and canonical PLS algorithms.
+Our formulation of PLS-CA-R provides the basis for, and leads to a more
+generalized approach for other cross-decomposition techniques or
+optimizations (e.g., canonical correlation, reduced rank regression).
+This basis also allows for the use of alternate metrics as well as
+ridge-like regularization. We show how PLS-CA-R leads to these
+generalizations in the Supplemental Material.
+
+Though we formalized PLS-CA-R as a method for categorical (nominal) data
+coded in complete disjunctive format (as seen in Table
+\ref{table:disj}---see SEX columns---or Table
+\ref{table:snps_models_disj}), PLS-CA-R can easily accommodate various
+data types without loss of information. Specifically, both continuous
+and ordinal data can be handled with relative ease and in a
+``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
+where complete disjunctive would be a ``crisp coding''
+\citep{greenacrefuzzy}. We explain exactly how to handle various data
+types as Section \ref{section:appex} progresses, which reflects more
+``real world'' problems: complex, mixed data types, and multi-source
+data.
 
 \hypertarget{the-svd-gsvd-and-gplssvd}{%
 \section{The SVD, GSVD, and GPLSSVD}\label{the-svd-gsvd-and-gplssvd}}

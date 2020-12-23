@@ -25,6 +25,7 @@
 
 
 
+% Pandoc citation processing
 
 \usepackage{float}
 \usepackage{bbold}
@@ -302,9 +303,9 @@ convenience, the GSVD is presented as a ``triplet'' with the row metric
 (weights), data, and column metric (weights) as
 \(\mathrm{GSVD(}{\mathbf M}, {\mathbf X}, {\mathbf W}\mathrm{)}\). We
 present the GSVD triplet here in slightly different way than it is
-typically presented \citep[see, e.g.,][]{holmes_multivariate_2008}. Our
+typically presented \citep[see, e.g.,][]{holmes2008multivariate}. Our
 presentation of the GSVD reflects the multiplication steps taken before
-decomposition (see our Supplmental Material).
+decomposition (see our Supplemental Material).
 
 Correspondence analysis (CA) is a technique akin to principal components
 analysis (PCA)---originally designed for the analysis of contingency
@@ -486,38 +487,6 @@ into corresponding matrices. Those matrices are:
   \(\widetilde{\mathbf Q}\), \(\widetilde{\mathbf F}_{K}\).
 \end{itemize}
 
-Algorithm \ref{algo:plscar} shows the key elements of the PLS-CA-R
-algorithm, from input to deflation.
-
-\RestyleAlgo{boxed}
-\begin{algorithm}
-\DontPrintSemicolon
-\SetAlgoLined
-\KwResult{PLS-CA-R between ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$}
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{${\mathbf M}_{\mathbf{X}}$, ${\mathbf Z}_{{\mathbf X}}$, ${\mathbf W}_{\mathbf{X}}$, ${\mathbf M}_{\mathbf{Y}}$, ${\mathbf Z}_{{\mathbf Y}}$, ${\mathbf W}_{\mathbf{Y}}$, $C$}
-\Output{$\widetilde{\boldsymbol \Delta}$, $\widetilde{\mathbf U}$, $\widetilde{\mathbf V}$, $\widetilde{\mathbf P}$, $\widetilde{\mathbf Q}$, $\widetilde{\mathbf F}_{J}$, $\widetilde{\mathbf F}_{K}$, ${\mathbf L}_{{\mathbf X}}$, ${\mathbf L}_{{\mathbf Y}}$, ${\mathbf T}_{{\mathbf X}}$, $\widehat{\mathbf U}$, ${\mathbf B}$}
-\BlankLine
-\For{$c=1, \dots, C$}{
-
-  ${\mathbf Z}_{\mathbf R} \leftarrow ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})^{T}({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})$ \\
-  Compute rank 1 SVD of ${\mathbf Z}_{\mathbf R}$, retain $\widetilde{\bf u}, \widetilde{\bf v}$ and $\widetilde{\delta}$ \\
-  $\widetilde{\bf p} \leftarrow {\mathbf W}_{{\mathbf X}}^{\frac{1}{2}}\widetilde{\mathbf u}$ \\
-  $\widetilde{\bf q} \leftarrow {\mathbf W}_{{\mathbf Y}}^{\frac{1}{2}}\widetilde{\mathbf v}$ \\
-  $\widetilde{\mathbf f}_{J} \leftarrow {\bf W}_{\bf X}^{-1}\widetilde{\mathbf p}{\widetilde\delta}$ \\
-  $\widetilde{\mathbf f}_{K} \leftarrow {\bf W}_{\bf Y}^{-1}\widetilde{\mathbf q}{\widetilde\delta}$ \\
-  ${\boldsymbol \ell}_{\mathbf X} \leftarrow ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})\widetilde{\mathbf u}$ \\
-  ${\boldsymbol \ell}_{\mathbf Y} \leftarrow ({\mathbf M}_{\mathbf Y}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf Y}{\mathbf W}_{\mathbf Y}^{-\frac{1}{2}})\widetilde{\mathbf v}$ \\
-  ${\mathbf t}_{\mathbf X} \leftarrow {\boldsymbol \ell}_{\mathbf X} \times {{\lvert\lvert {\boldsymbol \ell}_{\mathbf X} \rvert\rvert}^{-1}}$\\
-  $b \leftarrow {\boldsymbol \ell}_{\mathbf Y}^{T}{\mathbf t}_{\mathbf X}$ \\
-  $\widehat{\mathbf u} \leftarrow {\mathbf t}_{\mathbf X}^{T} ({\mathbf M}_{\mathbf X}^{-\frac{1}{2}}{\mathbf Z}_{\mathbf X}{\mathbf W}_{\mathbf X}^{-\frac{1}{2}})$\\
-  ${\mathbf Z}_{{\mathbf X}} \leftarrow {\mathbf Z}_{{\mathbf X}} - [{\mathbf M}_{\mathbf X}^{\frac{1}{2}}({\mathbf t}_{\mathbf X}\widehat{\mathbf u}^{T}){\mathbf W}_{\mathbf X}^{\frac{1}{2}}]$\\
-  ${\mathbf Z}_{{\mathbf Y}} \leftarrow {\mathbf Z}_{{\mathbf Y}} - [{\mathbf M}_{\mathbf Y}^{\frac{1}{2}}(b{\mathbf t}_{\mathbf X}\widetilde{\mathbf{v}}^{T}){\mathbf W}_{\mathbf Y}^{\frac{1}{2}}]$
-}
-\caption{PLS-CA-R algorithm. The results of a rank 1 solution are used to compute the latent variables and values necessary for deflation of ${\mathbf Z}_{{\mathbf X}}$ and ${\mathbf Z}_{{\mathbf Y}}$.}
-\label{algo:plscar}
-\end{algorithm}
-
 \hypertarget{maximization-in-pls-ca-r}{%
 \subsection{Maximization in PLS-CA-R}\label{maximization-in-pls-ca-r}}
 
@@ -588,76 +557,6 @@ population estimates. CA can then be applied directly to either
 \(\widehat{\mathbf Y}\) or \({\mathbf Y}_{\epsilon}\). The same
 reconstitution procedures can be applied fitted and residualized
 versions of \({\mathbf X}\) as well.
-
-\hypertarget{concluding-remarks}{%
-\subsection{Concluding remarks}\label{concluding-remarks}}
-
-Now that we have formalized PLS-CA-R, we want to point out small
-variations, some caveats, and some additional features. We also briefly
-discuss here---but show in the Supplemental Material---how PLS-CA-R
-provides the basis for numerous variations and broader generalizations.
-
-In PLS-CA-R (and PLS-R) each subsequent \(\widetilde{\delta}\) is not
-guaranteed to be smaller than the previous, with the exception that all
-\(\widetilde \delta\) are smaller than the first. This is a by-product
-of the iterative process and the deflation step. This problem poses two
-issues: (1) visualization of component scores and (2) explained
-variance. For visualization of the component scores---which use
-\(\widetilde \delta\)---there is an alternative computation:
-\({\mathbf F}^{'}_{J} = {\mathbf W}_{J}^{-1}\widetilde{\mathbf P}\) and
-\({\mathbf F}^{'}_{K} = {\mathbf W}_{K}^{-1}\widetilde{\mathbf Q}\).
-This alternative is referred to as ``asymmetric component scores'' in
-the correspondence analysis literature
-\citep{abdi2014correspondence, greenacre1993biplots}. Additionally,
-instead of computing the variance per component or latent variable, we
-can instead compute the amount of variance explained by each component
-in \(\mathbf X\) and \(\mathbf Y\). To do so we require the sum of the
-eigenvalues of each of the respective matrices per iteration via CA
-(with the GSVD). Before the first iteration of PLS-CA-R we obtain the
-full variance (i.e., the sum of the eigenvalues) of each matrix from
-\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf X}, {\mathbf Z}_{\mathbf X}, {\mathbf W}^{-1}_{\mathbf X} \mathrm{)}\)
-and
-\(\mathrm{GSVD(} {\mathbf M}^{-1}_{\mathbf Y}, {\mathbf Z}_{\mathbf Y}, {\mathbf W}^{-1}_{\mathbf Y} \mathrm{)}\),
-which we respectively refer to as \({\phi}_{\bf X}\) and
-\({\phi}_{\bf Y}\) We can compute the sum of the eigenvalues for each
-deflated version of \({\mathbf Z}_{\mathbf X}\) and
-\({\mathbf Z}_{\mathbf Y}\) through the GSVD just as above, referred to
-as \({\phi}_{{\bf X},c}\) and \({\phi}_{{\bf Y},c}\). For each \(c\)
-component the proportion of explained variance for each matrix is
-\(\frac{{\phi}_{\bf X} - {\phi}_{{\bf X},c}}{{\phi}_{\bf X}}\) and
-\(\frac{{\phi}_{\bf Y} - {\phi}_{{\bf Y},c}}{{\phi}_{\bf Y}}\).
-
-In our formulation, the weights we use are derived from the \(\chi^2\)
-assumption of independence. However nearly any choices of weights could
-be used, so long as the weight matrices are at least positive
-semi-definite (which requires the use of a generalized inverse). If
-alternate row weights (i.e., \({\mathbf M}_{\mathbf X}\) or
-\({\mathbf M}_{\mathbf Y}\)) were chosen, then the fitted values and
-residuals are no longer guaranteed to be orthogonal (the same condition
-is true in weighted OLS).
-
-PLS-CA-R provides an important basis for various extensions. We can use
-different PLS algorithms in addition to Algorithm \ref{algo:plscar}, for
-examples, the PLS-SVD and canonical PLS algorithms. Our formulation of
-PLS-CA-R provides the basis for, and leads to a more generalized
-approach for other cross-decomposition techniques or optimizations
-(e.g., canonical correlation, reduced rank regression). This basis also
-allows for the use of alternate metrics as well as ridge-like
-regularization. We show how PLS-CA-R leads to these generalizations in
-the Supplemental Material.
-
-Though we formalized PLS-CA-R as a method for categorical (nominal) data
-coded in complete disjunctive format (as seen in Table
-\ref{table:disj}---see SEX columns---or Table
-\ref{table:snps_models_disj}), PLS-CA-R can easily accomodate various
-data types without loss of information. Specifically, both continuous
-and ordinal data can be handled with relative ease and in a
-``pseudo-disjunctive'' format, also referred to as ``fuzzy coding''
-where complete disjunctive would be a ``crisp coding''
-\citep{greenacrefuzzy}. We explain exactly how to handle various data
-types as Section \ref{section:appex} progresses, which reflects more
-``real world'' problems: complex, mixed data types, and multi-source
-data.
 
 \hypertarget{applications-examples}{%
 \section{Applications \& Examples}\label{applications-examples}}
@@ -803,32 +702,13 @@ For this example we refer to diagnosis groups as the predictors
 Both data types are coded in disjunctive format (see Tables
 \ref{table:disj} and \ref{table:snps_models_disj}). Because there are
 five columns (groups) in \({\bf X}\), PLS-CA-R produces only four latent
-variables (a.k.a. components). Table \ref{table:r2ex1} presents the
-cumulative explained variance for both \({\bf X}\) and \({\bf Y}\) and
-shows that groups explain only a small amount of genotypic variance:
-\(R^2=\) 0.0065.
+variables (a.k.a. components).
 
-\begin{table}[!h]
-
-\caption{\label{tab:unnamed-chunk-3}\label{table:r2ex1} The R-squared values over the four latent variables for both groups and genotypes. The full variance of groups is explained over the four latent variables. The groups explained 0.65\% of the genotypes.}
-\centering
-\begin{tabular}[t]{lrr}
-\toprule
-  & X (groups) R-squared cumulative & Y (genotypes) R-squared cumulative\\
-\midrule
-Latent variable 1 & 0.25 & 0.0026\\
-Latent variable 2 & 0.50 & 0.0042\\
-Latent variable 3 & 0.75 & 0.0055\\
-Latent variable 4 & 1.00 & 0.0065\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-In a simple regression-like framework we can compute the variance
-contributed by genotypes or group (i.e., levels of variables) or
-variance contributed by entire variables (in this example: SNPs). First
-we compute the contributions to the variance of the genotypes as the sum
-of the squared loadings for each item:
+In a regression framework we can compute the variance contributed by
+genotypes or group (i.e., levels of variables) or variance contributed
+by entire variables (in this example: SNPs). First we compute the
+contributions to the variance of the genotypes as the sum of the squared
+loadings for each item:
 \([(\widetilde{\bf V} \odot \widetilde{\bf V}){\bf 1}] \times C^{-1}\),
 where \({\bf 1}\) is a conformable vector of ones. Total contribution
 takes values between 0 and 1 and describe the proportion of variance for
@@ -844,11 +724,11 @@ regression framework) in Figure \ref{fig:leverages_ex1}.
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-3-1} 
 
 }
 
-\caption{\label{fig:leverages_ex1} Regression approach to prediction of genotypes from groups. Contributions across all components for genotypes (A; top) and the SNPs (B; bottom) computed as the summation of genotypes within a SNP. The horizontal line shows the expected variance and we only highlight genotypes (A; top) or SNPs (B; bottom) greater than the expected variance. Some of the highest contributing genotypes (e.g., AA and AG genotypes for rs769449) or SNPs (e.g.,  rs769449 and rs20756560) come from the APOE and TOMM40 genes.}\label{fig:unnamed-chunk-4}
+\caption{\label{fig:leverages_ex1} Regression approach to prediction of genotypes from groups. Contributions across all components for genotypes (A; top) and the SNPs (B; bottom) computed as the summation of genotypes within a SNP. The horizontal line shows the expected variance and we only highlight genotypes (A; top) or SNPs (B; bottom) greater than the expected variance. Some of the highest contributing genotypes (e.g., AA and AG genotypes for rs769449) or SNPs (e.g.,  rs769449 and rs20756560) come from the APOE and TOMM40 genes.}\label{fig:unnamed-chunk-3}
 \end{figure}
 
 Though PLS-R was initally developed as a regression
@@ -879,20 +759,20 @@ than other groups (and thus could suggest potential protective effects).
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-4-1} 
 
 }
 
-\caption{\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.}\label{fig:unnamed-chunk-5}
+\caption{\label{fig:contributions_ex1} Latent variable projection approach to prediction of genotypes from groups. (A) and (B) show the latent variable scores for latent variables (LVs; components) one and two, respectively; (C) shows the component scores of the groups, and (D) shows the component scores of the genotypes. In (D) we highlight genotypes with above expected contribution to Latent Variable (Component) 1 in purple and make all other genotypes gray.}\label{fig:unnamed-chunk-4}
 \end{figure}
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-6-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-5-1} 
 
 }
 
-\caption{\label{fig:discriminant_ex1} Discriminant PLS-CA-R. (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect assignment in black and gray, respectively.}\label{fig:unnamed-chunk-6}
+\caption{\label{fig:discriminant_ex1} Discriminant PLS-CA-R. (A) shows the component scores for the group on Latent Variables (LV) 1 and 2 (horizontal and vertical respectively), (B) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{a priori} group association, (C) shows the latent variable scores for the genotype ('LY') LV scores for LVs 1 and 2, colored by \textit{assigned} group association (i.e., nearest group assignment across all LVs), and (D) shows correct vs. incorrect assignment in black and gray, respectively.}\label{fig:unnamed-chunk-5}
 \end{figure}
 
 This group-based analysis is also a discriminant analysis because it
@@ -929,7 +809,7 @@ problem (i.e., here a single predictor with multiple responses).
 
 \begin{table}[!h]
 
-\caption{\label{tab:unnamed-chunk-7}\label{table:assign_ex1} The \textit{a priori} (rows) vs. assigned (columns) accuracies for the discriminant analysis. AD = Alzheimer's Disease, CN = control, EMCI = early mild cognitive impairment, LMCI = late mild cognitive impairment, SMC = subjective memory complaints.}
+\caption{\label{tab:unnamed-chunk-6}\label{table:assign_ex1} The \textit{a priori} (rows) vs. assigned (columns) accuracies for the discriminant analysis. AD = Alzheimer's Disease, CN = control, EMCI = early mild cognitive impairment, LMCI = late mild cognitive impairment, SMC = subjective memory complaints.}
 \centering
 \begin{tabular}[t]{lrrrrr}
 \toprule
@@ -1032,11 +912,11 @@ Figure \ref{fig:confound_predictors_ex2}.
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-8-1} 
 
 }
 
-\caption{\label{fig:confound_predictors_ex2} PLS-CA-R used as a way to residualize (orthogonalize) data. The top figures (A) and (B) show prediction of the brain and behavior markers from age, sex, and education. Gray items are one side (lower end) of the "bipolar" or pseudo-disjunctive variables. The bottom figures (C) and (D) show the prediction of genotypes from sex, race, and ethnicity.}\label{fig:unnamed-chunk-9}
+\caption{\label{fig:confound_predictors_ex2} PLS-CA-R used as a way to residualize (orthogonalize) data. The top figures (A) and (B) show prediction of the brain and behavior markers from age, sex, and education. Gray items are one side (lower end) of the "bipolar" or pseudo-disjunctive variables. The bottom figures (C) and (D) show the prediction of genotypes from sex, race, and ethnicity.}\label{fig:unnamed-chunk-8}
 \end{figure}
 
 In the unadjusted analysis (Figures \ref{fig:confound_predictors_ex2}a
@@ -1089,20 +969,20 @@ AV4, increased FDG, and decreased ADAS13 scores).
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-9-1} 
 
 }
 
-\caption{\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.}\label{fig:unnamed-chunk-10}
+\caption{\label{fig:original_residualized_ex2} PLS-CA-R to predict genotypes from brain and behavioral markers on the original and residualized data shown on the first two latent variables (components). The top figures (A) and (B) show the component scores for the brain and behavioral markers for the original and residualized data, respectively, and the bottom figures (C) and (D) show the component scores for the genotypes for the original and residualized data, respectively.}\label{fig:unnamed-chunk-9}
 \end{figure}
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-11-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-10-1} 
 
 }
 
-\caption{\label{fig:lv_compare_ex2} Latent variable scores (observations) for the first latent variable. The top figures (A) and (B) show the projection of the latent variable scores from each set: LX are the brain and behavioral markers, where as LY are the genotypes, for the original and residualized, respectively. The bottom figures (C) and (D) show the the original and residualized scores for the first latent variable compared to one another for each set: the brain and behavioral markers (LX) and the genotypes (LY), respectively.}\label{fig:unnamed-chunk-11}
+\caption{\label{fig:lv_compare_ex2} Latent variable scores (observations) for the first latent variable. The top figures (A) and (B) show the projection of the latent variable scores from each set: LX are the brain and behavioral markers, where as LY are the genotypes, for the original and residualized, respectively. The bottom figures (C) and (D) show the the original and residualized scores for the first latent variable compared to one another for each set: the brain and behavioral markers (LX) and the genotypes (LY), respectively.}\label{fig:unnamed-chunk-10}
 \end{figure}
 
 \hypertarget{suvr-and-genotypes}{%
@@ -1135,11 +1015,11 @@ explained by AV45 brain data).
 
 \begin{figure}[!hbtp]
 
-{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-13-1} 
+{\centering \includegraphics[width=.8\textwidth,height=.8\textheight]{PLSCAR_to_a_GPLS_files/figure-latex/unnamed-chunk-12-1} 
 
 }
 
-\caption{\label{fig:brain_genotypes_ex2} PLS-CA-R to predict genotypes from amyloid burden ("AV45 uptake"). The top figure (A) shows the latent variable scores for the observations on the first latent variable with group averages. The bottom figures (B) and (C) show the amyloid burden in cortical regions and the genotypes, respecively. In (A) we see a gradient from the Alzheimer's Disease (AD) group to the control (CON) group. Items above expected contribution to variance on the first LV are in purple.}\label{fig:unnamed-chunk-13}
+\caption{\label{fig:brain_genotypes_ex2} PLS-CA-R to predict genotypes from amyloid burden ("AV45 uptake"). The top figure (A) shows the latent variable scores for the observations on the first latent variable with group averages. The bottom figures (B) and (C) show the amyloid burden in cortical regions and the genotypes, respecively. In (A) we see a gradient from the Alzheimer's Disease (AD) group to the control (CON) group. Items above expected contribution to variance on the first LV are in purple.}\label{fig:unnamed-chunk-12}
 \end{figure}
 
 The first latent variable in Figure \ref{fig:brain_genotypes_ex2}a is
@@ -1194,17 +1074,17 @@ approaches to handle such multivariate heterogeneous data often requires
 compromises or sacrifices (e.g., the presumption of single numeric model
 for categorical data such as the additive model for SNPs; z-scores of
 ordinal values; or ``dichotomania''
-(\url{https://www.fharrell.com/post/errmed/\#catg}): the binning of
-continuous values into categories). Many of these strategies and
-approaches presume data are interval scale. Because of the many features
-and flexibility of PLS-CA-R---e.g., best fit to predictors, orthogonal
-latent variables, accommodation for virtually any data type---we are
-able to identify distinct variables and levels (e.g., genotypes) that
-define or contribute to control (CON) vs.~disease (AD) effects (e.g.,
-Fig. \ref{fig:contributions_ex1}) or reveal particular patterns anchored
-by the polar control and disease effects (CON \(\rightarrow\) SMC
-\(\rightarrow\) EMCI \(\rightarrow\) LMCI \(\rightarrow\) AD; see, e.g.,
-Fig. \ref{fig:brain_genotypes_ex2}).
+(\url{https://www.fharrell.com/post/errmed/\#catg}): the arbitrary
+binning of continuous values into categories). Many of these strategies
+and approaches presume data are interval scale. Because of the many
+features and flexibility of PLS-CA-R---e.g., best fit to predictors,
+orthogonal latent variables, accommodation for virtually any data
+type---we are able to identify distinct variables and levels (e.g.,
+genotypes) that define or contribute to control (CON) vs.~disease (AD)
+effects (e.g., Fig. \ref{fig:contributions_ex1}) or reveal particular
+patterns anchored by the polar control and disease effects (CON
+\(\rightarrow\) SMC \(\rightarrow\) EMCI \(\rightarrow\) LMCI
+\(\rightarrow\) AD; see, e.g., Fig. \ref{fig:brain_genotypes_ex2}).
 
 While we focused on particular ways of coding and transforming data,
 there are many alternatives that could be used with PLS-CA-R. For
@@ -1255,12 +1135,6 @@ sets.
 We provide an \texttt{R} package with data, documentation, and examples
 that implements PLS-CA-R (and other cross-decomposition methods) here:
 \url{https://github.com/derekbeaton/gpls}.
-
-Finally, we want to remind the reader to see the Supplemental Material,
-where we show (1) how PLS-CA-R generalizes most cross-decomposition
-techniques, (2) alternate PLS algorithms, (3) suggestions on alternate
-metrics, and finally (4) a ridge-like regularization approach that
-applies to PLS-CA-R and all the techniques that PLS-CA-R generalizes.
 
 \hypertarget{acknowledgements}{%
 \subsection{Acknowledgements}\label{acknowledgements}}

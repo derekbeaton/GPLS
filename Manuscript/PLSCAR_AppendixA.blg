@@ -4,45 +4,45 @@ The top-level auxiliary file: PLSCAR_AppendixA.aux
 The style file: agsm.bst
 Database file #1: plscar.bib
 Warning--empty publisher in borga_unified_1992
-You've used 42 entries,
+You've used 45 entries,
             2909 wiz_defined-function locations,
-            913 strings with 14381 characters,
-and the built_in function-call counts, 226119 in all, are:
-= -- 37089
-> -- 3122
+            934 strings with 14859 characters,
+and the built_in function-call counts, 234467 in all, are:
+= -- 38397
+> -- 3231
 < -- 0
-+ -- 18047
-- -- 961
-* -- 20070
-:= -- 44519
-add.period$ -- 46
-call.type$ -- 42
-change.case$ -- 586
-chr.to.int$ -- 42
-cite$ -- 43
-duplicate$ -- 710
-empty$ -- 1472
-format.name$ -- 1099
-if$ -- 40654
++ -- 18627
+- -- 993
+* -- 20747
+:= -- 46259
+add.period$ -- 49
+call.type$ -- 45
+change.case$ -- 628
+chr.to.int$ -- 45
+cite$ -- 46
+duplicate$ -- 770
+empty$ -- 1593
+format.name$ -- 1141
+if$ -- 42159
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 44
-newline$ -- 150
-num.names$ -- 446
-pop$ -- 140
+missing$ -- 47
+newline$ -- 159
+num.names$ -- 480
+pop$ -- 158
 preamble$ -- 1
-purify$ -- 630
+purify$ -- 675
 quote$ -- 0
-skip$ -- 602
+skip$ -- 648
 stack$ -- 0
-substring$ -- 53160
-swap$ -- 150
-text.length$ -- 588
+substring$ -- 54947
+swap$ -- 163
+text.length$ -- 630
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 164
+type$ -- 176
 warning$ -- 1
-while$ -- 953
+while$ -- 1023
 width$ -- 0
-write$ -- 583
+write$ -- 624
 (There was 1 warning)

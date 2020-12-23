@@ -201,6 +201,7 @@ thermometer_coding <- function (DATA, mins, maxs)
   DATAOUT <- sweep(cbind(sweep(DATA, 2, maxs, "-") * -1, sweep(DATA, 2, mins, "-")),2, (maxs-mins), "/")
   colnames(DATAOUT) <- dat.col.names
   attributes(DATAOUT)$variable.map <- gsub("\\-", "", gsub("\\+", "", dat.col.names))
+
   return(DATAOUT)
 }
 
